@@ -46,5 +46,3 @@ try (Statement stmt = conn.createStatement()) {
     }
 }
 }}
-//"jdbc:mariadb://localhost/sakila?user=root&password=Martins20005"
-//allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
