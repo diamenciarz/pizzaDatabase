@@ -1,4 +1,3 @@
-Drop table pizza;
 CREATE TABLE Orders(
 Order_ID int,
 Client_ID int,
