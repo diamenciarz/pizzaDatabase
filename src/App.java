@@ -22,9 +22,10 @@ public class App {
             while (rs.next()) {
 
                 String variable = rs.getString("pizzaId");
+                String timestamp =rs.getString("timer");
 
                 System.out.println("----------------");
-                System.out.println(variable + " ");
+                System.out.println(variable + " " +timestamp);
             }
         } catch (SQLException ex) {
             // handle any errors
