@@ -165,6 +165,26 @@ public class QuerySender {
         }
     }
 
+    static ResultSet filter(String selectColumn, String from, String filterName, int filterValue) throws ConnectException {
+        selectColumn = sanitize(selectColumn);
+        from = sanitize(from);
+        filterName = sanitize(filterName);
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
+
+            PreparedStatement prepStatement = conn
+                    // enum?
+                    .prepareStatement("SELECT " + selectColumn + " FROM " + from + " WHERE "+ filterName+ " = "+ filterValue + ";");
+
+            return prepStatement.executeQuery();
+
+        } catch (SQLException ex) {
+            // This will result in an exception
+            handleSQLException(ex);
+            return null;
+        }
+    }
+
     private static void handleSQLException(SQLException ex) throws ConnectException {
         // handle any errors
         System.out.println("SQLException: " + ex.getMessage());
