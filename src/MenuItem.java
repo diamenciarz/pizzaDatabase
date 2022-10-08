@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class MenuItem {
     public int Food_ID;
     public String name;
-    public double price;
+    public float price;
     public boolean vegetarian;
     public ArrayList<Ingredient> foodIngredients = new ArrayList<>();
 
@@ -29,11 +29,11 @@ public class MenuItem {
         
     }
     void Price(ArrayList<Ingredient> foodIngredients){
-        double price=0;
+        float price=0;
         for (int i = 0; i < foodIngredients.size(); i++) {
             price=price+foodIngredients.get(i).price;
         }
-        price=1.4*price;
+        price=(float) (1.4*price);
         
     }
 }
