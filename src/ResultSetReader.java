@@ -198,7 +198,7 @@ public class ResultSetReader {
                 return null;
             }
         }
-
+        //TODO: read date
     }
 
     private static void handleSQLException(SQLException ex) {
