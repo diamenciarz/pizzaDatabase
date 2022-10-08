@@ -1,31 +1,33 @@
+import java.util.ArrayList;
+
 public class Server {
 
-    enum Status {
-        PREPARED,
-        COOKING,
-        DELIVERING
-    }
+   
 
 
     public class UserMethods {
 
-        public static String[] getMenu() {
-            return 
+        public static void getMenu() {
+            //re-written into a transaction?
+            ArrayList<String> foodName =QuerySender.selectStrings("Food_name", "Food_items");
+            ArrayList<Boolean> vegetarian=QuerySender.selectBooleans("vegetarian", "Food_items");
+            ArrayList<Integer> price=QuerySender.selectInts("price", "Food_items");
+            for (int i = 0; i < foodName.size(); i++) {
+                System.out.println(foodName.get(i)+"| "+"Vegetarian?: "+vegetarian.get(i)+"| "+price.get(i)+"€"+"\n"+"-------------------------");
+            }
         }
 
-        public static void getPizzaProgress(int orderID) {
+        public static void getOrderStatus(int orderID) {
+
 
         }
 
         public static Order getOrderInfo(int orderID) {
             
-            QuerySender.execute(null, null)
-            Order o  = new Order(); // Get the data from MySQL
-            o.id =  orderID;
-            o.price = 
+            
         }
 
-        public static void placeOrder(Order order, User user) {
+        public static void placeOrder(Order order, Clients Client) {
 
         }
 
@@ -36,7 +38,7 @@ public class Server {
 
         }
 
-        public static User addUser() {
+        public static Clients addClient() {
 
         }
 
