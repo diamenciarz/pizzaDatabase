@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class MenuItem {
-    public int Food_ID;
+    public int foodID;
     public String name;
     public float price;
     public boolean isVegetarian;
@@ -11,8 +11,8 @@ public class MenuItem {
 
     }
 
-    public MenuItem(int Food_ID, String name, int price, ArrayList<Ingredient> ingredients) {
-        this.Food_ID = Food_ID;
+    public MenuItem(int foodID, String name, float price, boolean isVegetarian, ArrayList<Ingredient> ingredients) {
+        this.foodID = foodID;
         this.name = name;
         this.price = price;
         this.ingredients = ingredients;
