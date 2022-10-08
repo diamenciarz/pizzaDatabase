@@ -176,7 +176,7 @@ public class ResultSetReader {
             }
         }
 
-        public static Boolean readBool(String selectColumn, ResultSet resultSet) {
+        public static Boolean readBoolean(String selectColumn, ResultSet resultSet) {
             try {
                 Boolean tableContents = false;
                 resultSet.beforeFirst();

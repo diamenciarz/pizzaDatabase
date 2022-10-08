@@ -3,78 +3,158 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class QuerySender {
-    public static ArrayList<String> selectStrings(String selectColumn, String from) {
-        try {
-            ResultSet resultSet = execute(selectColumn, from);
-            return ResultSetReader.readString(selectColumn, resultSet);
 
-        } catch (ConnectException e) {
-            return new ArrayList<String>();
+    public static class List {
+        public static ArrayList<String> selectStrings(String selectColumn, String from) {
+            try {
+                ResultSet resultSet = execute(selectColumn, from);
+                return ResultSetReader.List.readStrings(selectColumn, resultSet);
+            } catch (ConnectException e) {
+                return new ArrayList<String>();
+            }
+        }
+
+        public static ArrayList<Integer> selectInts(String selectColumn, String from) {
+            try {
+                ResultSet resultSet = execute(selectColumn, from);
+                return ResultSetReader.List.readInts(selectColumn, resultSet);
+            } catch (ConnectException e) {
+                return new ArrayList<Integer>();
+            }
+        }
+
+        public static ArrayList<Float> selectFloats(String selectColumn, String from) {
+            try {
+                ResultSet resultSet = execute(selectColumn, from);
+                return ResultSetReader.List.readFloats(selectColumn, resultSet);
+            } catch (ConnectException e) {
+                return new ArrayList<Float>();
+            }
+        }
+
+        public static ArrayList<Boolean> selectBooleans(String selectColumn, String from) {
+            try {
+                ResultSet resultSet = execute(selectColumn, from);
+                return ResultSetReader.List.readBooleans(selectColumn, resultSet);
+            } catch (ConnectException e) {
+                return new ArrayList<Boolean>();
+            }
+        }
+
+        // Objects
+        // ___________________________________________________________________________________
+        public static ArrayList<Order> selectOrders() {
+            try {
+                ResultSet resultSet = execute("*", "orders");
+                return UnpackObj.List.unpackOrders(resultSet);
+
+            } catch (ConnectException e) {
+                return new ArrayList<Order>();
+            }
+        }
+
+        public static ArrayList<MenuItem> selectMenuItems() {
+            try {
+                ResultSet resultSet = execute("*", "menuItems");
+                return UnpackObj.List.unpackMenuItems(resultSet);
+
+            } catch (ConnectException e) {
+                return new ArrayList<MenuItem>();
+            }
+        }
+
+        public static ArrayList<Ingredient> selectIngredients() {
+            try {
+                ResultSet resultSet = execute("*", "ingredients");
+                return UnpackObj.List.unpackIngredients(resultSet);
+
+            } catch (ConnectException e) {
+                return new ArrayList<Ingredient>();
+            }
         }
     }
 
-    public static ArrayList<Integer> selectInts(String selectColumn, String from) {
-        try {
+    public static class SingleValue {
+        public static String selectString(String selectColumn, String from) {
+            try {
+                ResultSet resultSet = execute(selectColumn, from);
+                return ResultSetReader.SingleValue.readString(selectColumn, resultSet);
+            } catch (ConnectException e) {
+                return "";
+            }
+        }
 
-            ResultSet resultSet = execute(selectColumn, from);
+        public static Integer selectInt(String selectColumn, String from) {
+            try {
+                ResultSet resultSet = execute(selectColumn, from);
+                return ResultSetReader.SingleValue.readInt(selectColumn, resultSet);
+            } catch (ConnectException e) {
+                return 0;
+            }
+        }
 
-            return ResultSetReader.readInt(selectColumn, resultSet);
+        public static Float selectFloat(String selectColumn, String from) {
+            try {
+                ResultSet resultSet = execute(selectColumn, from);
+                return ResultSetReader.SingleValue.readFloat(selectColumn, resultSet);
+            } catch (ConnectException e) {
+                return 0f;
+            }
+        }
 
-        } catch (ConnectException e) {
-            return new ArrayList<Integer>();
+        public static Boolean selectBoolean(String selectColumn, String from) {
+            try {
+                ResultSet resultSet = execute(selectColumn, from);
+                return ResultSetReader.SingleValue.readBoolean(selectColumn, resultSet);
+            } catch (ConnectException e) {
+                return false;
+            }
+        }
+
+        // Objects
+        // ___________________________________________________________________________________
+        public static Order selectOrder(String orderId) {
+            try {
+                ResultSet resultSet = execute(orderId, "orders");
+                return UnpackObj.SingleValue.unpackOrder(resultSet);
+
+            } catch (ConnectException e) {
+                return new Order();
+            }
+        }
+
+        public static MenuItem selectMenuItem(String menuItemId) {
+            try {
+                ResultSet resultSet = execute(menuItemId, "menuItems");
+                return UnpackObj.SingleValue.unpackMenuItem(resultSet);
+
+            } catch (ConnectException e) {
+                return new MenuItem();
+            }
+        }
+
+        public static Ingredient selectIngredient(String ingredientId) {
+            try {
+                ResultSet resultSet = execute(ingredientId, "ingredients");
+                return UnpackObj.SingleValue.unpackIngredient(resultSet);
+
+            } catch (ConnectException e) {
+                return new Ingredient();
+            }
         }
     }
 
-    public static ArrayList<Boolean> selectBooleans(String selectColumn, String from) {
-        try {
-            ResultSet resultSet = execute(selectColumn, from);
-            return ResultSetReader.readBool(selectColumn, resultSet);
 
-        } catch (ConnectException e) {
-            return new ArrayList<Boolean>();
-        }
-    }
-    
-    public static ArrayList<Order> selectOrders(String selectColumn, String from) {
-        try {
-            ResultSet resultSet = execute("order", "orders");
-            return UnpackObj.unpackOrders(resultSet);
-
-        } catch (ConnectException e) {
-            return new ArrayList<Order>();
-        }
-    }
-    
-    public static ArrayList<Order> selectMenuItems(String orderId) {
-        try {
-            ResultSet resultSet = execute(orderId, "menuItems");
-            return UnpackObj.unpackOrders(resultSet);
-
-        } catch (ConnectException e) {
-            return new ArrayList<Order>();
-        }
-    }
-    
-    public static ArrayList<Order> selectIngredients(String ingredientId) {
-        try {
-            ResultSet resultSet = execute(ingredientId, "ingredients");
-            return UnpackObj.unpackOrders(resultSet);
-
-        } catch (ConnectException e) {
-            return new ArrayList<Order>();
-        }
-    }
-
+    //Helper methods
     static ResultSet execute(String selectColumn, String from) throws ConnectException {
-        selectColumn=sanitize(selectColumn);
+        selectColumn = sanitize(selectColumn);
         from = sanitize(from);
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
 
             PreparedStatement prepStatement = conn
-            //enum?
-                    .prepareStatement("SELECT " +selectColumn+ " FROM " + from+ ";");
-            // TODO sanitazation method
+                    // enum?
+                    .prepareStatement("SELECT " + selectColumn + " FROM " + from + ";");
 
             return prepStatement.executeQuery();
 
@@ -94,11 +174,11 @@ public class QuerySender {
     }
 
     private static String sanitize(String query) {
-        System.out.println("input: " +query);
+        System.out.println("input: " + query);
         char c = '"';
-        char t= ' ';
-        String sanitized=query.replace(c, t);
-        //String sanitized = query.replaceAll("\"", "").replaceAll("\\", "");
+        char t = ' ';
+        String sanitized = query.replace(c, t);
+        // String sanitized = query.replaceAll("\"", "").replaceAll("\\", "");
         System.out.println(sanitized);
         return sanitized;
     }
