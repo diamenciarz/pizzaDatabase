@@ -12,6 +12,7 @@ public class FoodItem {
         this.name=name;
         this.foodIngredients=foodIngredients;
         IsVegetarian(foodIngredients);
+        Price(foodIngredients);
 
     
 }
