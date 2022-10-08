@@ -1,15 +1,9 @@
 public class Server {
 
-    enum Status{
+    enum Status {
         PREPARED,
         COOKING,
-        DELIVERING        
-    }
-    enum AllowedMethods{
-        INSERT,
-        ADD,
-        PLUS,
-        MORE
+        DELIVERING
     }
 
 
@@ -19,32 +13,39 @@ public class Server {
             return 
         }
 
-        public static void getPizzaProgress() {
+        public static void getPizzaProgress(int orderID) {
 
         }
 
         public static Order getOrderInfo(int orderID) {
             
-            Order o  = new Order();
-            o.menuItems = 
-            return 
+            QuerySender.execute(null, null)
+            Order o  = new Order(); // Get the data from MySQL
+            o.id =  orderID;
+            o.price = 
         }
 
         public static void placeOrder(Order order, User user) {
 
         }
-        public static void cancel(Order order){}
+
+        public static void cancel(Order order) {
+        }
+
         public static void getPizzaCount() {
-            
+
         }
+
         public static User addUser() {
-            
+
         }
+
         public static String deliveryInfo() {
-            
+
         }
+
         public static void deliveryStatus(Status status) {
-            
+
         }
 
     }
@@ -63,15 +64,17 @@ public class Server {
 
     public class DeliveryMethods {
         public static String getUserInfo(User user) {
-            
+
         }
+
         public static void verification(String password) {
             deliveryStatus(AllowedMethods.MORE);
         }
+
         public static void deliveryStatus(AllowedMethods status) {
             System.out.println(status);
             if (status == AllowedMethods.INSERT) {
-                
+
             }
         }
     }
