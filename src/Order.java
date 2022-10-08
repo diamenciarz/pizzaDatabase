@@ -2,11 +2,11 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 public class Order {
-    public ArrayList<MenuItem> foodtems;
-    public double price;
     public int Order_ID;
     public int Client_ID;
     public int Courier_ID;
+    public double price;
+    public ArrayList<MenuItem> menuItems;
 
     enum status {
         ORDER_SENT,
