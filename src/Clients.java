@@ -11,7 +11,8 @@ public class Clients {
         this.name=name;
         this.phoneNumber=phoneNumber;
         this.adress=adress;
-        
+        this.Client_ID=Client_ID;
     }
+    // TODO void PizzaCount()
     
 }

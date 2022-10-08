@@ -5,9 +5,9 @@ public class FoodItem {
     public String name;
     public float price;
     public boolean vegetarian;
-    public ArrayList<Ingredients> foodIngredients;
+    public ArrayList<Ingredient> foodIngredients;
 
-    public FoodItem(int Food_ID, String name, int price,ArrayList<Ingredients> foodIngredients){
+    public FoodItem(int Food_ID, String name, int price,ArrayList<Ingredient> foodIngredients){
         this.Food_ID=Food_ID;
         this.name=name;
         this.foodIngredients=foodIngredients;
@@ -15,7 +15,7 @@ public class FoodItem {
 
     
 }
-    void IsVegetarian(ArrayList<Ingredients> foodIngredients){
+    void IsVegetarian(ArrayList<Ingredient> foodIngredients){
         vegetarian=true;
         for (int i = 0; i < foodIngredients.size(); i++) {
             if(foodIngredients.get(i).vegetarian==false){
@@ -24,7 +24,7 @@ public class FoodItem {
         }
         
     }
-    void Price(ArrayList<Ingredients> foodIngredients){
+    void Price(ArrayList<Ingredient> foodIngredients){
         float price=0;
         for (int i = 0; i < foodIngredients.size(); i++) {
             price=price+foodIngredients.get(i).price;
