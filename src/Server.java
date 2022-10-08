@@ -9,9 +9,9 @@ public class Server {
 
         public static void getMenu() {
             //re-written into a transaction?
-            ArrayList<String> foodName =QuerySender.selectStrings("Food_name", "Food_items");
-            ArrayList<Boolean> vegetarian=QuerySender.selectBooleans("vegetarian", "Food_items");
-            ArrayList<Integer> price=QuerySender.selectInts("price", "Food_items");
+            ArrayList<String> foodName =QuerySender.List.selectStrings("Food_name", "Food_items");
+            ArrayList<Boolean> vegetarian=QuerySender.List.selectBooleans("vegetarian", "Food_items");
+            ArrayList<Integer> price=QuerySender.List.selectInts("price", "Food_items");
             for (int i = 0; i < foodName.size(); i++) {
                 System.out.println(foodName.get(i)+"| "+"Vegetarian?: "+vegetarian.get(i)+"| "+price.get(i)+"€"+"\n"+"-------------------------");
             }
