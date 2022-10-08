@@ -113,9 +113,9 @@ public class QuerySender {
 
         // Objects
         // ___________________________________________________________________________________
-        public static Order selectOrder(String orderId) {
+        public static Order selectOrder(int orderId) {
             try {
-                ResultSet resultSet = execute(orderId, "orders");
+                ResultSet resultSet = execute(Integer.toString(orderId), "orders");
                 return UnpackObj.SingleValue.unpackOrder(resultSet);
 
             } catch (ConnectException e) {
@@ -123,9 +123,9 @@ public class QuerySender {
             }
         }
 
-        public static MenuItem selectMenuItem(String menuItemId) {
+        public static MenuItem selectMenuItem(int menuItemId) {
             try {
-                ResultSet resultSet = execute(menuItemId, "menuItems");
+                ResultSet resultSet = execute(Integer.toString(menuItemId), "menuItems");
                 return UnpackObj.SingleValue.unpackMenuItem(resultSet);
 
             } catch (ConnectException e) {
@@ -133,9 +133,9 @@ public class QuerySender {
             }
         }
 
-        public static Ingredient selectIngredient(String ingredientId) {
+        public static Ingredient selectIngredient(int ingredientId) {
             try {
-                ResultSet resultSet = execute(ingredientId, "ingredients");
+                ResultSet resultSet = execute(Integer.toString(ingredientId), "ingredients");
                 return UnpackObj.SingleValue.unpackIngredient(resultSet);
 
             } catch (ConnectException e) {
