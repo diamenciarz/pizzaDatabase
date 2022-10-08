@@ -5,7 +5,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         Startup.startup();
 
-        ArrayList<Integer> elements = QuerySender.selectInt("\"Client_ID\"", "\"Clients\"");
+        ArrayList<Integer> elements = QuerySender.selectInts("\"Client_ID\"", "\"Clients\"");
         for (int string : elements) {
             System.out.println("ID: " + string);
         }
@@ -27,7 +27,6 @@ public class App {
         System.out.println("getMenu");
         System.out.println("addItem <id>");
 
-        Server.
 
         // if the scanner receives "getMenu"
         //Then it asks for menu from the server

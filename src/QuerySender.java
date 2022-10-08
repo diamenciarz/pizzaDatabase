@@ -3,7 +3,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class QuerySender {
-    public static ArrayList<String> selectString(String selectColumn, String from) {
+    public static ArrayList<String> selectStrings(String selectColumn, String from) {
         try {
             ResultSet resultSet = execute(selectColumn, from);
             return ResultSetReader.readString(selectColumn, resultSet);
@@ -13,7 +13,7 @@ public class QuerySender {
         }
     }
 
-    public static ArrayList<Integer> selectInt(String selectColumn, String from) {
+    public static ArrayList<Integer> selectInts(String selectColumn, String from) {
         try {
 
             ResultSet resultSet = execute(selectColumn, from);
@@ -25,7 +25,7 @@ public class QuerySender {
         }
     }
 
-    public static ArrayList<Boolean> selectBoolean(String selectColumn, String from) {
+    public static ArrayList<Boolean> selectBooleans(String selectColumn, String from) {
         try {
             ResultSet resultSet = execute(selectColumn, from);
             return ResultSetReader.readBool(selectColumn, resultSet);
@@ -34,8 +34,38 @@ public class QuerySender {
             return new ArrayList<Boolean>();
         }
     }
+    
+    public static ArrayList<Order> selectOrders(String selectColumn, String from) {
+        try {
+            ResultSet resultSet = execute("order", "orders");
+            return UnpackObj.unpackOrders(resultSet);
 
-    private static ResultSet execute(String selectColumn, String from) throws ConnectException {
+        } catch (ConnectException e) {
+            return new ArrayList<Order>();
+        }
+    }
+    
+    public static ArrayList<Order> selectMenuItems(String orderId) {
+        try {
+            ResultSet resultSet = execute(orderId, "menuItems");
+            return UnpackObj.unpackOrders(resultSet);
+
+        } catch (ConnectException e) {
+            return new ArrayList<Order>();
+        }
+    }
+    
+    public static ArrayList<Order> selectIngredients(String ingredientId) {
+        try {
+            ResultSet resultSet = execute(ingredientId, "ingredients");
+            return UnpackObj.unpackOrders(resultSet);
+
+        } catch (ConnectException e) {
+            return new ArrayList<Order>();
+        }
+    }
+
+    static ResultSet execute(String selectColumn, String from) throws ConnectException {
         selectColumn=sanitize(selectColumn);
         from = sanitize(from);
         try {
