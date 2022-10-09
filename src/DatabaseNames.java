@@ -7,36 +7,62 @@ public class DatabaseNames {
         public static String clients = "Clients";
         public static String codes = "Codes";
         public static String couriers = "Couriers";
-        public static String FoodIngredients ="FoodIngredients";
-        public static String OrderItems ="OrderItems";
-    
-    }
-    public static class IngredientKeys{
-        public static String ingredientID = "ingredientID";
-        public static String ingredientName= "IngredientName";
-        public static String price= "price";
-        public static String isvegetarian="isvegetarian"; 
+        public static String FoodIngredients = "FoodIngredients";
+        public static String OrderItems = "OrderItems";
 
     }
-    public static class MenuItemsKeys{
-        public static String MenuItemID = "FoodID";
-        public static String FoodName="FoodName";
-        public static String price ="price";
-        public static String isvegetarian="isvegetarian"; 
-    }
-    public static class OrderKeys{
-        public static String OrderID = "OrderID";
-        public static String ClientID ="ClientID";
-        public static String CourierID ="CourierID";
-        public static String OrderStatus ="OrderStatus";
-        public static String OrderDate ="OrderDate";
-    }
-    public static class ClientKeys{
-        public static String ClientID = "ClientID";
+
+    public static class IngredientKeys {
+        public static String ingredientID = "IngredientID";
+        public static String ingredientName = "Name";
+        public static String price = "Price";
+        public static String isVegetarian = "Isvegetarian";
 
     }
-    public static class CourierKeys{
-        public static String CourierID ="CourierID";
+
+    public static class MenuItemsKeys {
+        public static String menuItemID = "MenuItemID";
+        public static String foodName = "Name";
+        public static String price = "Price";
+        public static String isVegetarian = "IsVegetarian";
     }
-    
+
+    public static class OrderKeys {
+        public static String orderID = "OrderID";
+        public static String clientID = "ClientID";
+        public static String courierID = "CourierID";
+        public static String orderStatus = "OrderStatus";
+        public static String orderDate = "OrderDate";
+        public static String price = "Price";
+    }
+
+    public static class ClientKeys {
+        public static String clientID = "ClientID";
+        public static String clientName = "Name";
+        public static String phoneNumber = "PhoneNumber";
+        public static String address = "Address";
+        public static String pizzaCount = "PizzaCount";
+    }
+
+    public static class CodeKeys {
+        public static String clientID = "ClientID";
+        public static String discountCode = "DiscountCode";
+        public static String isUsed = "IsUsed";
+    }
+
+    public static class CourierKeys {
+        public static String courierID = "CourierID";
+        public static String postCode = "PostCode";
+        public static String isAvailable = "IsAvailable";
+    }
+    public static class MenuItemIngredientList {
+        public static String foodID = "MenuItem";
+        public static String postCode = "IngredientID";
+    }
+    public static class OrderItemsList {
+        public static String courierID = "CourierID";
+        public static String postCode = "PostCode";
+        public static String isAvailable = "IsAvailable";
+    }
+
 }
