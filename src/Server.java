@@ -11,7 +11,7 @@ public class Server {
 
         // Requires insert()
         public static void placeOrder(Order order, Client Client) {
-
+            
         }
 
         public static void getOrderStatus(int orderID) {
