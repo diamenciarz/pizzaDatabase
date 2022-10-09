@@ -8,10 +8,19 @@ public class QuerySender {
         public static ArrayList<String> selectStrings(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.List.readString(selectColumn, resultSet);
+                ArrayList<String> strings = new ArrayList<>();
+
+                while (resultSet.next()) {
+                    strings.add(ResultSetReader.readString(selectColumn, resultSet));
+                }
+                return strings;
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("String list selection failed");
+                return new ArrayList<String>();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("String list was empty");
                 return new ArrayList<String>();
             }
         }
@@ -19,10 +28,19 @@ public class QuerySender {
         public static ArrayList<Integer> selectInts(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.List.readInt(selectColumn, resultSet);
+                ArrayList<Integer> ints = new ArrayList<>();
+
+                while (resultSet.next()) {
+                    ints.add(ResultSetReader.readInt(selectColumn, resultSet));
+                }
+                return ints;
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("Int list selection failed");
+                return new ArrayList<Integer>();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Int list was empty");
                 return new ArrayList<Integer>();
             }
         }
@@ -30,8 +48,17 @@ public class QuerySender {
         public static ArrayList<Float> selectFloats(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.List.readFloat(selectColumn, resultSet);
+                ArrayList<Float> floats = new ArrayList<>();
+
+                while (resultSet.next()) {
+                    floats.add(ResultSetReader.readFloat(selectColumn, resultSet));
+                }
+                return floats;
             } catch (ConnectException e) {
+                return new ArrayList<Float>();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Float list was empty");
                 return new ArrayList<Float>();
             }
         }
@@ -39,26 +66,41 @@ public class QuerySender {
         public static ArrayList<Boolean> selectBooleans(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.List.readBoolean(selectColumn, resultSet);
+                ArrayList<Boolean> booleans = new ArrayList<>();
+
+                while (resultSet.next()) {
+                    booleans.add(ResultSetReader.readBoolean(selectColumn, resultSet));
+                }
+                return booleans;
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("Float list selection failed");
                 return new ArrayList<Boolean>();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Boolean list was empty");
+                return new ArrayList<Boolean>();
             }
         }
 
-        public static ArrayList<String> selectDiscountCodes(int Client_ID) {
+        public static ArrayList<String> selectDiscountCodes(int clientID) {
             try {
-                ResultSet resultSet = QuerySender.filter(DatabaseNames.Code.clientID, DatabaseNames.Tables.codes,
-                        "Client_ID", Client_ID);
-                ArrayList<String> codes = ResultSetReader.List.readString(DatabaseNames.Code.discountCode,
-                        resultSet);
-                return codes;
+                ResultSet resultSet = QuerySender.filter(DatabaseNames.Code.discountCode, DatabaseNames.Tables.codes,
+                        DatabaseNames.Code.clientID, clientID);
+                ArrayList<String> codes = new ArrayList<>();
 
+                while (resultSet.next()) {
+                    codes.add(ResultSetReader.readString(DatabaseNames.Code.discountCode, resultSet));
+                }
+                return codes;
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("Discount code list selection failed");
-                return new ArrayList<>();
+                return new ArrayList<String>();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Discount code list was empty");
+                return new ArrayList<String>();
             }
         }
 
@@ -66,7 +108,8 @@ public class QuerySender {
         // ___________________________________________________________________________________
         public static ArrayList<Order> selectOrdersBelongingTo(int clientID) {
             try {
-                ResultSet resultSet = filter(Integer.toString(clientID), "orders", "clientID", clientID);
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.orderItems, DatabaseNames.Order.clientID,
+                        clientID);
                 return UnpackObj.List.unpackOrders(resultSet);
 
             } catch (ConnectException e) {
@@ -78,7 +121,7 @@ public class QuerySender {
 
         public static ArrayList<MenuItem> selectMenuItemsBelongingTo(int orderID) {
             try {
-                ResultSet resultSet = filter(Integer.toString(orderID), "menuItems", "orderID", orderID);
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.menuItems, DatabaseNames.Order.orderID, orderID);
                 return UnpackObj.List.unpackMenuItems(resultSet);
 
             } catch (ConnectException e) {
@@ -90,7 +133,8 @@ public class QuerySender {
 
         public static ArrayList<Ingredient> selectIngredientsBelongingTo(int itemID) {
             try {
-                ResultSet resultSet = filter(DatabaseNames.IngredientKeys.ingredientID, DatabaseNames.Tables.FoodIngredients , DatabaseNames.MenuItemIngredientList.foodID, itemID);
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.foodIngredients,
+                        DatabaseNames.MenuItem.menuItemID, itemID);
                 return UnpackObj.List.unpackIngredients(resultSet);
 
             } catch (ConnectException e) {
@@ -114,6 +158,7 @@ public class QuerySender {
             try {
                 ResultSet resultSet = execute("*", DatabaseNames.Tables.menuItems);
                 return UnpackObj.List.unpackMenuItems(resultSet);
+
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("MenuItem list selection failed");
@@ -126,7 +171,7 @@ public class QuerySender {
         public static String selectString(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.SingleValue.readString(selectColumn, resultSet);
+                return ResultSetReader.readString(selectColumn, resultSet);
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("String selection failed");
@@ -137,7 +182,7 @@ public class QuerySender {
         public static Integer selectInt(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.SingleValue.readInt(selectColumn, resultSet);
+                return ResultSetReader.readInt(selectColumn, resultSet);
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("Int selection failed");
@@ -148,7 +193,7 @@ public class QuerySender {
         public static Float selectFloat(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.SingleValue.readFloat(selectColumn, resultSet);
+                return ResultSetReader.readFloat(selectColumn, resultSet);
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("Float selection failed");
@@ -159,7 +204,7 @@ public class QuerySender {
         public static Boolean selectBoolean(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.SingleValue.readBoolean(selectColumn, resultSet);
+                return ResultSetReader.readBoolean(selectColumn, resultSet);
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("Boolean selection failed");
@@ -171,7 +216,7 @@ public class QuerySender {
         // ___________________________________________________________________________________
         public static Order selectOrder(int orderId) {
             try {
-                ResultSet resultSet = execute(Integer.toString(orderId), "orders");
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.orders, DatabaseNames.Order.orderID, orderId);
                 return UnpackObj.SingleValue.unpackOrder(resultSet);
 
             } catch (ConnectException e) {
@@ -183,7 +228,7 @@ public class QuerySender {
 
         public static MenuItem selectMenuItem(int menuItemId) {
             try {
-                ResultSet resultSet = execute(Integer.toString(menuItemId), "menuItems");
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.menuItems, DatabaseNames.MenuItem.menuItemID, menuItemId);
                 return UnpackObj.SingleValue.unpackMenuItem(resultSet);
 
             } catch (ConnectException e) {
@@ -195,7 +240,7 @@ public class QuerySender {
 
         public static Ingredient selectIngredient(int ingredientId) {
             try {
-                ResultSet resultSet = execute(Integer.toString(ingredientId), "ingredients");
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.ingredients, DatabaseNames.Ingredient.ingredientID, ingredientId);
                 return UnpackObj.SingleValue.unpackIngredient(resultSet);
 
             } catch (ConnectException e) {
@@ -214,7 +259,7 @@ public class QuerySender {
                     DatabaseNames.Ingredient.isVegetarian, DatabaseNames.Ingredient.price };
 
             try {
-                insert(names, values, DatabaseNames.Tables.ingredients);
+                insert(DatabaseNames.Tables.ingredients, names, values);
 
             } catch (ConnectException e) {
                 e.printStackTrace();
@@ -224,7 +269,7 @@ public class QuerySender {
     }
 
     // Helper methods
-    static ResultSet insert(String[] names, String[] values, String to) throws ConnectException {
+    static ResultSet insert(String to, String[] names, String[] values) throws ConnectException {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
 

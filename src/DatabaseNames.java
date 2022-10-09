@@ -20,7 +20,7 @@ public class DatabaseNames {
 
     }
 
-    public static class MenuItems {
+    public static class MenuItem {
         public static String menuItemID = "MenuItemID";
         public static String foodName = "Name";
         public static String price = "Price";
@@ -56,7 +56,7 @@ public class DatabaseNames {
         public static String isAvailable = "IsAvailable";
     }
     public static class MenuItemIngredient {
-        public static String foodID = "MenuItem";
+        public static String menuItemID = "MenuItemID";
         public static String postCode = "IngredientID";
     }
     public static class OrderItems {

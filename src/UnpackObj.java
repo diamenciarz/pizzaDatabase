@@ -39,10 +39,10 @@ public class UnpackObj {
             ArrayList<MenuItem> menuItems = new ArrayList<>();
             try {
                 while(resultSet.next()) {
-                    iDs = ResultSetReader.readInt(DatabaseNames.MenuItems.menuItemID, resultSet);
-                    names = ResultSetReader.readString(DatabaseNames.MenuItems.foodName, resultSet);
-                    prices = ResultSetReader.readFloat(DatabaseNames.MenuItems.price, resultSet);
-                    areVegetarian = ResultSetReader.readBoolean(DatabaseNames.MenuItems.isVegetarian, resultSet);
+                    iDs = ResultSetReader.readInt(DatabaseNames.MenuItem.menuItemID, resultSet);
+                    names = ResultSetReader.readString(DatabaseNames.MenuItem.foodName, resultSet);
+                    prices = ResultSetReader.readFloat(DatabaseNames.MenuItem.price, resultSet);
+                    areVegetarian = ResultSetReader.readBoolean(DatabaseNames.MenuItem.isVegetarian, resultSet);
                     ArrayList<Ingredient> ingredients = QuerySender.selectIngredientsBelongingTo(iDs);
                     
                     menuItems.add(
@@ -95,10 +95,10 @@ public class UnpackObj {
         }
 
         public static MenuItem unpackMenuItem(ResultSet resultSet) {
-            Integer id = ResultSetReader.readInt(DatabaseNames.MenuItems.menuItemID, resultSet);
-            String name = ResultSetReader.readString(DatabaseNames.MenuItems.foodName, resultSet);
-            Float price = ResultSetReader.readFloat(DatabaseNames.MenuItems.price, resultSet);
-            Boolean isVegetarian = ResultSetReader.readBoolean(DatabaseNames.MenuItems.isVegetarian,
+            Integer id = ResultSetReader.readInt(DatabaseNames.MenuItem.menuItemID, resultSet);
+            String name = ResultSetReader.readString(DatabaseNames.MenuItem.foodName, resultSet);
+            Float price = ResultSetReader.readFloat(DatabaseNames.MenuItem.price, resultSet);
+            Boolean isVegetarian = ResultSetReader.readBoolean(DatabaseNames.MenuItem.isVegetarian,
                     resultSet);
             ArrayList<Ingredient> ingredients = QuerySender.selectIngredientsBelongingTo(id);
 

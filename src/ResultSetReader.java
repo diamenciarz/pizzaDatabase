@@ -1,52 +1,51 @@
 import java.sql.*;
+
 public class ResultSetReader {
-    public static class SingleValue {
-        public static String readString(String selectColumn, ResultSet resultSet) {
-            try {
-                return resultSet.getString(selectColumn);
-            } catch (SQLException ex) {
-                handleSQLException(ex);
-                return null;
-            }
+    public static String readString(String selectColumn, ResultSet resultSet) {
+        try {
+            return resultSet.getString(selectColumn);
+        } catch (SQLException ex) {
+            handleSQLException(ex);
+            return null;
         }
-
-        public static Integer readInt(String selectColumn, ResultSet resultSet) {
-            try {
-                   return resultSet.getInt(selectColumn);
-            } catch (SQLException ex) {
-                handleSQLException(ex);
-                return null;
-            }
-        }
-
-        public static Float readFloat(String selectColumn, ResultSet resultSet) {
-            try {
-                   return resultSet.getFloat(selectColumn);
-            } catch (SQLException ex) {
-                handleSQLException(ex);
-                return null;
-            }
-        }
-
-        public static Boolean readBoolean(String selectColumn, ResultSet resultSet) {
-            try {
-                   return resultSet.getBoolean(selectColumn);
-            } catch (SQLException ex) {
-                handleSQLException(ex);
-                return null;
-            }
-        }
-
-        public static Date readDate(String selectColumn, ResultSet resultSet) {
-            try {
-                   return resultSet.getDate(selectColumn);
-            } catch (SQLException ex) {
-                handleSQLException(ex);
-                return null;
-            }
-        }
-        // TODO: read date
     }
+
+    public static Integer readInt(String selectColumn, ResultSet resultSet) {
+        try {
+            return resultSet.getInt(selectColumn);
+        } catch (SQLException ex) {
+            handleSQLException(ex);
+            return null;
+        }
+    }
+
+    public static Float readFloat(String selectColumn, ResultSet resultSet) {
+        try {
+            return resultSet.getFloat(selectColumn);
+        } catch (SQLException ex) {
+            handleSQLException(ex);
+            return null;
+        }
+    }
+
+    public static Boolean readBoolean(String selectColumn, ResultSet resultSet) {
+        try {
+            return resultSet.getBoolean(selectColumn);
+        } catch (SQLException ex) {
+            handleSQLException(ex);
+            return null;
+        }
+    }
+
+    public static Date readDate(String selectColumn, ResultSet resultSet) {
+        try {
+            return resultSet.getDate(selectColumn);
+        } catch (SQLException ex) {
+            handleSQLException(ex);
+            return null;
+        }
+    }
+    // TODO: read date
 
     private static void handleSQLException(SQLException ex) {
         // handle any errors
