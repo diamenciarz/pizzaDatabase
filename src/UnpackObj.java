@@ -1,3 +1,4 @@
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -56,10 +57,11 @@ public class UnpackObj {
             Integer clientID = ResultSetReader.SingleValue.readInt("clientID", resultSet);
             Integer courierID = ResultSetReader.SingleValue.readInt("courierID", resultSet);
             Float price = ResultSetReader.SingleValue.readFloat("price", resultSet);
+            Date date = ResultSetReader.SingleValue.readDate("orderDate", resultSet);
             ArrayList<MenuItem> menuItems = QuerySender.List.selectMenuItemsBelongingTo(id);
 
             // TODO: read date
-            return new Order(menuItems, price, id, clientID, courierID, Order.Status.ORDER_SENT, null);
+            return new Order(menuItems, price, id, clientID, courierID, Order.Status.ORDER_SENT, date);
         }
 
         public static MenuItem unpackMenuItem(ResultSet resultSet) {
