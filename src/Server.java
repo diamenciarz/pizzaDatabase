@@ -24,7 +24,10 @@ public class Server {
 
         public static Order getOrderInfo(int order_ID) {
             Order order=QuerySender.SingleValue.selectOrder(order_ID);
-            
+            System.out.println("Client_ID "+order.clientID);
+            System.out.println("Courier_ID "+order.courierID);
+            System.out.println("Order_ID "+order.orderID);
+            System.out.println("price "+order.price+"€");
         }
 
         public static void placeOrder(Order order, Clients Client) {
