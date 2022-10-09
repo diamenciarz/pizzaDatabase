@@ -5,16 +5,8 @@ public class Server {
     public static class UserMethods {
 
         public static ArrayList<MenuItem> getMenu() {
-            // re-written into a transaction?
-            ArrayList<String> foodName = QuerySender.List.selectStrings("Food_name", "Food_items");
-            ArrayList<Boolean> vegetarian = QuerySender.List.selectBooleans("vegetarian", "Food_items");
-            ArrayList<Integer> price = QuerySender.List.selectInts("price", "Food_items");
-            for (int i = 0; i < foodName.size(); i++) {
-                System.out.println(foodName.get(i) + "| " + "Vegetarian?: " + vegetarian.get(i) + "| " + price.get(i)
-                        + "€" + "\n" + "-------------------------");
-            }
-
-            return menu;
+            return QuerySender.List.SelectMenu();
+            
         }
 
         // Requires insert()

@@ -43,16 +43,17 @@ public class QuerySender {
 
         public static ArrayList<String> getDiscountCodes(int Client_ID) {
             try {
-                ResultSet resultSet =QuerySender.filter("Discount_code", "Codes", "Client_ID", Client_ID);
-                ArrayList<String> Codes =ResultSetReader.List.readStrings("Discount_code", resultSet);
+                ResultSet resultSet = QuerySender.filter("Discount_code", "Codes", "Client_ID", Client_ID);
+                ArrayList<String> Codes = ResultSetReader.List.readStrings("Discount_code", resultSet);
                 return Codes;
-                
+
             } catch (ConnectException e) {
                 System.out.println("Value not found");
                 return new ArrayList<>();
                 // TODO: handle exception
             }
         }
+
         // Objects
         // ___________________________________________________________________________________
         public static ArrayList<Order> selectOrdersBelongingTo(int clientID) {
@@ -82,6 +83,15 @@ public class QuerySender {
 
             } catch (ConnectException e) {
                 return new ArrayList<Ingredient>();
+            }
+        }
+
+        public static ArrayList<MenuItem> SelectMenu() {
+            try {
+                ResultSet resultSet = execute("*", DatabaseNames.Tables.menuItems);
+                return UnpackObj.List.unpackMenuItems(resultSet);
+            } catch (ConnectException e) {
+                return new ArrayList<MenuItem>();
             }
         }
     }
@@ -171,7 +181,6 @@ public class QuerySender {
             return null;
         }
     }
-
 
     private static String prepareInsertCommand(String[] names, String[] values, String to) {
         if (names.length != values.length) {

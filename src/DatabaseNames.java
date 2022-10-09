@@ -30,6 +30,7 @@ public class DatabaseNames {
         public static String CourierID ="CourierID";
         public static String OrderStatus ="OrderStatus";
         public static String OrderDate ="OrderDate";
+        public static String price ="price";
     }
     public static class ClientKeys{
         public static String ClientID = "ClientID";
