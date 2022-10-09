@@ -6,51 +6,51 @@ import java.util.ArrayList;
 public class UnpackObj {
     public static class List {
         public static ArrayList<Order> unpackOrders(ResultSet resultSet) {
-            Integer iDs =0;//this is very balssy
-            Integer clientIDs ;
+            Integer iDs = 0;// this is very balssy
+            Integer clientIDs;
             Integer courierIDs;
             Float prices;
 
             ArrayList<Order> orders = new ArrayList<>();
             try {
                 while (resultSet.next()) {
-                    ArrayList<MenuItem> menuItems = QuerySender.selectMenuItemsBelongingTo(iDs);
+                    ArrayList<MenuItem> menuItems = QuerySender.List.selectMenuItemsBelongingTo(iDs);
                     iDs = ResultSetReader.readInt(DatabaseNames.Order.orderID, resultSet);
                     clientIDs = ResultSetReader.readInt(DatabaseNames.Order.clientID, resultSet);
                     courierIDs = ResultSetReader.readInt(DatabaseNames.Order.courierID, resultSet);
                     prices = ResultSetReader.readFloat(DatabaseNames.Order.price, resultSet);
                     // TODO: Add date
                     // TODO: Add orderStatus
-                    orders.add( new Order(menuItems, prices, iDs, clientIDs, courierIDs,
+                    orders.add(new Order(menuItems, prices, iDs, clientIDs, courierIDs,
                             Order.Status.ORDER_SENT, null));
                 }
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
+                System.out.println("Orders failed to unpack");
             }
             return orders;
         }
 
         public static ArrayList<MenuItem> unpackMenuItems(ResultSet resultSet) {
-            Integer iDs ;
-            String names ;
-           Float prices;
+            Integer iDs;
+            String names;
+            Float prices;
             Boolean areVegetarian;
             ArrayList<MenuItem> menuItems = new ArrayList<>();
             try {
-                while(resultSet.next()) {
+                while (resultSet.next()) {
                     iDs = ResultSetReader.readInt(DatabaseNames.MenuItem.menuItemID, resultSet);
                     names = ResultSetReader.readString(DatabaseNames.MenuItem.foodName, resultSet);
                     prices = ResultSetReader.readFloat(DatabaseNames.MenuItem.price, resultSet);
                     areVegetarian = ResultSetReader.readBoolean(DatabaseNames.MenuItem.isVegetarian, resultSet);
-                    ArrayList<Ingredient> ingredients = QuerySender.selectIngredientsBelongingTo(iDs);
-                    
+                    ArrayList<Ingredient> ingredients = QuerySender.List.selectIngredientsBelongingTo(iDs);
+
                     menuItems.add(
                             new MenuItem(iDs, names, prices, areVegetarian, ingredients));
                 }
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
+                System.out.println("Menu Items failed to unpack");
             }
             return menuItems;
         }
@@ -74,8 +74,8 @@ public class UnpackObj {
 
                 }
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
+                System.out.println("Ingredients failed to unpack");
             }
             return ingredients;
         }
@@ -87,8 +87,8 @@ public class UnpackObj {
             Integer clientID = ResultSetReader.readInt(DatabaseNames.Order.clientID, resultSet);
             Integer courierID = ResultSetReader.readInt(DatabaseNames.Order.courierID, resultSet);
             Float price = ResultSetReader.readFloat(DatabaseNames.Order.price, resultSet);
-            Date date = ResultSetReader.readDate("orderDate", resultSet);
-            ArrayList<MenuItem> menuItems = QuerySender.selectMenuItemsBelongingTo(id);
+            Date date = ResultSetReader.readDate(DatabaseNames.Order.orderDate, resultSet);
+            ArrayList<MenuItem> menuItems = QuerySender.List.selectMenuItemsBelongingTo(id);
 
             // TODO: read date
             return new Order(menuItems, price, id, clientID, courierID, Order.Status.ORDER_SENT, date);
@@ -100,7 +100,7 @@ public class UnpackObj {
             Float price = ResultSetReader.readFloat(DatabaseNames.MenuItem.price, resultSet);
             Boolean isVegetarian = ResultSetReader.readBoolean(DatabaseNames.MenuItem.isVegetarian,
                     resultSet);
-            ArrayList<Ingredient> ingredients = QuerySender.selectIngredientsBelongingTo(id);
+            ArrayList<Ingredient> ingredients = QuerySender.List.selectIngredientsBelongingTo(id);
 
             return new MenuItem(id, name, price, isVegetarian, ingredients);
         }
