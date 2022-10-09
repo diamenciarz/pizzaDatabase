@@ -18,12 +18,12 @@ public class Server {
         }
 
         public static void getOrderStatus(int orderID) {
-
+            //TODO
 
         }
 
-        public static Order getOrderInfo(int orderID) {
-            
+        public static Order getOrderInfo(int order_ID) {
+            Order order=QuerySender.SingleValue.selectOrder(order_ID);
             
         }
 
@@ -34,8 +34,9 @@ public class Server {
         public static void cancel(Order order) {
         }
 
-        public static void getPizzaCount() {
-
+        public int getPizzaCount(int Client_ID){
+            int pizzaCount= QuerySender.SingleValue.selectInt("Pizza_Count", "Pizza_Count");
+            return pizzaCount;
         }
 
         public static Client addClient() {

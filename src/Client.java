@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 public class Client {
     public int Client_ID;
@@ -13,6 +12,7 @@ public class Client {
         this.adress=adress;
         this.Client_ID=Client_ID;
     }
-    // TODO void PizzaCount()
+   
+    
     
 }
