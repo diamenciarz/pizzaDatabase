@@ -18,22 +18,22 @@ public class Startup {
             statement.execute(
                     "CREATE TABLE Orders(Order_ID int,Client_ID int,Courier_ID int,Order_status enum('preparing', 'delivering','delivered','cancelled'),Order_date timestamp,price int);");
             statement.execute(
-                    "CREATE TABLE Food_items(Food_ID int,Food_name varchar(20),price int,vegetarian boolean);");
+                    "CREATE TABLE MenuItems(Food_ID int,Food_name varchar(20),price int,vegetarian boolean);");
             statement.execute(
                     "CREATE TABLE Ingredients(Ingredient_ID int,Ingredient_name varchar(20),price int,vegetarian boolean);");
-            statement.execute("CREATE TABLE Food_Ingredients(Food_ID int,Ingredient_ID int);");
-            statement.execute("CREATE TABLE Order_items(Order_ID int, Food_ID int);");
+            statement.execute("CREATE TABLE FoodIngredients(Food_ID int,Ingredient_ID int);");
+            statement.execute("CREATE TABLE OrderItems(Order_ID int, Food_ID int);");
             statement.execute(
                     "CREATE TABLE Clients(Client_ID int,Client_name varchar(20),Phone_number int,Adress varchar(20), Pizza_Count int);");
             statement.execute("CREATE TABLE Codes(Client_ID int,Discount_code varchar(5),Is_used boolean);");
             statement.execute("CREATE TABLE Courier(Courier_ID int,Post_code varchar(7),Is_delivering boolean);");
             
             //Fill tables with examples
-            statement.execute("INSERT INTO Order_items VALUES (1, 10);");
-            statement.execute("INSERT INTO Order_items VALUES (2, 11);");
+            statement.execute("INSERT INTO OrderItems VALUES (1, 10);");
+            statement.execute("INSERT INTO OrderItems VALUES (2, 11);");
             statement.execute("INSERT INTO Clients VALUES (2, \"bruh\",1,\"da moon\",4);");
             statement.execute("INSERT INTO Clients VALUES (2, \"bruh\",1,\"da moon\",11);");
-            statement.execute("INSERT INTO Food_Ingredients VALUES (1, 10);");
+            statement.execute("INSERT INTO FoodIngredients VALUES (1, 10);");
 
             
 

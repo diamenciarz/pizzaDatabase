@@ -21,7 +21,16 @@ public class App {
     }
 
     // Getters
-
+    public void DispalyOrderInfo(int order_ID){
+        Order order=Server.UserMethods.getOrderInfo(order_ID);
+        System.out.println("Client_ID "+order.clientID);
+            System.out.println("Courier_ID "+order.courierID);
+            System.out.println("Order_ID "+order.orderID);
+            System.out.println("price "+order.price+"Eur");
+            System.out.println("Your order "+order.menuItems);
+            System.out.println("Order Date "+order.orderDate);
+            System.out.println("Order status"+order.status);
+    }
     private static void getHelp() {
         System.out.println("You can call methods:");
         System.out.println("getMenu");

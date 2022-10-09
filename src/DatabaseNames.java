@@ -7,6 +7,7 @@ public class DatabaseNames {
         public static String clients = "Clients";
         public static String codes = "Codes";
         public static String couriers = "Couriers";
+        public static String 
     }
     public static class IngredientKeys{
         public static String ingredientID = "ingredientID";
@@ -24,4 +25,5 @@ public class DatabaseNames {
         public static String ingredientID = "ingredientID";
 
     }
+
 }
