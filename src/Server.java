@@ -30,7 +30,7 @@ public class Server {
             System.out.println("price "+order.price+"€");
         }
 
-        public static void placeOrder(Order order, Clients Client) {
+        public static void placeOrder(Order order, Client Client) {
 
         }
 
@@ -42,7 +42,7 @@ public class Server {
             return pizzaCount;
         }
 
-        public static Clients addClient() {
+        public static Client addClient() {
 
         }
 

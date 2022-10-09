@@ -156,17 +156,12 @@ public class QuerySender {
         }
     }
 
-
-    //Helper methods
-    static ResultSet execute(String selectColumn, String from) throws ConnectException {
-        selectColumn = sanitize(selectColumn);
-        from = sanitize(from);
+    // Helper methods
+    static ResultSet insert(String[] names, String[] values, String to) throws ConnectException {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
 
-            PreparedStatement prepStatement = conn
-                    // enum?
-                    .prepareStatement("SELECT " + selectColumn + " FROM " + from + ";");
+            PreparedStatement prepStatement = conn.prepareStatement(prepareInsertCommand(names, values, to));
 
             return prepStatement.executeQuery();
 
@@ -177,16 +172,59 @@ public class QuerySender {
         }
     }
 
-    static ResultSet filter(String selectColumn, String from, String filterName, int filterValue) throws ConnectException {
+
+    private static String prepareInsertCommand(String[] names, String[] values, String to) {
+        if (names.length != values.length) {
+            System.out.println("ERROR: The count of names and values must be the same!");
+            return "";
+        }
+
+        String command = "INSERT INTO " + sanitize(to) + " (";
+        for (int i = 0; i < names.length; i++) {
+            command = command + sanitize(names[i]);
+            if (i != names.length - 1) {
+                command = command + ", ";
+            }
+        }
+        command = command + ") VALUES (";
+
+        for (int i = 0; i < values.length; i++) {
+            command = command + sanitize(values[i]);
+            if (i != values.length - 1) {
+                command = command + ", ";
+            }
+        }
+        command = command + ");";
+        return command;
+    }
+
+    static ResultSet execute(String selectColumn, String from) throws ConnectException {
+        selectColumn = sanitize(selectColumn);
+        from = sanitize(from);
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
+
+            PreparedStatement prepStatement = conn.prepareStatement("SELECT " + selectColumn + " FROM " + from + ";");
+
+            return prepStatement.executeQuery();
+
+        } catch (SQLException ex) {
+            // This will result in an exception
+            handleSQLException(ex);
+            return null;
+        }
+    }
+
+    static ResultSet filter(String selectColumn, String from, String filterName, int filterValue)
+            throws ConnectException {
         selectColumn = sanitize(selectColumn);
         from = sanitize(from);
         filterName = sanitize(filterName);
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
 
-            PreparedStatement prepStatement = conn
-                    // enum?
-                    .prepareStatement("SELECT " + selectColumn + " FROM " + from + " WHERE "+ filterName+ " = "+ filterValue + ";");
+            PreparedStatement prepStatement = conn.prepareStatement("SELECT " + selectColumn + " FROM " + from +
+                    " WHERE " + filterName + " = " + filterValue + ";");
 
             return prepStatement.executeQuery();
 
@@ -206,12 +244,13 @@ public class QuerySender {
     }
 
     private static String sanitize(String query) {
-        System.out.println("input: " + query);
-        char c = '"';
-        char t = ' ';
-        String sanitized = query.replace(c, t);
-        // String sanitized = query.replaceAll("\"", "").replaceAll("\\", "");
-        System.out.println(sanitized);
+        // System.out.println("input: " + query);
+        char remove = '"';
+        char remove2 = '\\';
+        char remove3 = ',';
+        char insert = ' ';
+        String sanitized = query.replace(remove, insert).replace(remove2, insert).replace(remove3, insert);
+        // System.out.println("output: " + sanitized);
         return sanitized;
     }
 }
