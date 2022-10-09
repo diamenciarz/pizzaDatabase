@@ -2,87 +2,85 @@ import java.util.ArrayList;
 
 public class Server {
 
-   
+    public static class UserMethods {
 
-
-    public class UserMethods {
-
-        public static void getMenu() {
-            //re-written into a transaction?
-            ArrayList<String> foodName =QuerySender.List.selectStrings("Food_name", "Food_items");
-            ArrayList<Boolean> vegetarian=QuerySender.List.selectBooleans("vegetarian", "Food_items");
-            ArrayList<Integer> price=QuerySender.List.selectInts("price", "Food_items");
+        public static ArrayList<MenuItem> getMenu() {
+            // re-written into a transaction?
+            ArrayList<String> foodName = QuerySender.List.selectStrings("Food_name", "Food_items");
+            ArrayList<Boolean> vegetarian = QuerySender.List.selectBooleans("vegetarian", "Food_items");
+            ArrayList<Integer> price = QuerySender.List.selectInts("price", "Food_items");
             for (int i = 0; i < foodName.size(); i++) {
-                System.out.println(foodName.get(i)+"| "+"Vegetarian?: "+vegetarian.get(i)+"| "+price.get(i)+"€"+"\n"+"-------------------------");
+                System.out.println(foodName.get(i) + "| " + "Vegetarian?: " + vegetarian.get(i) + "| " + price.get(i)
+                        + "€" + "\n" + "-------------------------");
             }
+
+            return menu;
         }
 
-        public static void getOrderStatus(int orderID) {
-            //TODO
-
-        }
-
-        public static Order getOrderInfo(int order_ID) {
-            Order order=QuerySender.SingleValue.selectOrder(order_ID);
-            System.out.println("Client_ID "+order.clientID);
-            System.out.println("Courier_ID "+order.courierID);
-            System.out.println("Order_ID "+order.orderID);
-            System.out.println("price "+order.price+"€");
-        }
-
+        // Requires insert()
         public static void placeOrder(Order order, Client Client) {
 
         }
 
-        public static void cancel(Order order) {
+        public static void getOrderStatus(int orderID) {
+            // TODO
+
         }
 
-        public int getPizzaCount(int Client_ID){
-            int pizzaCount= QuerySender.SingleValue.selectInt("Pizza_Count", "Pizza_Count");
+        public static Order getOrderInfo(int orderID) {
+            return QuerySender.SingleValue.selectOrder(orderID);
+        }
+
+        public static void cancelOrder(int orderID) {
+
+        }
+
+        public int getPizzaCount(int clientID) {
+            int pizzaCount = QuerySender.SingleValue.selectInt(, );
             return pizzaCount;
         }
 
-        public static Client addClient() {
+        // Requires insert()
+        public static void addClient(Client client) {
 
         }
 
-        public static String deliveryInfo() {
+        public static String getDeliveryInfo(int orderID) {
 
         }
 
+        // !!!!!!!!!!!!
         public static void deliveryStatus(Status status) {
 
         }
-
     }
 
-    public class AdminMethods {
-        public static Order getDeliveryStatus() {
-            Order o = new Order();
-            return o;
+    public static class AdminMethods {
+        public static Client getClientInfo(int clientID) {
+
         }
 
         public static Order[] getCurrentOrders() {
-            return null;
         }
 
     }
 
-    public class DeliveryMethods {
-        public static String getUserInfo(User user) {
+    public static class DelivererMethods {
+        public static void setAvailableForDelivery(int delivererID) {
 
         }
 
-        public static void verification(String password) {
-            deliveryStatus(AllowedMethods.MORE);
+        public static Client getClientInfo(int clientID) {
+
         }
 
-        public static void deliveryStatus(AllowedMethods status) {
-            System.out.println(status);
-            if (status == AllowedMethods.INSERT) {
+        public static void setDeliveryState(int orderID) {
 
-            }
         }
+        // We are going to work on verification if the program works and we have time
+        // public static void verification(String password) {
+        // deliveryStatus(AllowedMethods.MORE);
+        // }
     }
 
 }
