@@ -57,7 +57,7 @@ public class QuerySender {
         // ___________________________________________________________________________________
         public static ArrayList<Order> selectOrdersBelongingTo(int clientID) {
             try {
-                ResultSet resultSet = execute(Integer.toString(clientID), "orders");
+                ResultSet resultSet = filter(Integer.toString(clientID), "orders", "clientID", clientID);
                 return UnpackObj.List.unpackOrders(resultSet);
 
             } catch (ConnectException e) {
@@ -67,7 +67,7 @@ public class QuerySender {
 
         public static ArrayList<MenuItem> selectMenuItemsBelongingTo(int orderID) {
             try {
-                ResultSet resultSet = execute(Integer.toString(orderID), "menuItems");
+                ResultSet resultSet = filter(Integer.toString(orderID), "menuItems", "orderID", orderID);
                 return UnpackObj.List.unpackMenuItems(resultSet);
 
             } catch (ConnectException e) {
@@ -77,7 +77,7 @@ public class QuerySender {
 
         public static ArrayList<Ingredient> selectIngredientsBelongingTo(int itemID) {
             try {
-                ResultSet resultSet = execute(Integer.toString(itemID), "ingredients");
+                ResultSet resultSet = filter(Integer.toString(itemID), "ingredients", "menuItemID", itemID);
                 return UnpackObj.List.unpackIngredients(resultSet);
 
             } catch (ConnectException e) {
