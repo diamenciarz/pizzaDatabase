@@ -1,21 +1,18 @@
+import java.net.ConnectException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Server {
 
     public static class UserMethods {
 
-        public static ArrayList<MenuItem> getMenu() {
-            return QuerySender.List.SelectMenu();
-            
+        public static ArrayList<Ingredient> getMenu() {
+
+            return QuerySender.List.selectIngredients();
         }
 
         // Requires insert()
         public static void placeOrder(Order order, Client Client) {
-            
-        }
-
-        public static void getOrderStatus(int orderID) {
-            // TODO
 
         }
 
@@ -27,8 +24,10 @@ public class Server {
 
         }
 
-        public int getPizzaCount(int clientID) {
-            int pizzaCount = QuerySender.SingleValue.selectInt(, );
+        public int getPizzaCount(int clientID) throws ConnectException {
+            int pizzaCount = ResultSetReader.SingleValue.readInt(DatabaseNames.ClientKeys.pizzaCount,
+                    QuerySender.filter(DatabaseNames.ClientKeys.pizzaCount, DatabaseNames.Tables.clients,
+                            DatabaseNames.ClientKeys.clientID, clientID));
             return pizzaCount;
         }
 
@@ -41,10 +40,6 @@ public class Server {
 
         }
 
-        // !!!!!!!!!!!!
-        public static void deliveryStatus(Status status) {
-
-        }
     }
 
     public static class AdminMethods {

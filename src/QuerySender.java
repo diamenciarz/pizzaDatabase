@@ -43,7 +43,7 @@ public class QuerySender {
 
         public static ArrayList<String> getDiscountCodes(int Client_ID) {
             try {
-                ResultSet resultSet = QuerySender.filter(DatabaseNames.CodeKeys.ClientID, DatabaseNames.Tables.codes, "Client_ID", Client_ID);
+                ResultSet resultSet = QuerySender.filter(DatabaseNames.CodeKeys.clientID, DatabaseNames.Tables.codes, "Client_ID", Client_ID);
                 ArrayList<String> Codes = ResultSetReader.List.readStrings("Discount_code", resultSet);
                 return Codes;
 
@@ -78,7 +78,17 @@ public class QuerySender {
 
         public static ArrayList<Ingredient> selectIngredientsBelongingTo(int itemID) {
             try {
-                ResultSet resultSet = filter(Integer.toString(itemID), "ingredients", "menuItemID", itemID);
+                ResultSet resultSet = filter(DatabaseNames.IngredientKeys.ingredientID, DatabaseNames.Tables.FoodIngredients , DatabaseNames.MenuItemIngredientList.foodID, itemID);
+                return UnpackObj.List.unpackIngredients(resultSet);
+
+            } catch (ConnectException e) {
+                return new ArrayList<Ingredient>();
+            }
+        }
+
+        public static ArrayList<Ingredient> selectIngredients() {
+            try {
+                ResultSet resultSet = execute("*", DatabaseNames.Tables.ingredients);
                 return UnpackObj.List.unpackIngredients(resultSet);
 
             } catch (ConnectException e) {

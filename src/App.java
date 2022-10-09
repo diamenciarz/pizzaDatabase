@@ -5,16 +5,10 @@ public class App {
     public static void main(String[] args) throws Exception {
         Startup.startup();
 
-        ArrayList<Integer> elements = QuerySender.selectInts("\"Client_ID\"", "\"Clients\"");
-        for (int string : elements) {
-            System.out.println("ID: " + string);
-        }
-        
-        Server.getMenu();
-
-        Order info = Server.getOrderInfo();
-        System.out.println(info.price);
-
+       ArrayList<Ingredient> TMP =Server.UserMethods.getMenu();
+       for (int i = 0; i < TMP.size(); i++) {
+        System.out.println(TMP.get(i));
+       }
 
 
 
@@ -50,7 +44,7 @@ public class App {
 
     // Mutators
     private static void placeOrder() {
-        Server.placeOrder(null, null);
+        //Server.placeOrder(null, null);
     }
 
     private static void cancelOrder() {

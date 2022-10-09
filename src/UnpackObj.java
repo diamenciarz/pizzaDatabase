@@ -1,5 +1,6 @@
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UnpackObj {
@@ -26,7 +27,8 @@ public class UnpackObj {
             ArrayList<Integer> iDs = ResultSetReader.List.readInts(DatabaseNames.MenuItemsKeys.menuItemID, resultSet);
             ArrayList<String> names = ResultSetReader.List.readStrings(DatabaseNames.MenuItemsKeys.foodName, resultSet);
             ArrayList<Float> prices = ResultSetReader.List.readFloats(DatabaseNames.MenuItemsKeys.price, resultSet);
-            ArrayList<Boolean> areVegetarian = ResultSetReader.List.readBooleans(DatabaseNames.MenuItemsKeys.isVegetarian, resultSet);
+            ArrayList<Boolean> areVegetarian = ResultSetReader.List
+                    .readBooleans(DatabaseNames.MenuItemsKeys.isVegetarian, resultSet);
 
             ArrayList<MenuItem> menuItems = new ArrayList<>(iDs.size());
             for (int i = 0; i < iDs.size(); i++) {
@@ -38,14 +40,26 @@ public class UnpackObj {
         }
 
         public static ArrayList<Ingredient> unpackIngredients(ResultSet resultSet) {
-            ArrayList<Integer> iDs = ResultSetReader.List.readInts(DatabaseNames.IngredientKeys.ingredientID, resultSet);
-            ArrayList<String> names = ResultSetReader.List.readStrings(DatabaseNames.IngredientKeys.ingredientName, resultSet);
-            ArrayList<Float> prices = ResultSetReader.List.readFloats(DatabaseNames.IngredientKeys.price, resultSet);
-            ArrayList<Boolean> areVegetarian = ResultSetReader.List.readBooleans(DatabaseNames.IngredientKeys.isVegetarian, resultSet);
 
-            ArrayList<Ingredient> ingredients = new ArrayList<>(iDs.size());
-            for (int i = 0; i < iDs.size(); i++) {
-                ingredients.set(i, new Ingredient(iDs.get(i), names.get(i), prices.get(i), areVegetarian.get(i)));
+            String names;
+            Integer iDs;
+            Float prices;
+            Boolean areVegetarian;
+
+            ArrayList<Ingredient> ingredients = new ArrayList<>();
+            try {
+                while (resultSet.next()) {
+                    iDs = ResultSetReader.List.readInts(DatabaseNames.IngredientKeys.ingredientID, resultSet);
+                    names = ResultSetReader.List.readStrings(DatabaseNames.IngredientKeys.ingredientName, resultSet);
+                    prices = ResultSetReader.List.readFloats(DatabaseNames.IngredientKeys.price, resultSet);
+                    areVegetarian = ResultSetReader.List.readBooleans(DatabaseNames.IngredientKeys.isVegetarian,
+                            resultSet);
+                    ingredients.add(new Ingredient(iDs, names, prices, areVegetarian));
+
+                }
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
             return ingredients;
         }
@@ -68,7 +82,8 @@ public class UnpackObj {
             Integer id = ResultSetReader.SingleValue.readInt(DatabaseNames.MenuItemsKeys.menuItemID, resultSet);
             String name = ResultSetReader.SingleValue.readString(DatabaseNames.MenuItemsKeys.foodName, resultSet);
             Float price = ResultSetReader.SingleValue.readFloat(DatabaseNames.MenuItemsKeys.price, resultSet);
-            Boolean isVegetarian = ResultSetReader.SingleValue.readBoolean(DatabaseNames.MenuItemsKeys.isVegetarian, resultSet);
+            Boolean isVegetarian = ResultSetReader.SingleValue.readBoolean(DatabaseNames.MenuItemsKeys.isVegetarian,
+                    resultSet);
             ArrayList<Ingredient> ingredients = QuerySender.List.selectIngredientsBelongingTo(id);
 
             return new MenuItem(id, name, price, isVegetarian, ingredients);
@@ -76,9 +91,11 @@ public class UnpackObj {
 
         public static Ingredient unpackIngredient(ResultSet resultSet) {
             Integer id = ResultSetReader.SingleValue.readInt(DatabaseNames.IngredientKeys.ingredientID, resultSet);
-            String name = ResultSetReader.SingleValue.readString(DatabaseNames.IngredientKeys.ingredientName, resultSet);
+            String name = ResultSetReader.SingleValue.readString(DatabaseNames.IngredientKeys.ingredientName,
+                    resultSet);
             Float price = ResultSetReader.SingleValue.readFloat(DatabaseNames.IngredientKeys.price, resultSet);
-            Boolean isVegetarian = ResultSetReader.SingleValue.readBoolean(DatabaseNames.IngredientKeys.isVegetarian, resultSet);
+            Boolean isVegetarian = ResultSetReader.SingleValue.readBoolean(DatabaseNames.IngredientKeys.isVegetarian,
+                    resultSet);
 
             return new Ingredient(id, name, price, isVegetarian);
         }

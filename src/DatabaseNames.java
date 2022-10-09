@@ -56,7 +56,7 @@ public class DatabaseNames {
         public static String isAvailable = "IsAvailable";
     }
     public static class MenuItemIngredientList {
-        public static String foodID = "MenuItem";
+        public static String foodID = "MenuItemID";
         public static String postCode = "IngredientID";
     }
     public static class OrderItemsList {
