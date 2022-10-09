@@ -12,9 +12,10 @@ public class Order {
 
     public enum Status {
         ORDER_SENT,
-        PREAPERING,
+        PREPARING,
         DELIVERING,
-        DELIVERED
+        DELIVERED,
+        CANCELLED
     }
 
     public Order() {
