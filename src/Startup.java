@@ -16,17 +16,17 @@ public class Startup {
 
             // Create tables
             statement.execute(
-                    "CREATE TABLE Orders(Order_ID int,Client_ID int,Courier_ID int,Order_status enum('preparing', 'delivering','delivered','cancelled'),Order_date timestamp,price int);");
+                    "CREATE TABLE Orders(OrderID int,ClientID int,CourierID int,OrderStatus enum('preparing', 'delivering','delivered','cancelled'),OrderDate timestamp,price int);");
             statement.execute(
-                    "CREATE TABLE MenuItems(Food_ID int,Food_name varchar(20),price int,vegetarian boolean);");
+                    "CREATE TABLE MenuItems(FoodID int,FoodName varchar(20),price int,isvegetarian boolean);");
             statement.execute(
-                    "CREATE TABLE Ingredients(Ingredient_ID int,Ingredient_name varchar(20),price int,vegetarian boolean);");
-            statement.execute("CREATE TABLE FoodIngredients(Food_ID int,Ingredient_ID int);");
-            statement.execute("CREATE TABLE OrderItems(Order_ID int, Food_ID int);");
+                    "CREATE TABLE Ingredients(IngredientID int,IngredientName varchar(20),price int,isvegetarian boolean);");
+            statement.execute("CREATE TABLE FoodIngredients(FoodID int,IngredientID int);");
+            statement.execute("CREATE TABLE OrderItems(OrderID int, FoodID int);");
             statement.execute(
-                    "CREATE TABLE Clients(Client_ID int,Client_name varchar(20),Phone_number int,Adress varchar(20), Pizza_Count int);");
-            statement.execute("CREATE TABLE Codes(Client_ID int,Discount_code varchar(5),Is_used boolean);");
-            statement.execute("CREATE TABLE Courier(Courier_ID int,Post_code varchar(7),Is_delivering boolean);");
+                    "CREATE TABLE Clients(ClientID int,ClientName varchar(20),PhoneNumber int,Adress varchar(20), PizzaCount int);");
+            statement.execute("CREATE TABLE Codes(ClientID int,DiscountCode varchar(5),IsUsed boolean);");
+            statement.execute("CREATE TABLE Couriers(CourierID int,PostCode varchar(7),IsDelivering boolean);");
             
             //Fill tables with examples
             statement.execute("INSERT INTO OrderItems VALUES (1, 10);");
