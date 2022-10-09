@@ -5,15 +5,15 @@ public class App {
     public static void main(String[] args) throws Exception {
         Startup.startup();
 
-        ArrayList<Integer> elements = QuerySender.selectInts("\"Client_ID\"", "\"Clients\"");
-        for (int string : elements) {
-            System.out.println("ID: " + string);
-        }
+        // ArrayList<Integer> elements = QuerySender.selectInts("\"Client_ID\"", "\"Clients\"");
+        // for (int string : elements) {
+        //     System.out.println("ID: " + string);
+        // }
         
-        Server.getMenu();
+        // Server.getMenu();
 
-        Order info = Server.getOrderInfo();
-        System.out.println(info.price);
+        // Order info = Server.getOrderInfo();
+        // System.out.println(info.price);
 
 
 
