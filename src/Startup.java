@@ -24,7 +24,7 @@ public class Startup {
                     "CREATE TABLE Clients(ClientID int, Name varchar(20),PhoneNumber int,Adress varchar(20), PizzaCount int);");
             statement.execute("CREATE TABLE Codes(ClientID int,DiscountCode varchar(5),IsUsed boolean);");
             statement.execute("CREATE TABLE Couriers(CourierID int,PostCode varchar(7),IsAvailable boolean);");
-            statement.execute("CREATE TABLE FoodIngredients(MenuItem int, IngredientID int);");
+            statement.execute("CREATE TABLE FoodIngredients(MenuItemID int, IngredientID int);");
             statement.execute("CREATE TABLE OrderItems(OrderID int, MenuItemID int);");
 
             // Fill tables with examples
@@ -33,6 +33,14 @@ public class Startup {
             statement.execute("INSERT INTO Clients VALUES (2, \"bruh\",1,\"da moon\",4);");
             statement.execute("INSERT INTO Clients VALUES (2, \"bruh\",1,\"da moon\",11);");
             statement.execute("INSERT INTO FoodIngredients VALUES (1, 10);");
+            statement.execute("INSERT INTO Menuitems  VALUES (1, \"piza\",14.7, False);");
+            statement.execute("INSERT INTO Menuitems  VALUES (2, \"pizza\",16.7, True);");
+            statement.execute("INSERT INTO Menuitems  VALUES (3, \"fake pizza\",1.7, False);");
+            statement.execute("INSERT INTO Ingredients  VALUES (0, \"ham\",9.7, False);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (1, 0);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 0);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (3, 0);");
+            
 
             // close statement
             statement.close();

@@ -3,20 +3,39 @@ import java.util.ArrayList;
 
 public class ResultSetReader {
     public static class List {
-        public static ArrayList<String> readStrings(String selectColumn, ResultSet resultSet) {
+        public static String readStrings(String selectColumn, ResultSet resultSet) {
             try {
-                ArrayList<String> tableContents = new ArrayList<String>();
-                resultSet.beforeFirst();
+                return resultSet.getString(selectColumn);
+                // it is a good idea to release resources in a finally{} block
+                // in reverse-order of their creation if they are no-longer needed
 
-                while (resultSet.next()) {
-                    tableContents.add(resultSet.getString(selectColumn));
+            } catch (SQLException ex) {
+                // This will result in an exception
+                handleSQLException(ex);
+                return null;
+            }
+        }
+
+        public static Integer readInts(String selectColumn, ResultSet resultSet) {
+            try {
+                // ArrayList<Integer> tableContents = new ArrayList<Integer>();
+                // resultSet.beforeFirst();
+
+              
+
+                   return resultSet.getInt(selectColumn);
+
                     // it is a good idea to release resources in a finally{} block
                     // in reverse-order of their creation if they are no-longer needed
-                }
-                resultSet.close();
-                System.out.println("closed successfully");
+                
+                // resultSet.close();!
+                // System.out.println("closed succesfully");
 
-                return tableContents;
+                // for (Integer integer : tableContents) {
+                //     System.out.println("Integer: " + integer);
+                // }
+
+                // return tableContents;
 
             } catch (SQLException ex) {
                 // This will result in an exception
@@ -26,23 +45,23 @@ public class ResultSetReader {
             }
         }
 
-        public static ArrayList<Integer> readInts(String selectColumn, ResultSet resultSet) {
+        public static Float readFloats(String selectColumn, ResultSet resultSet) {
             try {
-                ArrayList<Integer> tableContents = new ArrayList<Integer>();
-                resultSet.beforeFirst();
+                //ArrayList<Float> tableContents = new ArrayList<Float>();
+                // resultSet.beforeFirst();!
 
                 // System.out.println("imhere");
-                while (resultSet.next()) {
+               // while (resultSet.next()) {
 
-                    tableContents.add(resultSet.getInt(selectColumn));
+                   return resultSet.getFloat(selectColumn);
 
                     // it is a good idea to release resources in a finally{} block
                     // in reverse-order of their creation if they are no-longer needed
-                }
-                resultSet.close();
-                System.out.println("closed succesfully");
+                
+                // resultSet.close();!
+                // System.out.println("closed succesfully");
 
-                return tableContents;
+                // return tableContents;
 
             } catch (SQLException ex) {
                 // This will result in an exception
@@ -52,47 +71,21 @@ public class ResultSetReader {
             }
         }
 
-        public static ArrayList<Float> readFloats(String selectColumn, ResultSet resultSet) {
+        public static Boolean readBooleans(String selectColumn, ResultSet resultSet) {
             try {
-                ArrayList<Float> tableContents = new ArrayList<Float>();
-                resultSet.beforeFirst();
+                //ArrayList<Boolean> tableContents = new ArrayList<Boolean>();
+                // resultSet.beforeFirst();!
 
-                // System.out.println("imhere");
-                while (resultSet.next()) {
-
-                    tableContents.add(resultSet.getFloat(selectColumn));
+                //while (resultSet.next()) {
+                   return resultSet.getBoolean(selectColumn);
 
                     // it is a good idea to release resources in a finally{} block
                     // in reverse-order of their creation if they are no-longer needed
-                }
-                resultSet.close();
-                System.out.println("closed succesfully");
+                
+                // resultSet.close();!
+              //  System.out.println("closed succesfully");
 
-                return tableContents;
-
-            } catch (SQLException ex) {
-                // This will result in an exception
-                handleSQLException(ex);
-                resultSet = null;
-                return null;
-            }
-        }
-
-        public static ArrayList<Boolean> readBooleans(String selectColumn, ResultSet resultSet) {
-            try {
-                ArrayList<Boolean> tableContents = new ArrayList<Boolean>();
-                resultSet.beforeFirst();
-
-                while (resultSet.next()) {
-                    tableContents.add(resultSet.getBoolean(selectColumn));
-
-                    // it is a good idea to release resources in a finally{} block
-                    // in reverse-order of their creation if they are no-longer needed
-                }
-                resultSet.close();
-                System.out.println("closed succesfully");
-
-                return tableContents;
+               // return tableContents;
 
             } catch (SQLException ex) {
                 // This will result in an exception
@@ -221,7 +214,7 @@ public class ResultSetReader {
                 return null;
             }
         }
-        //TODO: read date
+        // TODO: read date
     }
 
     private static void handleSQLException(SQLException ex) {

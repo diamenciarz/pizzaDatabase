@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Ingredient {
     public int ingredientID;
     public String name;
@@ -8,10 +10,10 @@ public class Ingredient {
 
     }
 
-    public Ingredient(int ingredientID, String name, float price, boolean isVegetarian) {
+    public Ingredient(int ingredientID,String names, Float prices, Boolean areVegetarian) {
         this.ingredientID = ingredientID;
-        this.name = name;
-        this.price = price;
-        this.isVegetarian = isVegetarian;
+        this.name = names;
+        this.price = prices;
+        this.isVegetarian = areVegetarian;
     }
 }
