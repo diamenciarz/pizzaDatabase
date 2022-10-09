@@ -8,7 +8,7 @@ public class QuerySender {
         public static ArrayList<String> selectStrings(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.List.readStrings(selectColumn, resultSet);
+                return ResultSetReader.List.readString(selectColumn, resultSet);
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("String list selection failed");
@@ -19,7 +19,7 @@ public class QuerySender {
         public static ArrayList<Integer> selectInts(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.List.readInts(selectColumn, resultSet);
+                return ResultSetReader.List.readInt(selectColumn, resultSet);
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("Int list selection failed");
@@ -30,7 +30,7 @@ public class QuerySender {
         public static ArrayList<Float> selectFloats(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.List.readFloats(selectColumn, resultSet);
+                return ResultSetReader.List.readFloat(selectColumn, resultSet);
             } catch (ConnectException e) {
                 return new ArrayList<Float>();
             }
@@ -39,7 +39,7 @@ public class QuerySender {
         public static ArrayList<Boolean> selectBooleans(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.List.readBooleans(selectColumn, resultSet);
+                return ResultSetReader.List.readBoolean(selectColumn, resultSet);
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("Float list selection failed");
@@ -51,7 +51,7 @@ public class QuerySender {
             try {
                 ResultSet resultSet = QuerySender.filter(DatabaseNames.Code.clientID, DatabaseNames.Tables.codes,
                         "Client_ID", Client_ID);
-                ArrayList<String> codes = ResultSetReader.List.readStrings(DatabaseNames.Code.discountCode,
+                ArrayList<String> codes = ResultSetReader.List.readString(DatabaseNames.Code.discountCode,
                         resultSet);
                 return codes;
 

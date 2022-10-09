@@ -6,10 +6,10 @@ import java.util.ArrayList;
 public class UnpackObj {
     public static class List {
         public static ArrayList<Order> unpackOrders(ResultSet resultSet) {
-            ArrayList<Integer> iDs = ResultSetReader.List.readInts(DatabaseNames.Order.orderID, resultSet);
-            ArrayList<Integer> clientIDs = ResultSetReader.List.readInts(DatabaseNames.Order.clientID, resultSet);
-            ArrayList<Integer> courierIDs = ResultSetReader.List.readInts(DatabaseNames.Order.courierID, resultSet);
-            ArrayList<Float> prices = ResultSetReader.List.readFloats(DatabaseNames.Order.price, resultSet);
+            ArrayList<Integer> iDs = ResultSetReader.List.readInt(DatabaseNames.Order.orderID, resultSet);
+            ArrayList<Integer> clientIDs = ResultSetReader.List.readInt(DatabaseNames.Order.clientID, resultSet);
+            ArrayList<Integer> courierIDs = ResultSetReader.List.readInt(DatabaseNames.Order.courierID, resultSet);
+            ArrayList<Float> prices = ResultSetReader.List.readFloat(DatabaseNames.Order.price, resultSet);
 
             ArrayList<Order> orders = new ArrayList<>(iDs.size());
             for (int i = 0; i < iDs.size(); i++) {
@@ -24,11 +24,11 @@ public class UnpackObj {
         }
 
         public static ArrayList<MenuItem> unpackMenuItems(ResultSet resultSet) {
-            ArrayList<Integer> iDs = ResultSetReader.List.readInts(DatabaseNames.MenuItemsKeys.menuItemID, resultSet);
-            ArrayList<String> names = ResultSetReader.List.readStrings(DatabaseNames.MenuItemsKeys.foodName, resultSet);
-            ArrayList<Float> prices = ResultSetReader.List.readFloats(DatabaseNames.MenuItemsKeys.price, resultSet);
+            ArrayList<Integer> iDs = ResultSetReader.List.readInt(DatabaseNames.MenuItemsKeys.menuItemID, resultSet);
+            ArrayList<String> names = ResultSetReader.List.readString(DatabaseNames.MenuItemsKeys.foodName, resultSet);
+            ArrayList<Float> prices = ResultSetReader.List.readFloat(DatabaseNames.MenuItemsKeys.price, resultSet);
             ArrayList<Boolean> areVegetarian = ResultSetReader.List
-                    .readBooleans(DatabaseNames.MenuItemsKeys.isVegetarian, resultSet);
+                    .readBoolean(DatabaseNames.MenuItemsKeys.isVegetarian, resultSet);
 
             ArrayList<MenuItem> menuItems = new ArrayList<>(iDs.size());
             for (int i = 0; i < iDs.size(); i++) {
@@ -49,10 +49,10 @@ public class UnpackObj {
             ArrayList<Ingredient> ingredients = new ArrayList<>();
             try {
                 while (resultSet.next()) {
-                    iDs = ResultSetReader.List.readInts(DatabaseNames.IngredientKeys.ingredientID, resultSet);
-                    names = ResultSetReader.List.readStrings(DatabaseNames.IngredientKeys.ingredientName, resultSet);
-                    prices = ResultSetReader.List.readFloats(DatabaseNames.IngredientKeys.price, resultSet);
-                    areVegetarian = ResultSetReader.List.readBooleans(DatabaseNames.IngredientKeys.isVegetarian,
+                    iDs = ResultSetReader.List.readInt(DatabaseNames.IngredientKeys.ingredientID, resultSet);
+                    names = ResultSetReader.List.readString(DatabaseNames.IngredientKeys.ingredientName, resultSet);
+                    prices = ResultSetReader.List.readFloat(DatabaseNames.IngredientKeys.price, resultSet);
+                    areVegetarian = ResultSetReader.List.readBoolean(DatabaseNames.IngredientKeys.isVegetarian,
                             resultSet);
                     ingredients.add(new Ingredient(iDs, names, prices, areVegetarian));
 
