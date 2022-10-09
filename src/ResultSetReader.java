@@ -1,6 +1,5 @@
 import java.sql.*;
 public class ResultSetReader {
-    public static class SingleValue {
         public static String readString(String selectColumn, ResultSet resultSet) {
             try {
                 return resultSet.getString(selectColumn);
@@ -46,7 +45,6 @@ public class ResultSetReader {
             }
         }
         // TODO: read date
-    }
 
     private static void handleSQLException(SQLException ex) {
         // handle any errors
