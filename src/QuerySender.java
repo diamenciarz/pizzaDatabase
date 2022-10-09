@@ -41,6 +41,18 @@ public class QuerySender {
             }
         }
 
+        public static ArrayList<String> getDiscountCodes(int Client_ID) {
+            try {
+                ResultSet resultSet =QuerySender.filter("Discount_code", "Codes", "Client_ID", Client_ID);
+                ArrayList<String> Codes =ResultSetReader.List.readStrings("Discount_code", resultSet);
+                return Codes;
+                
+            } catch (ConnectException e) {
+                System.out.println("Value not found");
+                return new ArrayList<>();
+                // TODO: handle exception
+            }
+        }
         // Objects
         // ___________________________________________________________________________________
         public static ArrayList<Order> selectOrdersBelongingTo(int clientID) {
