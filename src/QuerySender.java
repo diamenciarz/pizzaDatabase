@@ -8,8 +8,10 @@ public class QuerySender {
         public static ArrayList<String> selectStrings(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.List.readStrings(selectColumn, resultSet);
+                return ResultSetReader.List.readString(selectColumn, resultSet);
             } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("String list selection failed");
                 return new ArrayList<String>();
             }
         }
@@ -17,8 +19,10 @@ public class QuerySender {
         public static ArrayList<Integer> selectInts(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.List.readInts(selectColumn, resultSet);
+                return ResultSetReader.List.readInt(selectColumn, resultSet);
             } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Int list selection failed");
                 return new ArrayList<Integer>();
             }
         }
@@ -26,7 +30,7 @@ public class QuerySender {
         public static ArrayList<Float> selectFloats(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.List.readFloats(selectColumn, resultSet);
+                return ResultSetReader.List.readFloat(selectColumn, resultSet);
             } catch (ConnectException e) {
                 return new ArrayList<Float>();
             }
@@ -35,22 +39,26 @@ public class QuerySender {
         public static ArrayList<Boolean> selectBooleans(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
-                return ResultSetReader.List.readBooleans(selectColumn, resultSet);
+                return ResultSetReader.List.readBoolean(selectColumn, resultSet);
             } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Float list selection failed");
                 return new ArrayList<Boolean>();
             }
         }
 
-        public static ArrayList<String> getDiscountCodes(int Client_ID) {
+        public static ArrayList<String> selectDiscountCodes(int Client_ID) {
             try {
-                ResultSet resultSet = QuerySender.filter(DatabaseNames.CodeKeys.clientID, DatabaseNames.Tables.codes, "Client_ID", Client_ID);
-                ArrayList<String> Codes = ResultSetReader.List.readStrings("Discount_code", resultSet);
-                return Codes;
+                ResultSet resultSet = QuerySender.filter(DatabaseNames.Code.clientID, DatabaseNames.Tables.codes,
+                        "Client_ID", Client_ID);
+                ArrayList<String> codes = ResultSetReader.List.readString(DatabaseNames.Code.discountCode,
+                        resultSet);
+                return codes;
 
             } catch (ConnectException e) {
-                System.out.println("Value not found");
+                e.printStackTrace();
+                System.out.println("Discount code list selection failed");
                 return new ArrayList<>();
-                // TODO: handle exception
             }
         }
 
@@ -62,6 +70,8 @@ public class QuerySender {
                 return UnpackObj.List.unpackOrders(resultSet);
 
             } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Order list belonging to Client selection failed");
                 return new ArrayList<Order>();
             }
         }
@@ -72,6 +82,8 @@ public class QuerySender {
                 return UnpackObj.List.unpackMenuItems(resultSet);
 
             } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("MenuItem list belonging to order selection failed");
                 return new ArrayList<MenuItem>();
             }
         }
@@ -92,6 +104,8 @@ public class QuerySender {
                 return UnpackObj.List.unpackIngredients(resultSet);
 
             } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Ingredient list selection failed");
                 return new ArrayList<Ingredient>();
             }
         }
@@ -101,6 +115,8 @@ public class QuerySender {
                 ResultSet resultSet = execute("*", DatabaseNames.Tables.menuItems);
                 return UnpackObj.List.unpackMenuItems(resultSet);
             } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("MenuItem list selection failed");
                 return new ArrayList<MenuItem>();
             }
         }
@@ -112,6 +128,8 @@ public class QuerySender {
                 ResultSet resultSet = execute(selectColumn, from);
                 return ResultSetReader.SingleValue.readString(selectColumn, resultSet);
             } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("String selection failed");
                 return "";
             }
         }
@@ -121,6 +139,8 @@ public class QuerySender {
                 ResultSet resultSet = execute(selectColumn, from);
                 return ResultSetReader.SingleValue.readInt(selectColumn, resultSet);
             } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Int selection failed");
                 return 0;
             }
         }
@@ -130,6 +150,8 @@ public class QuerySender {
                 ResultSet resultSet = execute(selectColumn, from);
                 return ResultSetReader.SingleValue.readFloat(selectColumn, resultSet);
             } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Float selection failed");
                 return 0f;
             }
         }
@@ -139,6 +161,8 @@ public class QuerySender {
                 ResultSet resultSet = execute(selectColumn, from);
                 return ResultSetReader.SingleValue.readBoolean(selectColumn, resultSet);
             } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Boolean selection failed");
                 return false;
             }
         }
@@ -151,6 +175,8 @@ public class QuerySender {
                 return UnpackObj.SingleValue.unpackOrder(resultSet);
 
             } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Order selection failed");
                 return new Order();
             }
         }
@@ -161,6 +187,8 @@ public class QuerySender {
                 return UnpackObj.SingleValue.unpackMenuItem(resultSet);
 
             } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("MenuItem selection failed");
                 return new MenuItem();
             }
         }
@@ -171,14 +199,27 @@ public class QuerySender {
                 return UnpackObj.SingleValue.unpackIngredient(resultSet);
 
             } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Ingredient selection failed");
                 return new Ingredient();
             }
         }
 
         // Insert
         // ___________________________________________________________________________________
-        public static void insertIngredient(Ingredient ingredient){
-            insert(null, null, "ingredients");
+        public static void insertIngredient(Ingredient ingredient) {
+            String[] names = { DatabaseNames.Ingredient.ingredientID, DatabaseNames.Ingredient.ingredientName,
+                    DatabaseNames.Ingredient.isVegetarian, DatabaseNames.Ingredient.price };
+            String[] values = { DatabaseNames.Ingredient.ingredientID, DatabaseNames.Ingredient.ingredientName,
+                    DatabaseNames.Ingredient.isVegetarian, DatabaseNames.Ingredient.price };
+
+            try {
+                insert(names, values, DatabaseNames.Tables.ingredients);
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Ingredient insertion failed");
+            }
         }
     }
 

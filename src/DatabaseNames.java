@@ -7,12 +7,12 @@ public class DatabaseNames {
         public static String clients = "Clients";
         public static String codes = "Codes";
         public static String couriers = "Couriers";
-        public static String FoodIngredients = "FoodIngredients";
-        public static String OrderItems = "OrderItems";
+        public static String foodIngredients = "FoodIngredients";
+        public static String orderItems = "OrderItems";
 
     }
 
-    public static class IngredientKeys {
+    public static class Ingredient {
         public static String ingredientID = "IngredientID";
         public static String ingredientName = "Name";
         public static String price = "Price";
@@ -20,14 +20,14 @@ public class DatabaseNames {
 
     }
 
-    public static class MenuItemsKeys {
+    public static class MenuItems {
         public static String menuItemID = "MenuItemID";
         public static String foodName = "Name";
         public static String price = "Price";
         public static String isVegetarian = "IsVegetarian";
     }
 
-    public static class OrderKeys {
+    public static class Order {
         public static String orderID = "OrderID";
         public static String clientID = "ClientID";
         public static String courierID = "CourierID";
@@ -36,7 +36,7 @@ public class DatabaseNames {
         public static String price = "Price";
     }
 
-    public static class ClientKeys {
+    public static class Client {
         public static String clientID = "ClientID";
         public static String clientName = "Name";
         public static String phoneNumber = "PhoneNumber";
@@ -44,22 +44,22 @@ public class DatabaseNames {
         public static String pizzaCount = "PizzaCount";
     }
 
-    public static class CodeKeys {
+    public static class Code {
         public static String clientID = "ClientID";
         public static String discountCode = "DiscountCode";
         public static String isUsed = "IsUsed";
     }
 
-    public static class CourierKeys {
+    public static class Courier {
         public static String courierID = "CourierID";
         public static String postCode = "PostCode";
         public static String isAvailable = "IsAvailable";
     }
-    public static class MenuItemIngredientList {
-        public static String foodID = "MenuItemID";
+    public static class MenuItemIngredient {
+        public static String foodID = "MenuItem";
         public static String postCode = "IngredientID";
     }
-    public static class OrderItemsList {
+    public static class OrderItems {
         public static String courierID = "CourierID";
         public static String postCode = "PostCode";
         public static String isAvailable = "IsAvailable";

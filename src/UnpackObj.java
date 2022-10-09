@@ -65,10 +65,10 @@ public class UnpackObj {
             ArrayList<Ingredient> ingredients = new ArrayList<>();
             try {
                 while (resultSet.next()) {
-                    iDs = ResultSetReader.List.readInts(DatabaseNames.IngredientKeys.ingredientID, resultSet);
-                    names = ResultSetReader.List.readStrings(DatabaseNames.IngredientKeys.ingredientName, resultSet);
-                    prices = ResultSetReader.List.readFloats(DatabaseNames.IngredientKeys.price, resultSet);
-                    areVegetarian = ResultSetReader.List.readBooleans(DatabaseNames.IngredientKeys.isVegetarian,
+                    iDs = ResultSetReader.List.readInt(DatabaseNames.IngredientKeys.ingredientID, resultSet);
+                    names = ResultSetReader.List.readString(DatabaseNames.IngredientKeys.ingredientName, resultSet);
+                    prices = ResultSetReader.List.readFloat(DatabaseNames.IngredientKeys.price, resultSet);
+                    areVegetarian = ResultSetReader.List.readBoolean(DatabaseNames.IngredientKeys.isVegetarian,
                             resultSet);
                     ingredients.add(new Ingredient(iDs, names, prices, areVegetarian));
 
@@ -83,10 +83,10 @@ public class UnpackObj {
 
     public static class SingleValue {
         public static Order unpackOrder(ResultSet resultSet) {
-            Integer id = ResultSetReader.SingleValue.readInt(DatabaseNames.OrderKeys.orderID, resultSet);
-            Integer clientID = ResultSetReader.SingleValue.readInt(DatabaseNames.OrderKeys.clientID, resultSet);
-            Integer courierID = ResultSetReader.SingleValue.readInt(DatabaseNames.OrderKeys.courierID, resultSet);
-            Float price = ResultSetReader.SingleValue.readFloat(DatabaseNames.OrderKeys.price, resultSet);
+            Integer id = ResultSetReader.SingleValue.readInt(DatabaseNames.Order.orderID, resultSet);
+            Integer clientID = ResultSetReader.SingleValue.readInt(DatabaseNames.Order.clientID, resultSet);
+            Integer courierID = ResultSetReader.SingleValue.readInt(DatabaseNames.Order.courierID, resultSet);
+            Float price = ResultSetReader.SingleValue.readFloat(DatabaseNames.Order.price, resultSet);
             Date date = ResultSetReader.SingleValue.readDate("orderDate", resultSet);
             ArrayList<MenuItem> menuItems = QuerySender.List.selectMenuItemsBelongingTo(id);
 
