@@ -4,7 +4,8 @@ public class Client {
     public String name;
     public int phoneNumber;
     public String adress;
-    public boolean tenOrLess;
+    public boolean tenOrLess; // !!!
+    //TODO: Discuss
     
     public Client(int Client_ID,String name, int phoneNumber, String adress){
         this.name=name;

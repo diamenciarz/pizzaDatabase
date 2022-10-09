@@ -198,6 +198,29 @@ public class ResultSetReader {
                 return null;
             }
         }
+
+        public static Date readDate(String selectColumn, ResultSet resultSet) {
+            try {
+                Date tableContents = null;
+                resultSet.beforeFirst();
+
+                while (resultSet.next()) {
+                    tableContents = resultSet.getDate(selectColumn);
+                    // it is a good idea to release resources in a finally{} block
+                    // in reverse-order of their creation if they are no-longer needed
+                }
+                resultSet.close();
+                System.out.println("closed succesfully");
+
+                return tableContents;
+
+            } catch (SQLException ex) {
+                // This will result in an exception
+                handleSQLException(ex);
+                resultSet = null;
+                return null;
+            }
+        }
         //TODO: read date
     }
 

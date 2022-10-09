@@ -43,7 +43,7 @@ public class QuerySender {
 
         public static ArrayList<String> getDiscountCodes(int Client_ID) {
             try {
-                ResultSet resultSet = QuerySender.filter("Discount_code", "Codes", "Client_ID", Client_ID);
+                ResultSet resultSet = QuerySender.filter(DatabaseNames.CodeKeys.ClientID, DatabaseNames.Tables.codes, "Client_ID", Client_ID);
                 ArrayList<String> Codes = ResultSetReader.List.readStrings("Discount_code", resultSet);
                 return Codes;
 
@@ -163,6 +163,12 @@ public class QuerySender {
             } catch (ConnectException e) {
                 return new Ingredient();
             }
+        }
+
+        // Insert
+        // ___________________________________________________________________________________
+        public static void insertIngredient(Ingredient ingredient){
+            insert(null, null, "ingredients");
         }
     }
 
