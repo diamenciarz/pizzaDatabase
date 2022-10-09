@@ -6,35 +6,51 @@ import java.util.ArrayList;
 public class UnpackObj {
     public static class List {
         public static ArrayList<Order> unpackOrders(ResultSet resultSet) {
-            ArrayList<Integer> iDs = ResultSetReader.List.readInts(DatabaseNames.OrderKeys.orderID, resultSet);
-            ArrayList<Integer> clientIDs = ResultSetReader.List.readInts(DatabaseNames.OrderKeys.clientID, resultSet);
-            ArrayList<Integer> courierIDs = ResultSetReader.List.readInts(DatabaseNames.OrderKeys.courierID, resultSet);
-            ArrayList<Float> prices = ResultSetReader.List.readFloats(DatabaseNames.OrderKeys.price, resultSet);
+            Integer iDs =0;//this is very balssy
+            Integer clientIDs ;
+            Integer courierIDs;
+            Float prices;
 
-            ArrayList<Order> orders = new ArrayList<>(iDs.size());
-            for (int i = 0; i < iDs.size(); i++) {
-                ArrayList<MenuItem> menuItems = QuerySender.List.selectMenuItemsBelongingTo(iDs.get(i));
-
-                // TODO: Add date
-                // TODO: Add orderStatus
-                orders.set(i, new Order(menuItems, prices.get(i), iDs.get(i), clientIDs.get(i), courierIDs.get(i),
-                        Order.Status.ORDER_SENT, null));
+            ArrayList<Order> orders = new ArrayList<>();
+            try {
+                while (resultSet.next()) {
+                    ArrayList<MenuItem> menuItems = QuerySender.List.selectMenuItemsBelongingTo(iDs);
+                    iDs = ResultSetReader.List.readInts(DatabaseNames.OrderKeys.orderID, resultSet);
+                    clientIDs = ResultSetReader.List.readInts(DatabaseNames.OrderKeys.clientID, resultSet);
+                    courierIDs = ResultSetReader.List.readInts(DatabaseNames.OrderKeys.courierID, resultSet);
+                    prices = ResultSetReader.List.readFloats(DatabaseNames.OrderKeys.price, resultSet);
+                    // TODO: Add date
+                    // TODO: Add orderStatus
+                    orders.add( new Order(menuItems, prices, iDs, clientIDs, courierIDs,
+                            Order.Status.ORDER_SENT, null));
+                }
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
             return orders;
         }
 
         public static ArrayList<MenuItem> unpackMenuItems(ResultSet resultSet) {
-            ArrayList<Integer> iDs = ResultSetReader.List.readInts(DatabaseNames.MenuItemsKeys.menuItemID, resultSet);
-            ArrayList<String> names = ResultSetReader.List.readStrings(DatabaseNames.MenuItemsKeys.foodName, resultSet);
-            ArrayList<Float> prices = ResultSetReader.List.readFloats(DatabaseNames.MenuItemsKeys.price, resultSet);
-            ArrayList<Boolean> areVegetarian = ResultSetReader.List
-                    .readBooleans(DatabaseNames.MenuItemsKeys.isVegetarian, resultSet);
-
-            ArrayList<MenuItem> menuItems = new ArrayList<>(iDs.size());
-            for (int i = 0; i < iDs.size(); i++) {
-                ArrayList<Ingredient> ingredients = QuerySender.List.selectIngredientsBelongingTo(iDs.get(i));
-                menuItems.set(i,
-                        new MenuItem(iDs.get(i), names.get(i), prices.get(i), areVegetarian.get(i), ingredients));
+            Integer iDs ;
+            String names ;
+           Float prices;
+            Boolean areVegetarian;
+            ArrayList<MenuItem> menuItems = new ArrayList<>();
+            try {
+                while(resultSet.next()) {
+                    iDs = ResultSetReader.List.readInts(DatabaseNames.MenuItemsKeys.menuItemID, resultSet);
+                    names = ResultSetReader.List.readStrings(DatabaseNames.MenuItemsKeys.foodName, resultSet);
+                    prices = ResultSetReader.List.readFloats(DatabaseNames.MenuItemsKeys.price, resultSet);
+                    areVegetarian = ResultSetReader.List.readBooleans(DatabaseNames.MenuItemsKeys.isVegetarian, resultSet);
+                    ArrayList<Ingredient> ingredients = QuerySender.List.selectIngredientsBelongingTo(iDs);
+                    
+                    menuItems.add(
+                            new MenuItem(iDs, names, prices, areVegetarian, ingredients));
+                }
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
             return menuItems;
         }

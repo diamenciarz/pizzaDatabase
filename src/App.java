@@ -7,7 +7,7 @@ public class App {
 
        ArrayList<Ingredient> TMP =Server.UserMethods.getMenu();
        for (int i = 0; i < TMP.size(); i++) {
-        System.out.println(TMP.get(i));
+        System.out.println(TMP.get(i).ingredientID+" "+TMP.get(i).name+" "+TMP.get(i).price);
        }
 
 
