@@ -2,6 +2,10 @@ import java.net.ConnectException;
 import java.sql.*;
 import java.util.ArrayList;
 
+import objects.Client;
+import objects.Ingredient;
+import objects.Order;
+
 public class Server {
 
     public static class UserMethods {

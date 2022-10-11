@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+package objects;
 
 public class Ingredient {
     public int ingredientID;

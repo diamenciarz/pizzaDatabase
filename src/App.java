@@ -1,6 +1,9 @@
 import java.sql.*;
 import java.util.ArrayList;
 
+import objects.Ingredient;
+import objects.Order;
+
 public class App {
     public static void main(String[] args) throws Exception {
         Startup.startup();

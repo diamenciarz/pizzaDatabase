@@ -2,6 +2,10 @@ import java.net.ConnectException;
 import java.sql.*;
 import java.util.ArrayList;
 
+import objects.Ingredient;
+import objects.MenuItem;
+import objects.Order;
+
 public class QuerySender {
 
     public static class List {
