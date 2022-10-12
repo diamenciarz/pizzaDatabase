@@ -15,7 +15,7 @@ public class Startup {
 
             // Create tables
             statement.execute(
-                    "CREATE TABLE Ingredients(IngredientID int,Name varchar(20),Price int,Isvegetarian boolean);");
+                    "CREATE TABLE Ingredients(IngredientID int,Name varchar(20),Price int,IsVegetarian boolean);");
             statement.execute(
                     "CREATE TABLE MenuItems(MenuItemID int,Name varchar(20),Price int, Isvegetarian boolean);");
             statement.execute(
@@ -28,19 +28,18 @@ public class Startup {
             statement.execute("CREATE TABLE OrderItems(OrderID int, MenuItemID int);");
 
             // Fill tables with examples
-            statement.execute("INSERT INTO OrderItems VALUES (1, 10);");
-            statement.execute("INSERT INTO OrderItems VALUES (2, 11);");
+            statement.execute("INSERT INTO OrderItems VALUES (1, 0);");
+            statement.execute("INSERT INTO OrderItems VALUES (2, 1);");
             statement.execute("INSERT INTO Clients VALUES (2, \"bruh\",1,\"da moon\",4);");
             statement.execute("INSERT INTO Clients VALUES (2, \"bruh\",1,\"da moon\",11);");
-            statement.execute("INSERT INTO FoodIngredients VALUES (1, 10);");
             statement.execute("INSERT INTO Menuitems  VALUES (1, \"piza\",14.7, False);");
             statement.execute("INSERT INTO Menuitems  VALUES (2, \"pizza\",16.7, True);");
             statement.execute("INSERT INTO Menuitems  VALUES (3, \"fake pizza\",1.7, False);");
             statement.execute("INSERT INTO Ingredients  VALUES (0, \"ham\",9.7, False);");
+            statement.execute("INSERT INTO Ingredients  VALUES (1, \"pork\",91.7, True);");
             statement.execute("INSERT INTO FoodIngredients  VALUES (1, 0);");
-            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 0);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 1);");
             statement.execute("INSERT INTO FoodIngredients  VALUES (3, 0);");
-            
 
             // close statement
             statement.close();

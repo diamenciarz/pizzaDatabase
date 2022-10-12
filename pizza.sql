@@ -4,4 +4,7 @@ CREATE TABLE Ingredients(IngredientID int,Name varchar(20),Price int,Isvegetaria
 
 INSERT INTO Ingredients VALUES (1,'pizza', 10, False);
 
-SELECT * FROM Ingredients;
+(SELECT * FROM FoodIngredients WHERE MenuItemID = 1) ;
+SELECT * FROM FoodIngredients JOIN ingredients USING(ingredientID);
+
+INSERT INTO students (name, grade) VALUES("Car", 12 );

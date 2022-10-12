@@ -112,7 +112,8 @@ public class QuerySender {
         // ___________________________________________________________________________________
         public static ArrayList<Order> selectOrdersBelongingTo(int clientID) {
             try {
-                ResultSet resultSet = filter("*", DatabaseNames.Tables.orderItems, DatabaseNames.Order.clientID,
+                // TODO: fix the join query
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.orders, DatabaseNames.Order.clientID,
                         clientID);
                 return UnpackObj.List.unpackOrders(resultSet);
 
@@ -125,7 +126,8 @@ public class QuerySender {
 
         public static ArrayList<MenuItem> selectMenuItemsBelongingTo(int orderID) {
             try {
-                ResultSet resultSet = filter("*", DatabaseNames.Tables.menuItems, DatabaseNames.Order.orderID, orderID);
+                ResultSet resultSet = join("*", DatabaseNames.Tables.orderItems, DatabaseNames.Tables.menuItems,
+                        DatabaseNames.MenuItem.menuItemID, DatabaseNames.Order.orderID, orderID);
                 return UnpackObj.List.unpackMenuItems(resultSet);
 
             } catch (ConnectException e) {
@@ -137,8 +139,8 @@ public class QuerySender {
 
         public static ArrayList<Ingredient> selectIngredientsBelongingTo(int itemID) {
             try {
-                ResultSet resultSet = filter("*", DatabaseNames.Tables.foodIngredients,
-                        DatabaseNames.MenuItem.menuItemID, itemID);
+                ResultSet resultSet = join("*", DatabaseNames.Tables.foodIngredients, DatabaseNames.Tables.ingredients,
+                        DatabaseNames.Ingredient.ingredientID, DatabaseNames.MenuItem.menuItemID, itemID);
                 return UnpackObj.List.unpackIngredients(resultSet);
 
             } catch (ConnectException e) {
@@ -158,7 +160,7 @@ public class QuerySender {
             }
         }
 
-        public static ArrayList<MenuItem> SelectMenu() {
+        public static ArrayList<MenuItem> selectMenu() {
             try {
                 ResultSet resultSet = execute("*", DatabaseNames.Tables.menuItems);
                 return UnpackObj.List.unpackMenuItems(resultSet);
@@ -232,7 +234,8 @@ public class QuerySender {
 
         public static MenuItem selectMenuItem(int menuItemId) {
             try {
-                ResultSet resultSet = filter("*", DatabaseNames.Tables.menuItems, DatabaseNames.MenuItem.menuItemID, menuItemId);
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.menuItems, DatabaseNames.MenuItem.menuItemID,
+                        menuItemId);
                 return UnpackObj.SingleValue.unpackMenuItem(resultSet);
 
             } catch (ConnectException e) {
@@ -244,7 +247,8 @@ public class QuerySender {
 
         public static Ingredient selectIngredient(int ingredientId) {
             try {
-                ResultSet resultSet = filter("*", DatabaseNames.Tables.ingredients, DatabaseNames.Ingredient.ingredientID, ingredientId);
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.ingredients,
+                        DatabaseNames.Ingredient.ingredientID, ingredientId);
                 return UnpackObj.SingleValue.unpackIngredient(resultSet);
 
             } catch (ConnectException e) {
@@ -318,9 +322,7 @@ public class QuerySender {
         from = sanitize(from);
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
-
             PreparedStatement prepStatement = conn.prepareStatement("SELECT " + selectColumn + " FROM " + from + ";");
-
             return prepStatement.executeQuery();
 
         } catch (SQLException ex) {
@@ -340,6 +342,27 @@ public class QuerySender {
 
             PreparedStatement prepStatement = conn.prepareStatement("SELECT " + selectColumn + " FROM " + from +
                     " WHERE " + filterName + " = " + filterValue + ";");
+
+            return prepStatement.executeQuery();
+
+        } catch (SQLException ex) {
+            // This will result in an exception
+            handleSQLException(ex);
+            return null;
+        }
+    }
+
+    static ResultSet join(String selectColumn, String from, String join, String using, String filterName,
+            int filterValue)
+            throws ConnectException {
+        selectColumn = sanitize(selectColumn);
+        from = sanitize(from);
+        filterName = sanitize(filterName);
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
+
+            PreparedStatement prepStatement = conn.prepareStatement("SELECT " + selectColumn + " FROM " + from
+                    + " JOIN " + join + " USING (" + using + ") WHERE " + filterName + " = " + filterValue + ";");
 
             return prepStatement.executeQuery();
 

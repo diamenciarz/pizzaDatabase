@@ -1,18 +1,15 @@
 import java.net.ConnectException;
-import java.sql.*;
 import java.util.ArrayList;
 
-import objects.Client;
-import objects.Ingredient;
-import objects.Order;
+import objects.*;
 
 public class Server {
 
     public static class UserMethods {
 
-        public static ArrayList<Ingredient> getMenu() {
+        public static ArrayList<MenuItem> getMenu() {
 
-            return QuerySender.List.selectIngredients();
+            return QuerySender.List.selectMenu();
         }
 
         // Requires insert()
@@ -29,9 +26,9 @@ public class Server {
         }
 
         public int getPizzaCount(int clientID) throws ConnectException {
-            int pizzaCount = ResultSetReader.SingleValue.readInt(DatabaseNames.ClientKeys.pizzaCount,
-                    QuerySender.filter(DatabaseNames.ClientKeys.pizzaCount, DatabaseNames.Tables.clients,
-                            DatabaseNames.ClientKeys.clientID, clientID));
+            int pizzaCount = ResultSetReader.readInt(DatabaseNames.Client.pizzaCount,
+                    QuerySender.filter(DatabaseNames.Client.pizzaCount, DatabaseNames.Tables.clients,
+                            DatabaseNames.Client.clientID, clientID));
             return pizzaCount;
         }
 

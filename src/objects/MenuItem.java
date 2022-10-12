@@ -2,7 +2,7 @@ package objects;
 import java.util.ArrayList;
 
 public class MenuItem {
-    public int foodID;
+    public int menuItemID;
     public String name;
     public float price;
     public boolean isVegetarian;
@@ -12,8 +12,8 @@ public class MenuItem {
 
     }
 
-    public MenuItem(int foodID, String name, float price, boolean isVegetarian, ArrayList<Ingredient> ingredients) {
-        this.foodID = foodID;
+    public MenuItem(int menuItemID, String name, float price, boolean isVegetarian, ArrayList<Ingredient> ingredients) {
+        this.menuItemID = menuItemID;
         this.name = name;
         this.price = price;
         this.ingredients = ingredients;

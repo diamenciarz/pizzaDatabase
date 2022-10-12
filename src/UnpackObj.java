@@ -57,13 +57,12 @@ public class UnpackObj {
         }
 
         public static ArrayList<Ingredient> unpackIngredients(ResultSet resultSet) {
-
             String names;
             Integer iDs;
             Float prices;
             Boolean areVegetarian;
-
             ArrayList<Ingredient> ingredients = new ArrayList<>();
+
             try {
                 while (resultSet.next()) {
                     iDs = ResultSetReader.readInt(DatabaseNames.Ingredient.ingredientID, resultSet);

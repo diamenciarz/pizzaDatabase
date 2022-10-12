@@ -16,7 +16,7 @@ public class DatabaseNames {
         public static String ingredientID = "IngredientID";
         public static String ingredientName = "Name";
         public static String price = "Price";
-        public static String isVegetarian = "Isvegetarian";
+        public static String isVegetarian = "IsVegetarian";
 
     }
 
