@@ -219,6 +219,35 @@ public class QuerySender {
 
         // Objects
         // ___________________________________________________________________________________
+        /**
+         * @param orderID
+         * @return "Order status <status> cancel possible <boolean>"
+         */
+        public static String selectDeliveryStatus(int orderId) {
+            try {
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.orders, DatabaseNames.Order.orderID, orderId);
+                Order order = UnpackObj.SingleValue.unpackOrder(resultSet);
+
+                long orderDate = order.orderDate.getTime();
+                long dateNow = System.currentTimeMillis();
+                long delay = dateNow - orderDate;
+                final int MAX_DELAY = 300000;
+
+                String status = order.status.toString();
+                String isPossible = "";
+                if (delay > MAX_DELAY) {
+                    isPossible = "not";
+                }
+
+                return "Order status: " + status + ". Cancel " + isPossible + " possible.";
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Order selection failed");
+                return null;
+            }
+        }
+
         public static Order selectOrder(int orderId) {
             try {
                 ResultSet resultSet = filter("*", DatabaseNames.Tables.orders, DatabaseNames.Order.orderID, orderId);
@@ -256,7 +285,7 @@ public class QuerySender {
                 return null;
             }
         }
-        
+
         public static Client selectClient(int clientId) {
             try {
                 ResultSet resultSet = filter("*", DatabaseNames.Tables.clients,
@@ -269,7 +298,7 @@ public class QuerySender {
                 return null;
             }
         }
-        
+
         public static Courier selectCourier(int courierId) {
             try {
                 ResultSet resultSet = filter("*", DatabaseNames.Tables.couriers,
@@ -282,6 +311,7 @@ public class QuerySender {
                 return null;
             }
         }
+
         // Insert
         // ___________________________________________________________________________________
         public static void insertOrder(Order order) {
@@ -359,7 +389,7 @@ public class QuerySender {
                 System.out.println("Ingredient insertion failed");
             }
         }
-        //Delete
+        // Delete
         // ___________________________________________________________________________________
 
     }

@@ -37,8 +37,8 @@ public class Server {
             QuerySender.SingleValue.insertClient(client);
         }
 
-        public static String getDeliveryInfo(int orderID) {
-
+        public static String getDeliveryStatus(int orderID) {
+            return QuerySender.SingleValue.selectDeliveryStatus(orderID);
         }
 
     }
