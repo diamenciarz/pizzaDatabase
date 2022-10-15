@@ -1,10 +1,9 @@
 import java.net.ConnectException;
 import java.sql.*;
+
 import java.util.ArrayList;
 
-import objects.Ingredient;
-import objects.MenuItem;
-import objects.Order;
+import objects.*;
 
 public class QuerySender {
 
@@ -260,11 +259,13 @@ public class QuerySender {
 
         // Insert
         // ___________________________________________________________________________________
-        public static void insertIngredient(Ingredient ingredient) {
-            String[] names = { DatabaseNames.Ingredient.ingredientID, DatabaseNames.Ingredient.ingredientName,
-                    DatabaseNames.Ingredient.isVegetarian, DatabaseNames.Ingredient.price };
-            String[] values = { DatabaseNames.Ingredient.ingredientID, DatabaseNames.Ingredient.ingredientName,
-                    DatabaseNames.Ingredient.isVegetarian, DatabaseNames.Ingredient.price };
+        public static void insertOrder(Order order) {
+            String[] names = { DatabaseNames.Order.clientID,
+                    DatabaseNames.Order.courierID, DatabaseNames.Order.orderDate, DatabaseNames.Order.price,
+                    DatabaseNames.Order.orderStatus };
+            String[] values = { Integer.toString(order.clientID),
+                    Integer.toString(order.courierID), order.orderDate.toString(), Float.toString(order.price),
+                    order.status.toString() };
 
             try {
                 insert(DatabaseNames.Tables.ingredients, names, values);
@@ -274,6 +275,68 @@ public class QuerySender {
                 System.out.println("Ingredient insertion failed");
             }
         }
+
+        public static void insertMenuItem(MenuItem menuItem) {
+            String[] names = { DatabaseNames.MenuItem.foodName,
+                    DatabaseNames.MenuItem.isVegetarian, DatabaseNames.MenuItem.price };
+            String[] values = { menuItem.name,
+                    Boolean.toString(menuItem.isVegetarian), Float.toString(menuItem.price) };
+
+            try {
+                insert(DatabaseNames.Tables.ingredients, names, values);
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Ingredient insertion failed");
+            }
+        }
+
+        public static void insertIngredient(Ingredient ingredient) {
+            String[] names = { DatabaseNames.Ingredient.ingredientName,
+                    DatabaseNames.Ingredient.isVegetarian, DatabaseNames.Ingredient.price };
+            String[] values = { ingredient.name,
+                    Boolean.toString(ingredient.isVegetarian), Float.toString(ingredient.price) };
+
+            try {
+                insert(DatabaseNames.Tables.ingredients, names, values);
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Ingredient insertion failed");
+            }
+        }
+
+        public static void insertClient(Client client) {
+            String[] names = { DatabaseNames.Client.clientName,
+                    DatabaseNames.Client.phoneNumber, DatabaseNames.Client.address, DatabaseNames.Client.pizzaCount };
+            String[] values = { client.name,
+                    Integer.toString(client.phoneNumber), client.adress, "0" };
+
+            try {
+                insert(DatabaseNames.Tables.clients, names, values);
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Ingredient insertion failed");
+            }
+        }
+
+        public static void insertCourier(Courier courier) {
+            String[] names = { DatabaseNames.Courier.isAvailable,
+                    DatabaseNames.Courier.postCode };
+            String[] values = { Boolean.toString(courier.isAvailable), courier.postCode };
+
+            try {
+                insert(DatabaseNames.Tables.clients, names, values);
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Ingredient insertion failed");
+            }
+        }
+        //Delete
+        // ___________________________________________________________________________________
+        
     }
 
     // Helper methods
