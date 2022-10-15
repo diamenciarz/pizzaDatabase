@@ -227,7 +227,7 @@ public class QuerySender {
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("Order selection failed");
-                return new Order();
+                return null;
             }
         }
 
@@ -240,7 +240,7 @@ public class QuerySender {
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("MenuItem selection failed");
-                return new MenuItem();
+                return null;
             }
         }
 
@@ -253,10 +253,35 @@ public class QuerySender {
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("Ingredient selection failed");
-                return new Ingredient();
+                return null;
             }
         }
+        
+        public static Client selectClient(int clientId) {
+            try {
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.clients,
+                        DatabaseNames.Client.clientID, clientId);
+                return UnpackObj.SingleValue.unpackClient(resultSet);
 
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Ingredient selection failed");
+                return null;
+            }
+        }
+        
+        public static Courier selectCourier(int courierId) {
+            try {
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.couriers,
+                        DatabaseNames.Courier.courierID, courierId);
+                return UnpackObj.SingleValue.unpackCourier(resultSet);
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Ingredient selection failed");
+                return null;
+            }
+        }
         // Insert
         // ___________________________________________________________________________________
         public static void insertOrder(Order order) {
@@ -336,7 +361,7 @@ public class QuerySender {
         }
         //Delete
         // ___________________________________________________________________________________
-        
+
     }
 
     // Helper methods

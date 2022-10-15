@@ -6,11 +6,12 @@ public class Client {
     public int phoneNumber;
     public String adress;
     public int pizzaCount;
-    
-    public Client(int Client_ID,String name, int phoneNumber, String adress){
-        this.name=name;
-        this.phoneNumber=phoneNumber;
-        this.adress=adress;
-        this.Client_ID=Client_ID;
+
+    public Client(int Client_ID, String name, int phoneNumber, String adress, int pizzaCount) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.adress = adress;
+        this.Client_ID = Client_ID;
+        this.pizzaCount = pizzaCount;
     }
 }

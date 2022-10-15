@@ -79,6 +79,55 @@ public class UnpackObj {
             }
             return ingredients;
         }
+
+        public static ArrayList<Client> unpackClients(ResultSet resultSet) {
+            Integer iDs;
+            String names;
+            Integer phoneNumbers;
+            String addresses;
+            Integer pizzaCounts;
+            ArrayList<Client> clients = new ArrayList<>();
+
+            try {
+                while (resultSet.next()) {
+                    iDs = ResultSetReader.readInt(DatabaseNames.Client.clientID, resultSet);
+                    names = ResultSetReader.readString(DatabaseNames.Client.clientName, resultSet);
+                    phoneNumbers = ResultSetReader.readInt(DatabaseNames.Client.phoneNumber, resultSet);
+                    addresses = ResultSetReader.readString(DatabaseNames.Client.address,
+                            resultSet);
+                    pizzaCounts = ResultSetReader.readInt(DatabaseNames.Client.pizzaCount, resultSet);
+                    // id, name, phoneNumber, address, pizzaCount
+                    clients.add(new Client(iDs, names, phoneNumbers, addresses, pizzaCounts));
+
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Ingredients failed to unpack");
+            }
+            return clients;
+        }
+
+        public static ArrayList<Courier> unpackCouriers(ResultSet resultSet) {
+            Integer iDs;
+            String postCodes;
+            Boolean areAvailable;
+            ArrayList<Courier> ingredients = new ArrayList<>();
+
+            try {
+                while (resultSet.next()) {
+                    iDs = ResultSetReader.readInt(DatabaseNames.Courier.courierID, resultSet);
+                    postCodes = ResultSetReader.readString(DatabaseNames.Courier.postCode, resultSet);
+                    areAvailable = ResultSetReader.readBoolean(DatabaseNames.Courier.isAvailable,
+                            resultSet);
+                    ingredients.add(new Courier(iDs, postCodes, areAvailable));
+
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Ingredients failed to unpack");
+            }
+            return ingredients;
+        }
     }
 
     public static class SingleValue {
@@ -114,6 +163,29 @@ public class UnpackObj {
                     resultSet);
 
             return new Ingredient(id, name, price, isVegetarian);
+        }
+
+        public static Client unpackClient(ResultSet resultSet) {
+            Integer id = ResultSetReader.readInt(DatabaseNames.Client.clientID, resultSet);
+            String name = ResultSetReader.readString(DatabaseNames.Client.clientName,
+                    resultSet);
+            Integer phoneNumber = ResultSetReader.readInt(DatabaseNames.Client.phoneNumber,
+                    resultSet);
+            String address = ResultSetReader.readString(DatabaseNames.Client.address, resultSet);
+            Integer pizzaCount = ResultSetReader.readInt(DatabaseNames.Client.pizzaCount,
+                    resultSet);
+
+            return new Client(id, name, phoneNumber, address, pizzaCount);
+        }
+
+        public static Courier unpackCourier(ResultSet resultSet) {
+            Integer id = ResultSetReader.readInt(DatabaseNames.Courier.courierID, resultSet);
+            String postCode = ResultSetReader.readString(DatabaseNames.Courier.postCode,
+                    resultSet);
+            Boolean isAvailable = ResultSetReader.readBoolean(DatabaseNames.Courier.isAvailable,
+                    resultSet);
+
+            return new Courier(id, postCode, isAvailable);
         }
     }
 

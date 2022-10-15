@@ -21,7 +21,7 @@ public class Startup {
             statement.execute(
                     "CREATE TABLE Orders(OrderID int, ClientID int, CourierID int, OrderStatus enum('ORDER_SENT','PREPARING','DELIVERING','DELIVERED','CANCELLED'),OrderDate timestamp,Price int);");
             statement.execute(
-                    "CREATE TABLE Clients(ClientID int, Name varchar(20),PhoneNumber int,Adress varchar(20), PizzaCount int);");
+                    "CREATE TABLE Clients(ClientID int, Name varchar(20), PhoneNumber int, Adress varchar(20), PizzaCount int);");
             statement.execute("CREATE TABLE Codes(ClientID int,DiscountCode varchar(5),IsUsed boolean);");
             statement.execute("CREATE TABLE Couriers(CourierID int,PostCode varchar(7),IsAvailable boolean);");
             statement.execute("CREATE TABLE FoodIngredients(MenuItemID int, IngredientID int);");

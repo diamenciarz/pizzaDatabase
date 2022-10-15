@@ -45,7 +45,7 @@ public class Server {
 
     public static class AdminMethods {
         public static Client getClientInfo(int clientID) {
-
+            return QuerySender.SingleValue.selectClient(clientID);
         }
 
         public static Order[] getCurrentOrders() {
