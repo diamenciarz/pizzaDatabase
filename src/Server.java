@@ -66,20 +66,18 @@ public class Server {
 
     public static class DelivererMethods {
         public static void setAvailableForDelivery(int delivererID) {
-            
-        }
-
-        public static Client getClientInfo(int clientID) {
 
         }
 
-        public static void setDeliveryState(int orderID) {
+        public static String getClientAddress(int clientID) {
+            Client client = QuerySender.SingleValue.selectClient(clientID);
+            return client.adress;
+        }
+
+        public static void setDeliveryState(int delivererID, int orderID) {
 
         }
         // We are going to work on verification if the program works and we have time
-        // public static void verification(String password) {
-        // deliveryStatus(AllowedMethods.MORE);
-        // }
     }
 
 }

@@ -170,6 +170,7 @@ public class QuerySender {
                 return new ArrayList<MenuItem>();
             }
         }
+
         public static ArrayList<Order> selectCurrentOrders() {
             try {
                 ResultSet resultSet = execute("*", DatabaseNames.Tables.orders);
@@ -402,6 +403,7 @@ public class QuerySender {
                 System.out.println("Courier insertion failed");
             }
         }
+
         // Delete
         // ___________________________________________________________________________________
         public static boolean deleteOrder(int orderId) {
@@ -414,12 +416,60 @@ public class QuerySender {
                 return false;
             }
         }
+
         // Update
         // ___________________________________________________________________________________
-        
+        public static void updateCourierAvailability(int courierId, boolean isAvailable) {
+            String[] names = { DatabaseNames.Courier.isAvailable };
+            String[] values = { Boolean.toString(isAvailable) };
+
+            try {
+                update(DatabaseNames.Tables.couriers, names, values, DatabaseNames.Courier.courierID,
+                        Integer.toString(courierId));
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Courier update failed");
+            }
+        }
     }
 
     // Helper methods
+    static void update(String to, String[] names, String[] values, String filterName, String filterValue)
+            throws ConnectException {
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
+
+            PreparedStatement prepStatement = conn
+                    .prepareStatement(prepareUpdateCommand(names, values, to, filterName, filterValue));
+
+            prepStatement.executeQuery();
+
+        } catch (SQLException ex) {
+            // This will result in an exception
+            handleSQLException(ex);
+        }
+    }
+
+    private static String prepareUpdateCommand(String[] names, String[] values, String to, String filterName,
+            String filterValue) {
+        if (names.length != values.length) {
+            System.out.println("ERROR: The count of names and values must be the same!");
+            return "";
+        }
+        filterName = sanitize(filterName);
+        filterValue = sanitize(filterValue);
+
+        String command = "UPDATE " + sanitize(to) + " SET ";
+        for (int i = 0; i < names.length; i++) {
+            command = command + sanitize(names[i]) + " = '" + sanitize(values[i]) + "'";
+            if (i != names.length - 1) {
+                command = command + ", ";
+            }
+        }
+        return command + " WHERE " + filterName + " = " + filterValue;
+    }
+
     static boolean delete(String from, String filterName, String filterValue) throws ConnectException {
         from = sanitize(from);
         filterName = sanitize(filterName);
@@ -468,12 +518,12 @@ public class QuerySender {
                 command = command + ", ";
             }
         }
-        command = command + ") VALUES (";
+        command = command + ") VALUES ('";
 
         for (int i = 0; i < values.length; i++) {
-            command = command + sanitize(values[i]);
+            command = command + sanitize(values[i]) + "'";
             if (i != values.length - 1) {
-                command = command + ", ";
+                command = command + ", '";
             }
         }
         command = command + ");";
