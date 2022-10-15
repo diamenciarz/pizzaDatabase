@@ -170,6 +170,17 @@ public class QuerySender {
                 return new ArrayList<MenuItem>();
             }
         }
+        public static ArrayList<Order> selectCurrentOrders() {
+            try {
+                ResultSet resultSet = execute("*", DatabaseNames.Tables.orders);
+                return UnpackObj.List.unpackOrders(resultSet);
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("MenuItem list selection failed");
+                return new ArrayList<Order>();
+            }
+        }
     }
 
     public static class SingleValue {
@@ -403,6 +414,9 @@ public class QuerySender {
                 return false;
             }
         }
+        // Update
+        // ___________________________________________________________________________________
+        
     }
 
     // Helper methods
