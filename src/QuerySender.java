@@ -429,7 +429,21 @@ public class QuerySender {
 
             } catch (ConnectException e) {
                 e.printStackTrace();
-                System.out.println("Courier update failed");
+                System.out.println("Courier availability update failed");
+            }
+        }
+
+        public static void updateOrderState(int orderId, Order.Status status) {
+            String[] names = { DatabaseNames.Order.orderStatus };
+            String[] values = { status.toString() };
+
+            try {
+                update(DatabaseNames.Tables.orders, names, values, DatabaseNames.Order.orderID,
+                        Integer.toString(orderId));
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Order state update failed");
             }
         }
     }

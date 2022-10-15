@@ -16,11 +16,11 @@ public class Server {
         public static void placeOrder(Order order) {
             QuerySender.SingleValue.insertOrder(order);
         }
-        
+
         public static Order getOrderInfo(int orderID) {
             return QuerySender.SingleValue.selectOrder(orderID);
         }
-        
+
         /**
          * @param orderID
          * @return true, if the cancel succeded and false, if the cancel was set more
@@ -41,7 +41,6 @@ public class Server {
             return pizzaCount;
         }
 
-        // Requires insert()
         public static void addClient(Client client) {
             QuerySender.SingleValue.insertClient(client);
         }
@@ -49,7 +48,6 @@ public class Server {
         public static String getDeliveryStatus(int orderID) {
             return QuerySender.SingleValue.selectDeliveryStatus(orderID);
         }
-
     }
 
     public static class AdminMethods {
@@ -58,15 +56,14 @@ public class Server {
         }
 
         public static Order[] getCurrentOrders() {
-            Order[] orders = new Order[0]; 
+            Order[] orders = new Order[0];
             return QuerySender.List.selectCurrentOrders().toArray(orders);
         }
-
     }
 
     public static class DelivererMethods {
         public static void setAvailableForDelivery(int delivererID) {
-
+            QuerySender.SingleValue.updateCourierAvailability(delivererID, true);
         }
 
         public static String getClientAddress(int clientID) {
@@ -75,6 +72,8 @@ public class Server {
         }
 
         public static void setDeliveryState(int delivererID, int orderID) {
+            QuerySender.SingleValue.updateCourierAvailability(delivererID, false);
+            QuerySender.SingleValue.updateOrderState(orderID, Order.Status.DELIVERING);
 
         }
         // We are going to work on verification if the program works and we have time
