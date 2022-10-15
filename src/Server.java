@@ -13,8 +13,8 @@ public class Server {
         }
 
         // Requires insert()
-        public static void placeOrder(Order order, Client Client) {
-
+        public static void placeOrder(Order order) {
+            QuerySender.SingleValue.insertClient(order);
         }
 
         public static Order getOrderInfo(int orderID) {
@@ -34,7 +34,7 @@ public class Server {
 
         // Requires insert()
         public static void addClient(Client client) {
-
+            QuerySender.SingleValue.insertClient(client);
         }
 
         public static String getDeliveryInfo(int orderID) {
