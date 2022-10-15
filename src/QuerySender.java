@@ -89,7 +89,7 @@ public class QuerySender {
         public static ArrayList<String> selectDiscountCodes(int clientID) {
             try {
                 ResultSet resultSet = QuerySender.filter(DatabaseNames.Code.discountCode, DatabaseNames.Tables.codes,
-                        DatabaseNames.Code.clientID, clientID);
+                        DatabaseNames.Code.clientID, Integer.toString(clientID));
                 ArrayList<String> codes = new ArrayList<>();
 
                 while (resultSet.next()) {
@@ -113,7 +113,7 @@ public class QuerySender {
             try {
                 // TODO: fix the join query
                 ResultSet resultSet = filter("*", DatabaseNames.Tables.orders, DatabaseNames.Order.clientID,
-                        clientID);
+                        Integer.toString(clientID));
                 return UnpackObj.List.unpackOrders(resultSet);
 
             } catch (ConnectException e) {
@@ -225,7 +225,8 @@ public class QuerySender {
          */
         public static String selectDeliveryStatus(int orderId) {
             try {
-                ResultSet resultSet = filter("*", DatabaseNames.Tables.orders, DatabaseNames.Order.orderID, orderId);
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.orders, DatabaseNames.Order.orderID,
+                        Integer.toString(orderId));
                 Order order = UnpackObj.SingleValue.unpackOrder(resultSet);
 
                 long orderDate = order.orderDate.getTime();
@@ -250,7 +251,8 @@ public class QuerySender {
 
         public static Order selectOrder(int orderId) {
             try {
-                ResultSet resultSet = filter("*", DatabaseNames.Tables.orders, DatabaseNames.Order.orderID, orderId);
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.orders, DatabaseNames.Order.orderID,
+                        Integer.toString(orderId));
                 return UnpackObj.SingleValue.unpackOrder(resultSet);
 
             } catch (ConnectException e) {
@@ -263,7 +265,7 @@ public class QuerySender {
         public static MenuItem selectMenuItem(int menuItemId) {
             try {
                 ResultSet resultSet = filter("*", DatabaseNames.Tables.menuItems, DatabaseNames.MenuItem.menuItemID,
-                        menuItemId);
+                        Integer.toString(menuItemId));
                 return UnpackObj.SingleValue.unpackMenuItem(resultSet);
 
             } catch (ConnectException e) {
@@ -276,7 +278,7 @@ public class QuerySender {
         public static Ingredient selectIngredient(int ingredientId) {
             try {
                 ResultSet resultSet = filter("*", DatabaseNames.Tables.ingredients,
-                        DatabaseNames.Ingredient.ingredientID, ingredientId);
+                        DatabaseNames.Ingredient.ingredientID, Integer.toString(ingredientId));
                 return UnpackObj.SingleValue.unpackIngredient(resultSet);
 
             } catch (ConnectException e) {
@@ -289,7 +291,7 @@ public class QuerySender {
         public static Client selectClient(int clientId) {
             try {
                 ResultSet resultSet = filter("*", DatabaseNames.Tables.clients,
-                        DatabaseNames.Client.clientID, clientId);
+                        DatabaseNames.Client.clientID, Integer.toString(clientId));
                 return UnpackObj.SingleValue.unpackClient(resultSet);
 
             } catch (ConnectException e) {
@@ -302,7 +304,7 @@ public class QuerySender {
         public static Courier selectCourier(int courierId) {
             try {
                 ResultSet resultSet = filter("*", DatabaseNames.Tables.couriers,
-                        DatabaseNames.Courier.courierID, courierId);
+                        DatabaseNames.Courier.courierID, Integer.toString(courierId));
                 return UnpackObj.SingleValue.unpackCourier(resultSet);
 
             } catch (ConnectException e) {
@@ -372,7 +374,7 @@ public class QuerySender {
 
             } catch (ConnectException e) {
                 e.printStackTrace();
-                System.out.println("Ingredient insertion failed");
+                System.out.println("Client insertion failed");
             }
         }
 
@@ -386,15 +388,44 @@ public class QuerySender {
 
             } catch (ConnectException e) {
                 e.printStackTrace();
-                System.out.println("Ingredient insertion failed");
+                System.out.println("Courier insertion failed");
             }
         }
         // Delete
         // ___________________________________________________________________________________
+        public static boolean deleteOrder(int orderId) {
+            try {
+                return delete(DatabaseNames.Tables.orders, DatabaseNames.Order.orderID, Integer.toString(orderId));
 
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Order deletion failed");
+                return false;
+            }
+        }
     }
 
     // Helper methods
+    static boolean delete(String from, String filterName, String filterValue) throws ConnectException {
+        from = sanitize(from);
+        filterName = sanitize(filterName);
+        filterValue = sanitize(filterValue);
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
+
+            PreparedStatement prepStatement = conn
+                    .prepareStatement("DELETE FROM " + from + " WHERE " + filterName + " = " + filterValue + ";");
+
+            prepStatement.execute();
+            return true;
+
+        } catch (SQLException ex) {
+            // This will result in an exception
+            handleSQLException(ex);
+            return false;
+        }
+    }
+
     static ResultSet insert(String to, String[] names, String[] values) throws ConnectException {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
@@ -450,11 +481,12 @@ public class QuerySender {
         }
     }
 
-    static ResultSet filter(String selectColumn, String from, String filterName, int filterValue)
+    static ResultSet filter(String selectColumn, String from, String filterName, String filterValue)
             throws ConnectException {
         selectColumn = sanitize(selectColumn);
         from = sanitize(from);
         filterName = sanitize(filterName);
+        filterValue = sanitize(filterValue);
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
 

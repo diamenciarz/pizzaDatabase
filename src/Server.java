@@ -14,15 +14,24 @@ public class Server {
 
         // Requires insert()
         public static void placeOrder(Order order) {
-            QuerySender.SingleValue.insertClient(order);
+            QuerySender.SingleValue.insertOrder(order);
         }
-
+        
         public static Order getOrderInfo(int orderID) {
             return QuerySender.SingleValue.selectOrder(orderID);
         }
-
-        public static void cancelOrder(int orderID) {
-
+        
+        /**
+         * @param orderID
+         * @return true, if the cancel succeded and false, if the cancel was set more
+         *         than 5 minutes ago
+         */
+        public static boolean cancelOrder(int orderID, int clientID) {
+            Order order = QuerySender.SingleValue.selectOrder(orderID);
+            if (orderID == order.orderID) {
+                return QuerySender.SingleValue.deleteOrder(orderID);
+            }
+            return false;
         }
 
         public int getPizzaCount(int clientID) throws ConnectException {
