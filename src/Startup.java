@@ -32,15 +32,129 @@ public class Startup {
             statement.execute("INSERT INTO OrderItems VALUES (2, 1);");
             statement.execute("INSERT INTO Clients VALUES (2, \"bruh\",1,\"da moon\",4);");
             statement.execute("INSERT INTO Clients VALUES (2, \"bruh\",1,\"da moon\",11);");
-            statement.execute("INSERT INTO Menuitems  VALUES (1, \"piza\",14.7, False);");
-            statement.execute("INSERT INTO Menuitems  VALUES (2, \"pizza\",16.7, True);");
-            statement.execute("INSERT INTO Menuitems  VALUES (3, \"fake pizza\",1.7, False);");
-            statement.execute("INSERT INTO Ingredients  VALUES (0, \"ham\",9.7, False);");
-            statement.execute("INSERT INTO Ingredients  VALUES (1, \"pork\",91.7, True);");
-            statement.execute("INSERT INTO FoodIngredients  VALUES (1, 0);");
-            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 1);");
-            statement.execute("INSERT INTO FoodIngredients  VALUES (3, 0);");
+           
+            //Ingredients
+            statement.execute("INSERT INTO Ingredients  VALUES (0, \"cheese\",0.7, True);");
+            statement.execute("INSERT INTO Ingredients  VALUES (1, \"dough\",1.7, True); ");
+            statement.execute("INSERT INTO Ingredients  VALUES (2, \"pizza sauce\",0.1, True);");
+            statement.execute("INSERT INTO Ingredients  VALUES (3,\"pineapples\",0.8, True);");
+            statement.execute("INSERT INTO Ingredients  VALUES (4,\"ham\",0.5, False);");
+            statement.execute("INSERT INTO Ingredients  VALUES (5,\"shrimp\",1.3, False);");
+            statement.execute("INSERT INTO Ingredients  VALUES (6,\"olives\",0.2, True);");
+            statement.execute("INSERT INTO Ingredients  VALUES (7,\"bell pepper\",0.2, True);");
+            statement.execute("INSERT INTO Ingredients  VALUES (8,\"tofu\",2, True);");
+            statement.execute("INSERT INTO Ingredients  VALUES (9,\"champignons \",0.9, True);");
+            statement.execute("INSERT INTO Ingredients  VALUES (10,\"tomatoes\",0.4, True);");
+            statement.execute("INSERT INTO Ingredients  VALUES (11,\"Prosciutto\",2.5, False);");
+            statement.execute("INSERT INTO Ingredients  VALUES (12,\"mozzarella\",1.1, True);");
+            statement.execute("INSERT INTO Ingredients  VALUES (13,\"basil\",2.5, True);");
+            statement.execute("INSERT INTO Ingredients  VALUES (14,\"San Marzano tomatoes\",5.5, True);");
+            statement.execute("INSERT INTO Ingredients  VALUES (15,\"BBQ sauce\",0.6, True);");
+            statement.execute("INSERT INTO Ingredients  VALUES (16,\"onion\",0.1, True);");
+            statement.execute("INSERT INTO Ingredients  VALUES (17,\"anchovies\",2.5, False);");
+            statement.execute("INSERT INTO Ingredients  VALUES (18,\"capers\",1.2, True);");
+            statement.execute("INSERT INTO Ingredients  VALUES (19,\"peperoni\",0.7, False);");
+            statement.execute("INSERT INTO Ingredients  VALUES (20,\"chicken\",1.4, False);");
+            statement.execute("INSERT INTO Ingredients  VALUES (21,\"artichocke\",2.5, True);");
 
+            //Pizzas
+            statement.execute("INSERT INTO Menuitems  VALUES (0, \"Hawaiian pizza\",0 ,False );");
+            statement.execute("INSERT INTO Menuitems  VALUES (1, \"Vegetarian pizza\",0 ,False );");
+            statement.execute("INSERT INTO Menuitems  VALUES (2, \"Pizza Prosciutto\",0 ,False );");
+            statement.execute("INSERT INTO Menuitems  VALUES (3, \"Pizza Margherita\",0 ,False );");
+            statement.execute("INSERT INTO Menuitems  VALUES (4, \"BBQ chicken pizza\",0 ,False );");
+            statement.execute("INSERT INTO Menuitems  VALUES (5, \"Pizza Neapolitan\",0 ,False );");
+            statement.execute("INSERT INTO Menuitems  VALUES (6, \"Cheese pizza\",0 ,False );");
+            statement.execute("INSERT INTO Menuitems  VALUES (7, \"Pizza peperoni\",0 ,False );");
+            statement.execute("INSERT INTO Menuitems  VALUES (8, \"Pizza capricciosa\",0 ,False );");
+            statement.execute("INSERT INTO Menuitems  VALUES (9, \"Stan&Martins pizza\",0 ,False );");
+            //matching ingredients to pizza
+            statement.execute("INSERT INTO FoodIngredients  VALUES (0, 0);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (0, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (0, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (0, 3);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (0, 5);");
+
+            statement.execute("INSERT INTO FoodIngredients  VALUES (1, 0);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (1, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (1, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (1, 6);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (1, 7);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (1, 8);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (1, 9);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (1, 10);");
+
+            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 0);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 11);");
+
+            
+            statement.execute("INSERT INTO FoodIngredients  VALUES (3, 12);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (3, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (3, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (3, 13);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (3, 14);");
+
+            statement.execute("INSERT INTO FoodIngredients  VALUES (4, 0);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (4, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (4, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (4, 15);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (4, 16);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (4, 20);");
+
+            statement.execute("INSERT INTO FoodIngredients  VALUES (5, 12);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (5, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (5, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (5, 18);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (5, 17);");
+            
+            statement.execute("INSERT INTO FoodIngredients  VALUES (6, 0);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (6, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (6, 2);");
+
+            statement.execute("INSERT INTO FoodIngredients  VALUES (7, 0);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (7, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (7, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (7, 20);");
+            
+            statement.execute("INSERT INTO FoodIngredients  VALUES (8, 12);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (8, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (8, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (8, 4);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (8, 6);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (8, 9);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (8, 21);");
+
+            statement.execute("INSERT INTO FoodIngredients  VALUES (9, 0);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (9, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (9, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (9, 3);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (9, 3);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (9, 3);");
+
+
+            
+
+
+            
+           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
             // close statement
             statement.close();
 
