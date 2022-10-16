@@ -90,7 +90,6 @@ public class Startup {
             statement.execute("INSERT INTO FoodIngredients  VALUES (3, 2);");
             statement.execute("INSERT INTO FoodIngredients  VALUES (3, 3);");
             statement.execute("INSERT INTO FoodIngredients  VALUES (3, 12);");
-
             
             statement.execute("INSERT INTO FoodIngredients  VALUES (4, 13);");
             statement.execute("INSERT INTO FoodIngredients  VALUES (4, 2);");

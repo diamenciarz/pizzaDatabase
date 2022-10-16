@@ -111,7 +111,6 @@ public class QuerySender {
         // ___________________________________________________________________________________
         public static ArrayList<Order> selectOrdersBelongingTo(int clientID) {
             try {
-                // TODO: fix the join query
                 ResultSet resultSet = filter("*", DatabaseNames.Tables.orders, DatabaseNames.Order.clientID,
                         Integer.toString(clientID));
                 return UnpackObj.List.unpackOrders(resultSet);
@@ -368,6 +367,18 @@ public class QuerySender {
 
         // region Insert
         // ___________________________________________________________________________________
+        public static void insertOrderItemPair(int orderId, int menuItemId) {
+            String[] names = { DatabaseNames.OrderItems.orderID, DatabaseNames.OrderItems.menuItemID };
+            String[] values = { Integer.toString(orderId), Integer.toString(menuItemId) };
+
+            try {
+                insert(DatabaseNames.Tables.orderItems, names, values);
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Order item pair insertion failed");
+            }
+        }
+
         public static void insertOrder(Order order) {
             String[] names = { DatabaseNames.Order.clientID,
                     DatabaseNames.Order.courierID, DatabaseNames.Order.orderDate, DatabaseNames.Order.price,
@@ -378,10 +389,25 @@ public class QuerySender {
 
             try {
                 insert(DatabaseNames.Tables.ingredients, names, values);
-
+                for (MenuItem menuItem : order.menuItems) {
+                    insertOrderItemPair(order.orderID, menuItem.menuItemID);
+                }
             } catch (ConnectException e) {
                 e.printStackTrace();
-                System.out.println("Ingredient insertion failed");
+                System.out.println("Order insertion failed");
+            }
+        }
+
+        public static void insertMenuIngredientPair(int menuItemId, int ingredientId) {
+            String[] names = { DatabaseNames.MenuItemIngredient.menuItemID,
+                    DatabaseNames.MenuItemIngredient.ingredientID };
+            String[] values = { Integer.toString(menuItemId), Integer.toString(ingredientId) };
+
+            try {
+                insert(DatabaseNames.Tables.foodIngredients, names, values);
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Menu ingredient pair insertion failed");
             }
         }
 
@@ -389,11 +415,13 @@ public class QuerySender {
             String[] names = { DatabaseNames.MenuItem.foodName,
                     DatabaseNames.MenuItem.isVegetarian, DatabaseNames.MenuItem.price };
             String[] values = { menuItem.name,
-                    Boolean.toString(menuItem.isVegetarian), Float.toString(menuItem.price) };
+                    parseBoolean(menuItem.isVegetarian), Float.toString(menuItem.price) };
 
             try {
                 insert(DatabaseNames.Tables.ingredients, names, values);
-
+                for (Ingredient ingredient : menuItem.ingredients) {
+                    insertMenuIngredientPair(menuItem.menuItemID, ingredient.ingredientID);
+                }
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("Ingredient insertion failed");
@@ -403,8 +431,8 @@ public class QuerySender {
         public static void insertIngredient(Ingredient ingredient) {
             String[] names = { DatabaseNames.Ingredient.ingredientName,
                     DatabaseNames.Ingredient.isVegetarian, DatabaseNames.Ingredient.price };
-            String[] values = { ingredient.name,
-                    Boolean.toString(ingredient.isVegetarian), Float.toString(ingredient.price) };
+            String[] values = { ingredient.name, parseBoolean(ingredient.isVegetarian),
+                    Float.toString(ingredient.price) };
 
             try {
                 insert(DatabaseNames.Tables.ingredients, names, values);
@@ -433,7 +461,7 @@ public class QuerySender {
         public static void insertCourier(Courier courier) {
             String[] names = { DatabaseNames.Courier.isAvailable,
                     DatabaseNames.Courier.postCode };
-            String[] values = { Boolean.toString(courier.isAvailable), courier.postCode };
+            String[] values = { parseBoolean(courier.isAvailable), courier.postCode };
 
             try {
                 insert(DatabaseNames.Tables.clients, names, values);
@@ -463,12 +491,7 @@ public class QuerySender {
         // ___________________________________________________________________________________
         public static void updateCourierAvailability(int courierId, boolean isAvailable) {
             String[] names = { DatabaseNames.Courier.isAvailable };
-
-            int value = 0;
-            if (isAvailable) {
-                value = 1;
-            }
-            String[] values = { Integer.toString(value) };
+            String[] values = { parseBoolean(isAvailable) };
 
             try {
                 update(DatabaseNames.Tables.couriers, names, values, DatabaseNames.Courier.courierID,
@@ -510,12 +533,7 @@ public class QuerySender {
 
         public static void updateMenuItemIsVegetarian(int menuItemId, boolean isVegetarian) {
             String[] names = { DatabaseNames.MenuItem.isVegetarian };
-
-            int value = 0;
-            if (isVegetarian) {
-                value = 1;
-            }
-            String[] values = { Integer.toString(value) };
+            String[] values = { parseBoolean(isVegetarian) };
 
             try {
                 update(DatabaseNames.Tables.menuItems, names, values, DatabaseNames.MenuItem.menuItemID,
@@ -713,6 +731,13 @@ public class QuerySender {
         String sanitized = query.replace(remove, insert).replace(remove2, insert).replace(remove3, insert);
         // System.out.println("output: " + sanitized);
         return sanitized;
+    }
+
+    static String parseBoolean(boolean bool) {
+        if (bool == true) {
+            return "1";
+        }
+        return "0";
     }
     // endregion
 }

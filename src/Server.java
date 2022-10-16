@@ -57,6 +57,20 @@ public class Server {
             Order[] orders = new Order[0];
             return QuerySender.List.selectCurrentOrders().toArray(orders);
         }
+
+        public static void recalculateMenuItems(){
+            QuerySender.SingleValue.recalculateMenuItems();
+        }
+
+        public static void addCourier(Courier courier){
+            QuerySender.SingleValue.insertCourier(courier);
+        }
+        public static void addMenuItem(MenuItem menuItem){
+            QuerySender.SingleValue.insertMenuItem(menuItem);
+        }
+        public static void addIngredient(Ingredient ingredient){
+            QuerySender.SingleValue.insertIngredient(ingredient);
+        }
     }
 
     public static class DelivererMethods {
