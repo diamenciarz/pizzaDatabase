@@ -37,9 +37,9 @@ public class ResultSetReader {
         }
     }
 
-    public static Date readDate(String selectColumn, ResultSet resultSet) {
+    public static Timestamp readTimestamp(String selectColumn, ResultSet resultSet) {
         try {
-            return resultSet.getDate(selectColumn);
+            return resultSet.getTimestamp(selectColumn);
         } catch (SQLException ex) {
             handleSQLException(ex);
             return null;

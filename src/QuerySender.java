@@ -1,5 +1,6 @@
 import java.net.ConnectException;
 import java.sql.*;
+import java.sql.Timestamp;
 
 import java.util.ArrayList;
 
@@ -242,14 +243,9 @@ public class QuerySender {
                         Integer.toString(orderId));
                 Order order = UnpackObj.SingleValue.unpackOrder(resultSet);
 
-                long orderDate = order.orderDate.getTime();
-                long dateNow = System.currentTimeMillis();
-                long delay = dateNow - orderDate;
-                final int MAX_DELAY = 300000;
-
                 String status = order.status.toString();
                 String isPossible = "";
-                if (delay > MAX_DELAY) {
+                if (!HelperMethods.isCancelPossible(order)) {
                     isPossible = "not";
                 }
 
@@ -380,15 +376,14 @@ public class QuerySender {
         }
 
         public static void insertOrder(Order order) {
-            String[] names = { DatabaseNames.Order.clientID,
-                    DatabaseNames.Order.courierID, DatabaseNames.Order.orderDate, DatabaseNames.Order.price,
-                    DatabaseNames.Order.orderStatus };
-            String[] values = { Integer.toString(order.clientID),
-                    Integer.toString(order.courierID), order.orderDate.toString(), Float.toString(order.price),
-                    order.status.toString() };
+            Timestamp date = new Timestamp(System.currentTimeMillis());
+            String[] names = { DatabaseNames.Order.courierID, DatabaseNames.Order.orderDate, DatabaseNames.Order.price,
+                    DatabaseNames.Order.orderStatus, DatabaseNames.Order.clientID };
+            String[] values = { Integer.toString(-1), date.toString(), Float.toString(order.price),
+                    Order.Status.ORDER_SENT.toString(), Integer.toString(order.clientID) };
 
             try {
-                insert(DatabaseNames.Tables.ingredients, names, values);
+                insert(DatabaseNames.Tables.orders, names, values);
                 for (MenuItem menuItem : order.menuItems) {
                     insertOrderItemPair(order.orderID, menuItem.menuItemID);
                 }
@@ -412,13 +407,13 @@ public class QuerySender {
         }
 
         public static void insertMenuItem(MenuItem menuItem) {
-            String[] names = { DatabaseNames.MenuItem.foodName,
-                    DatabaseNames.MenuItem.isVegetarian, DatabaseNames.MenuItem.price };
-            String[] values = { menuItem.name,
-                    parseBoolean(menuItem.isVegetarian), Float.toString(menuItem.price) };
+            String[] names = { DatabaseNames.MenuItem.foodName, DatabaseNames.MenuItem.isVegetarian,
+                    DatabaseNames.MenuItem.price };
+            String[] values = { menuItem.name, HelperMethods.parseBoolean(menuItem.isVegetarian),
+                    Float.toString(menuItem.price) };
 
             try {
-                insert(DatabaseNames.Tables.ingredients, names, values);
+                insert(DatabaseNames.Tables.menuItems, names, values);
                 for (Ingredient ingredient : menuItem.ingredients) {
                     insertMenuIngredientPair(menuItem.menuItemID, ingredient.ingredientID);
                 }
@@ -431,7 +426,7 @@ public class QuerySender {
         public static void insertIngredient(Ingredient ingredient) {
             String[] names = { DatabaseNames.Ingredient.ingredientName,
                     DatabaseNames.Ingredient.isVegetarian, DatabaseNames.Ingredient.price };
-            String[] values = { ingredient.name, parseBoolean(ingredient.isVegetarian),
+            String[] values = { ingredient.name, HelperMethods.parseBoolean(ingredient.isVegetarian),
                     Float.toString(ingredient.price) };
 
             try {
@@ -461,7 +456,7 @@ public class QuerySender {
         public static void insertCourier(Courier courier) {
             String[] names = { DatabaseNames.Courier.isAvailable,
                     DatabaseNames.Courier.postCode };
-            String[] values = { parseBoolean(courier.isAvailable), courier.postCode };
+            String[] values = { HelperMethods.parseBoolean(courier.isAvailable), courier.postCode };
 
             try {
                 insert(DatabaseNames.Tables.clients, names, values);
@@ -491,7 +486,7 @@ public class QuerySender {
         // ___________________________________________________________________________________
         public static void updateCourierAvailability(int courierId, boolean isAvailable) {
             String[] names = { DatabaseNames.Courier.isAvailable };
-            String[] values = { parseBoolean(isAvailable) };
+            String[] values = { HelperMethods.parseBoolean(isAvailable) };
 
             try {
                 update(DatabaseNames.Tables.couriers, names, values, DatabaseNames.Courier.courierID,
@@ -533,7 +528,7 @@ public class QuerySender {
 
         public static void updateMenuItemIsVegetarian(int menuItemId, boolean isVegetarian) {
             String[] names = { DatabaseNames.MenuItem.isVegetarian };
-            String[] values = { parseBoolean(isVegetarian) };
+            String[] values = { HelperMethods.parseBoolean(isVegetarian) };
 
             try {
                 update(DatabaseNames.Tables.menuItems, names, values, DatabaseNames.MenuItem.menuItemID,
@@ -617,18 +612,17 @@ public class QuerySender {
         }
     }
 
-    static ResultSet insert(String to, String[] names, String[] values) throws ConnectException {
+    static void insert(String to, String[] names, String[] values) throws ConnectException {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
 
             PreparedStatement prepStatement = conn.prepareStatement(prepareInsertCommand(names, values, to));
 
-            return prepStatement.executeQuery();
+            prepStatement.execute();
 
         } catch (SQLException ex) {
             // This will result in an exception
             handleSQLException(ex);
-            return null;
         }
     }
 
@@ -731,13 +725,6 @@ public class QuerySender {
         String sanitized = query.replace(remove, insert).replace(remove2, insert).replace(remove3, insert);
         // System.out.println("output: " + sanitized);
         return sanitized;
-    }
-
-    static String parseBoolean(boolean bool) {
-        if (bool == true) {
-            return "1";
-        }
-        return "0";
     }
     // endregion
 }

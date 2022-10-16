@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.sql.*;
 
 import objects.*;
 
@@ -6,23 +7,41 @@ public class App {
     public static void main(String[] args) throws Exception {
         Startup.startup();
 
-        // Server.UserMethods.getPizzaCount(1);
+        // placeOrder();
+        // cancelOrder();
+
+        // int pizzaCount = Server.UserMethods.getPizzaCount(1);
+        // System.out.println("Pizza count: " + pizzaCount);
+    }
+
+    private static void placeOrder() {
         ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
-        for (int i = 0; i < TMP.size(); i++) {
-            System.out.println(TMP.get(i).menuItemID + " " + TMP.get(i).name + " " + TMP.get(i).price + " " + TMP.get(i).isVegetarian);
-        }
-        
+
+        Order order = new Order();
+        order.clientID = 1;
+        order.price = 10;
+
+        ArrayList<MenuItem> menuItems = new ArrayList<>();
+        menuItems.add(TMP.get(0));
+        menuItems.add(TMP.get(1));
+        order.menuItems = menuItems;
+
+        Server.UserMethods.placeOrder(order);
+    }
+
+    private static void cancelOrder() {
+        Server.UserMethods.cancelOrder(1, 1);
     }
 
     // Getters
     public void DispalyOrderInfo(int order_ID) {
-        Order order = Server.UserMethods.getOrderInfo(order_ID);
+        Order order = Server.UserMethods.getOrder(order_ID);
         System.out.println("Client_ID " + order.clientID);
         System.out.println("Courier_ID " + order.courierID);
         System.out.println("Order_ID " + order.orderID);
         System.out.println("price " + order.price + "Eur");
         System.out.println("Your order " + order.menuItems);
-        System.out.println("Order Date " + order.orderDate);
+        System.out.println("Order Date " + order.orderTimestamp);
         System.out.println("Order status" + order.status);
     }
 
@@ -40,14 +59,5 @@ public class App {
         // To finish call "send"
 
         // User says "addItem 2"
-    }
-
-    // Mutators
-    private static void placeOrder() {
-        // Server.placeOrder(null, null);
-    }
-
-    private static void cancelOrder() {
-
     }
 }

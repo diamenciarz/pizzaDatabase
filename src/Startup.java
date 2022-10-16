@@ -58,6 +58,14 @@ public class Startup {
             statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('peperoni',0.7, False);");
             statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('chicken',1.4, False);");
             statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('artichocke',2.5, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('coke',5, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('pepsi',4.9, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('whiskey',100, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('a bottle o water',0.1, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('Tiramisu',7, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('Snickers',2, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('Pudding',3, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('Creme Brule',4, True);");
 
             //Pizzas
             statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Hawaiian pizza',0 ,False );");
@@ -70,6 +78,14 @@ public class Startup {
             statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Pizza peperoni',0 ,False );");
             statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Pizza capricciosa',0 ,False );");
             statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Stan&Martins pizza',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('coke',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('pepsi',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('whiskey',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('a bottle o water',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Tiramisu',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Snickers',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Pudding',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Creme Brule',0 ,False );");
             //matching ingredients to pizza
             statement.execute("INSERT INTO FoodIngredients  VALUES (1, 1);");
             statement.execute("INSERT INTO FoodIngredients  VALUES (1, 2);");
@@ -133,7 +149,15 @@ public class Startup {
             statement.execute("INSERT INTO FoodIngredients  VALUES (10, 4);");
             statement.execute("INSERT INTO FoodIngredients  VALUES (10, 4);");
             statement.execute("INSERT INTO FoodIngredients  VALUES (10, 4);");
-
+            
+            statement.execute("INSERT INTO FoodIngredients  VALUES (11, 23);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (12, 24);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (13, 25);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (14, 26);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (15, 27);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (16, 28);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (17, 29);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (18, 30);");
 
             Server.AdminMethods.recalculateMenuItems();
             

@@ -17,7 +17,7 @@ public class Server {
             QuerySender.SingleValue.insertOrder(order);
         }
 
-        public static Order getOrderInfo(int orderID) {
+        public static Order getOrder(int orderID) {
             return QuerySender.SingleValue.selectOrder(orderID);
         }
         // TODO: handle codes
@@ -29,9 +29,13 @@ public class Server {
          */
         public static boolean cancelOrder(int orderID, int clientID) {
             Order order = QuerySender.SingleValue.selectOrder(orderID);
-            if (orderID == order.orderID) {
-                return QuerySender.SingleValue.deleteOrder(orderID);
+            if (clientID == order.clientID) {
+                if (HelperMethods.isCancelPossible(order)) {
+                    System.out.println("Cancel succeeded");
+                    return QuerySender.SingleValue.deleteOrder(orderID);
+                }
             }
+            System.out.println("Cancel not succeeded");
             return false;
         }
 
@@ -58,17 +62,19 @@ public class Server {
             return QuerySender.List.selectCurrentOrders().toArray(orders);
         }
 
-        public static void recalculateMenuItems(){
+        public static void recalculateMenuItems() {
             QuerySender.SingleValue.recalculateMenuItems();
         }
 
-        public static void addCourier(Courier courier){
+        public static void addCourier(Courier courier) {
             QuerySender.SingleValue.insertCourier(courier);
         }
-        public static void addMenuItem(MenuItem menuItem){
+
+        public static void addMenuItem(MenuItem menuItem) {
             QuerySender.SingleValue.insertMenuItem(menuItem);
         }
-        public static void addIngredient(Ingredient ingredient){
+
+        public static void addIngredient(Ingredient ingredient) {
             QuerySender.SingleValue.insertIngredient(ingredient);
         }
     }

@@ -1,5 +1,5 @@
 package objects;
-import java.sql.Date;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Order {
@@ -7,9 +7,18 @@ public class Order {
     public float price;
     public int orderID;
     public int clientID;
+    /**
+     * Not necessary from user. -1 means it was not sent yet
+     */
     public int courierID;
+    /**
+     * Not necessary from user
+     */
     public Status status;
-    public Date orderDate;
+    /**
+     * Not necessary from user
+     */
+    public Timestamp orderTimestamp;
 
     public enum Status {
         ORDER_SENT,
@@ -24,13 +33,13 @@ public class Order {
     }
 
     public Order(ArrayList<MenuItem> menuItems, float price, int orderID, int clientID, int courierID,
-            Status status, Date orderDate) {
+            Status status, Timestamp orderTimestamp) {
         this.menuItems = menuItems;
         this.price = price;
         this.orderID = orderID;
         this.clientID = clientID;
         this.courierID = courierID;
-        this.orderDate = orderDate;
+        this.orderTimestamp = orderTimestamp;
         this.status = Status.ORDER_SENT;// is it right to assume that on order creation it is already sent to the
                                         // kitchen, which is represented by ORDER_SENT
     }
