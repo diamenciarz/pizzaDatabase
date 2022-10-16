@@ -1,4 +1,3 @@
-import java.sql.*;
 import java.util.ArrayList;
 
 import objects.*;
@@ -7,11 +6,12 @@ public class App {
     public static void main(String[] args) throws Exception {
         Startup.startup();
 
-        // ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
-        // for (int i = 0; i < TMP.size(); i++) {
-        //     System.out.println(TMP.get(i).menuItemID + " " + TMP.get(i).name + " " + TMP.get(i).price);
-        // }
-
+        // Server.UserMethods.getPizzaCount(1);
+        ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
+        for (int i = 0; i < TMP.size(); i++) {
+            System.out.println(TMP.get(i).menuItemID + " " + TMP.get(i).name + " " + TMP.get(i).price + " " + TMP.get(i).isVegetarian);
+        }
+        
     }
 
     // Getters

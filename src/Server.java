@@ -20,6 +20,7 @@ public class Server {
         public static Order getOrderInfo(int orderID) {
             return QuerySender.SingleValue.selectOrder(orderID);
         }
+        // TODO: handle codes
 
         /**
          * @param orderID
@@ -34,11 +35,8 @@ public class Server {
             return false;
         }
 
-        public int getPizzaCount(int clientID) throws ConnectException {
-            int pizzaCount = ResultSetReader.readInt(DatabaseNames.Client.pizzaCount,
-                    QuerySender.filter(DatabaseNames.Client.pizzaCount, DatabaseNames.Tables.clients,
-                            DatabaseNames.Client.clientID, Integer.toString(clientID)));
-            return pizzaCount;
+        public static int getPizzaCount(int clientID) {
+            return QuerySender.SingleValue.getPizzaCount(clientID);
         }
 
         public static void addClient(Client client) {

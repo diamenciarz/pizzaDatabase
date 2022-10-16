@@ -187,6 +187,10 @@ public class UnpackObj {
 
             return new Courier(id, postCode, isAvailable);
         }
+
+        public static int unpackPizzaCount(ResultSet resultSet) {
+            return ResultSetReader.readInt(DatabaseNames.Client.pizzaCount, resultSet);
+        }
     }
 
 }

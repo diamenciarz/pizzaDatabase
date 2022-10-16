@@ -17,8 +17,7 @@ public class MenuItem {
         this.name = name;
         this.price = price;
         this.ingredients = ingredients;
-        setIsVegetarian();
-
+        this.isVegetarian = isVegetarian;
     }
 
     void setIsVegetarian() {
