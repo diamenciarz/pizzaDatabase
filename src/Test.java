@@ -40,7 +40,6 @@ public class Test {
                     handleSQLException(ex);
 
                } catch (ConnectException e) {
-                    // TODO: handle exception
                }
                System.out.println("Coult not connect");
           }

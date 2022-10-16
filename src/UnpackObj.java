@@ -111,7 +111,7 @@ public class UnpackObj {
             Integer iDs;
             String postCodes;
             Boolean areAvailable;
-            ArrayList<Courier> ingredients = new ArrayList<>();
+            ArrayList<Courier> couriers = new ArrayList<>();
 
             try {
                 while (resultSet.next()) {
@@ -119,14 +119,14 @@ public class UnpackObj {
                     postCodes = ResultSetReader.readString(DatabaseNames.Courier.postCode, resultSet);
                     areAvailable = ResultSetReader.readBoolean(DatabaseNames.Courier.isAvailable,
                             resultSet);
-                    ingredients.add(new Courier(iDs, postCodes, areAvailable));
+                    couriers.add(new Courier(iDs, postCodes, areAvailable));
 
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
                 System.out.println("Ingredients failed to unpack");
             }
-            return ingredients;
+            return couriers;
         }
     }
 

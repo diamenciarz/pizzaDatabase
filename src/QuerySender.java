@@ -183,6 +183,19 @@ public class QuerySender {
                 return new ArrayList<Order>();
             }
         }
+
+        public static ArrayList<Courier> selectCouriersWithCode(String code) {
+            try {
+                ResultSet resultSet = filter("*", DatabaseNames.Tables.couriers,
+                        DatabaseNames.Courier.postCode, code);
+                return UnpackObj.List.unpackCouriers(resultSet);
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("MenuItem list selection failed");
+                return new ArrayList<Courier>();
+            }
+        }
     }
 
     public static class SingleValue {
@@ -336,6 +349,11 @@ public class QuerySender {
                 return 0;
             }
         }
+
+        public static Courier findCourierForOrder(int orderId) {
+            Order order = QuerySender.SingleValue.selectOrder(orderId);
+            return QuerySender.SingleValue.selectCourier(order.courierID);
+        }
         // endregion
 
         // region Calculate
@@ -347,7 +365,7 @@ public class QuerySender {
             for (Ingredient ingredient : ingredients) {
                 totalPrice += ingredient.price;
             }
-            return totalPrice;
+            return totalPrice * Server.AdminMethods.RESTAURANT_MARGIN;
         }
 
         public static boolean calculateMenuItemIsVegetarian(int menuItemId) {
@@ -380,7 +398,7 @@ public class QuerySender {
         public static void insertOrder(Order order) {
             Timestamp date = new Timestamp(System.currentTimeMillis());
             int status = HelperMethods.translateFromStatus(Status.ORDER_SENT);
-            
+
             String[] names = { DatabaseNames.Order.courierID, DatabaseNames.Order.orderDate, DatabaseNames.Order.price,
                     DatabaseNames.Order.orderStatus, DatabaseNames.Order.clientID };
             String[] values = { Integer.toString(-1), date.toString(), Float.toString(order.price),
@@ -446,7 +464,7 @@ public class QuerySender {
             String[] names = { DatabaseNames.Client.clientName,
                     DatabaseNames.Client.phoneNumber, DatabaseNames.Client.address, DatabaseNames.Client.pizzaCount };
             String[] values = { client.name,
-                    Integer.toString(client.phoneNumber), client.adress, "0" };
+                    Integer.toString(client.phoneNumber), client.postCode, "0" };
 
             try {
                 insert(DatabaseNames.Tables.clients, names, values);
@@ -468,6 +486,19 @@ public class QuerySender {
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("Courier insertion failed");
+            }
+        }
+
+        public static void insertCode(int cliendId, String code) {
+            String[] names = { DatabaseNames.Code.clientID, DatabaseNames.Code.discountCode,
+                    DatabaseNames.Code.isUsed };
+            String[] values = { Integer.toString(cliendId), code, "0" };
+
+            try {
+                insert(DatabaseNames.Tables.codes, names, values);
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Code insertion failed");
             }
         }
         // endregion
@@ -495,6 +526,20 @@ public class QuerySender {
             try {
                 update(DatabaseNames.Tables.couriers, names, values, DatabaseNames.Courier.courierID,
                         Integer.toString(courierId));
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Courier availability update failed");
+            }
+        }
+
+        public static void updateOrderCourier(Order order, int courierId) {
+            String[] names = { DatabaseNames.Order.courierID };
+            String[] values = { Integer.toString(courierId) };
+
+            try {
+                update(DatabaseNames.Tables.orders, names, values, DatabaseNames.Order.orderID,
+                        Integer.toString(order.orderID));
 
             } catch (ConnectException e) {
                 e.printStackTrace();
@@ -538,6 +583,42 @@ public class QuerySender {
                 update(DatabaseNames.Tables.menuItems, names, values, DatabaseNames.MenuItem.menuItemID,
                         Integer.toString(menuItemId));
 
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Menu item isVegetarian update failed");
+            }
+        }
+
+        public static void updateCodeAsUsed(String code) {
+            String[] names = { DatabaseNames.Code.isUsed };
+            String[] values = { HelperMethods.parseBoolean(true) };
+
+            try {
+                update(DatabaseNames.Tables.codes, names, values, DatabaseNames.Code.discountCode, code);
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Menu item isVegetarian update failed");
+            }
+        }
+
+        public static void addPizzaCount(Order order) {
+            Client client = QuerySender.SingleValue.selectClient(order.clientID);
+            int newCount = client.pizzaCount + order.menuItems.size();
+            int newCodes = newCount / 10;
+            // Prevent overflow
+            newCount -= 10 * newCodes;
+
+            String[] names = { DatabaseNames.Client.pizzaCount };
+            String[] values = { Integer.toString(newCount) };
+
+            try {
+                update(DatabaseNames.Tables.clients, names, values, DatabaseNames.Client.clientID,
+                        Integer.toString(order.clientID));
+
+                for (int i = 0; i < newCodes; i++) {
+                    insertCode(order.clientID, HelperMethods.generateCode());
+                }
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("Menu item isVegetarian update failed");

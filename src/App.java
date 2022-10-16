@@ -19,7 +19,7 @@ public class App {
         ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
 
         Order order = new Order();
-        order.clientID = 1;
+        order.clientID = 2;
         order.price = 10;
 
         ArrayList<MenuItem> menuItems = new ArrayList<>();

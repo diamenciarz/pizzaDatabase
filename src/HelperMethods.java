@@ -1,7 +1,7 @@
 import objects.*;
 import objects.Order.Status;
-
 import java.sql.*;
+import java.util.ArrayList;
 
 public class HelperMethods {
     public static String parseBoolean(boolean bool) {
@@ -9,6 +9,16 @@ public class HelperMethods {
             return "1";
         }
         return "0";
+    }
+
+    public static Courier findAvailableCourier(Order order) {
+        Client client = QuerySender.SingleValue.selectClient(order.clientID);
+        ArrayList<Courier> couriers = QuerySender.List.selectCouriersWithCode(client.postCode);
+        
+        if (couriers.size() == 0) {
+            return null;
+        }
+        return couriers.get(0);
     }
 
     public static boolean isOrderBeingPrepared(Order order) {

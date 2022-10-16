@@ -20,6 +20,7 @@ public class Order {
      * Not necessary from user
      */
     public Timestamp orderTimestamp;
+    public String code;
 
     public enum Status {
         ORDER_SENT,

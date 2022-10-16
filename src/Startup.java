@@ -31,8 +31,8 @@ public class Startup {
             statement.execute("INSERT INTO Couriers (PostCode, IsAvailable) VALUES ('3620', True);");
             statement.execute("INSERT INTO Couriers (PostCode, IsAvailable) VALUES ('3621', True);");
             
-            statement.execute("INSERT INTO Clients (Name, PhoneNumber, Address, PizzaCount) VALUES ('bruh',666,'da moon',4);");
-            statement.execute("INSERT INTO Clients (Name, PhoneNumber, Address, PizzaCount) VALUES ('bruh',999,'da moon',9);");
+            statement.execute("INSERT INTO Clients (Name, PhoneNumber, Address, PizzaCount) VALUES ('bruh',666,'3620',4);");
+            statement.execute("INSERT INTO Clients (Name, PhoneNumber, Address, PizzaCount) VALUES ('bruh',999,'3621',9);");
             
             //Ingredients
             statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('cheese',0.7, True);");

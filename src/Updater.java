@@ -33,7 +33,12 @@ public class Updater {
         }
         if (HelperMethods.isOrderDelivered(order)) {
             QuerySender.SingleValue.updateOrderState(order.orderID, Order.Status.DELIVERED);
+            Courier courier = QuerySender.SingleValue.findCourierForOrder(order.orderID);
             System.out.println("Delivered: " + order.orderID);
+
+            QuerySender.SingleValue.addPizzaCount(order);
+            QuerySender.SingleValue.updateCourierAvailability(courier.Courier_ID, true);
+                QuerySender.SingleValue.updateOrderCourier(order, -1);
             return true;
         }
         return false;
@@ -44,9 +49,16 @@ public class Updater {
             return true;
         }
         if (HelperMethods.isOrderFinished(order)) {
-            QuerySender.SingleValue.updateOrderState(order.orderID, Order.Status.DELIVERING);
-            System.out.println("Delivering: " + order.orderID);
-            return true;
+
+            Courier availableCourier = HelperMethods.findAvailableCourier(order);
+            if (availableCourier != null) {
+                QuerySender.SingleValue.updateOrderState(order.orderID, Order.Status.DELIVERING);
+                System.out.println("Delivering: " + order.orderID);
+
+                QuerySender.SingleValue.updateCourierAvailability(availableCourier.Courier_ID, false);
+                QuerySender.SingleValue.updateOrderCourier(order, availableCourier.Courier_ID);
+                return true;
+            }
         }
         return false;
     }
