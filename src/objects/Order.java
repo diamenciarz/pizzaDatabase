@@ -15,6 +15,7 @@ public class Order {
      * Not necessary from user
      */
     public Status status;
+    //enum('ORDER_SENT','PREPARING','DELIVERING','DELIVERED','CANCELLED')
     /**
      * Not necessary from user
      */
@@ -40,7 +41,7 @@ public class Order {
         this.clientID = clientID;
         this.courierID = courierID;
         this.orderTimestamp = orderTimestamp;
-        this.status = Status.ORDER_SENT;// is it right to assume that on order creation it is already sent to the
+        this.status = status;// is it right to assume that on order creation it is already sent to the
                                         // kitchen, which is represented by ORDER_SENT
     }
 }

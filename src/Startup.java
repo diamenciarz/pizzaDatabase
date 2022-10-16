@@ -1,8 +1,7 @@
-import java.net.ConnectException;
 import java.sql.*;
 
 public class Startup {
-    public static void startup() throws ConnectException {
+    public static void startup() {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
 
@@ -19,10 +18,10 @@ public class Startup {
             statement.execute(
                     "CREATE TABLE MenuItems(MenuItemID int NOT NULL AUTO_INCREMENT,Name varchar(20),Price FLOAT, IsVegetarian boolean, PRIMARY KEY (MenuItemID));");
             statement.execute(
-                    "CREATE TABLE Orders(OrderID int NOT NULL AUTO_INCREMENT, ClientID int, CourierID int, OrderStatus enum('ORDER_SENT','PREPARING','DELIVERING','DELIVERED','CANCELLED'),OrderDate timestamp,Price int, PRIMARY KEY (OrderID));");
+                    "CREATE TABLE Orders(OrderID int NOT NULL AUTO_INCREMENT, ClientID int, CourierID int, OrderStatus INT,OrderDate timestamp,Price int, PRIMARY KEY (OrderID));");
             statement.execute(
                     "CREATE TABLE Clients(ClientID int NOT NULL AUTO_INCREMENT, Name varchar(20), PhoneNumber int, Address varchar(20), PizzaCount int, PRIMARY KEY (ClientID));");
-            statement.execute("CREATE TABLE Codes(ClientID int,DiscountCode varchar(5),IsUsed boolean);");
+            statement.execute("CREATE TABLE Codes(ClientID int,DiscountCode varchar(20),IsUsed boolean);");
             statement.execute("CREATE TABLE Couriers(CourierID int NOT NULL AUTO_INCREMENT,PostCode varchar(7),IsAvailable boolean, PRIMARY KEY (CourierID));");
             statement.execute("CREATE TABLE FoodIngredients(MenuItemID int, IngredientID int);");
             statement.execute("CREATE TABLE OrderItems(OrderID int, MenuItemID int);");
@@ -170,11 +169,10 @@ public class Startup {
         }
     }
 
-    private static void handleSQLException(SQLException ex) throws ConnectException {
+    private static void handleSQLException(SQLException ex) {
         // handle any errors
         System.out.println("SQLException: " + ex.getMessage());
         System.out.println("SQLState: " + ex.getSQLState());
         System.out.println("VendorError: " + ex.getErrorCode());
-        throw new ConnectException("Connection with the database couldn't be established");
     }
 }

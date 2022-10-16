@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import objects.*;
+import objects.Order.Status;
 
 public class QuerySender {
 
@@ -245,7 +246,8 @@ public class QuerySender {
 
                 String status = order.status.toString();
                 String isPossible = "";
-                if (!HelperMethods.isCancelPossible(order)) {
+                boolean isCancelPossible = HelperMethods.isOrderBeingPrepared(order);
+                if (!isCancelPossible) {
                     isPossible = "not";
                 }
 
@@ -377,10 +379,12 @@ public class QuerySender {
 
         public static void insertOrder(Order order) {
             Timestamp date = new Timestamp(System.currentTimeMillis());
+            int status = HelperMethods.translateFromStatus(Status.ORDER_SENT);
+            
             String[] names = { DatabaseNames.Order.courierID, DatabaseNames.Order.orderDate, DatabaseNames.Order.price,
                     DatabaseNames.Order.orderStatus, DatabaseNames.Order.clientID };
             String[] values = { Integer.toString(-1), date.toString(), Float.toString(order.price),
-                    Order.Status.ORDER_SENT.toString(), Integer.toString(order.clientID) };
+                    Integer.toString(status), Integer.toString(order.clientID) };
 
             try {
                 insert(DatabaseNames.Tables.orders, names, values);
@@ -500,7 +504,7 @@ public class QuerySender {
 
         public static void updateOrderState(int orderId, Order.Status status) {
             String[] names = { DatabaseNames.Order.orderStatus };
-            String[] values = { status.toString() };
+            String[] values = { Integer.toString(HelperMethods.translateFromStatus(status)) };
 
             try {
                 update(DatabaseNames.Tables.orders, names, values, DatabaseNames.Order.orderID,

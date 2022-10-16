@@ -9,6 +9,8 @@ public class UnpackObj {
             Integer clientIDs;
             Integer courierIDs;
             Float prices;
+            int status;
+            Timestamp timestamp;
 
             ArrayList<Order> orders = new ArrayList<>();
             try {
@@ -18,10 +20,10 @@ public class UnpackObj {
                     clientIDs = ResultSetReader.readInt(DatabaseNames.Order.clientID, resultSet);
                     courierIDs = ResultSetReader.readInt(DatabaseNames.Order.courierID, resultSet);
                     prices = ResultSetReader.readFloat(DatabaseNames.Order.price, resultSet);
-                    // TODO: Add date
-                    // TODO: Add orderStatus
+                    timestamp = ResultSetReader.readTimestamp(DatabaseNames.Order.orderDate, resultSet);
+                    status = ResultSetReader.readInt(DatabaseNames.Order.orderStatus, resultSet);
                     orders.add(new Order(menuItems, prices, iDs, clientIDs, courierIDs,
-                            Order.Status.ORDER_SENT, null));
+                            HelperMethods.translateToStatus(status), timestamp));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -137,10 +139,11 @@ public class UnpackObj {
                 Integer courierID = ResultSetReader.readInt(DatabaseNames.Order.courierID, resultSet);
                 Float price = ResultSetReader.readFloat(DatabaseNames.Order.price, resultSet);
                 Timestamp timestamp = ResultSetReader.readTimestamp(DatabaseNames.Order.orderDate, resultSet);
+                int status = ResultSetReader.readInt(DatabaseNames.Order.orderStatus, resultSet);
                 ArrayList<MenuItem> menuItems = QuerySender.List.selectMenuItemsBelongingTo(id);
 
-                // TODO: read date
-                return new Order(menuItems, price, id, clientID, courierID, Order.Status.ORDER_SENT, timestamp);
+                return new Order(menuItems, price, id, clientID, courierID, HelperMethods.translateToStatus(status),
+                        timestamp);
             } catch (SQLException e) {
                 return null;
             }

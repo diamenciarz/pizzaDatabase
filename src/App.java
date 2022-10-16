@@ -1,20 +1,21 @@
 import java.util.ArrayList;
 import java.sql.*;
-
 import objects.*;
 
 public class App {
-    public static void main(String[] args) throws Exception {
-        Startup.startup();
+    public static void main(String[] args) {
+        // Startup.startup();
 
-        // placeOrder();
+        placeOrder();
         // cancelOrder();
 
+        ArrayList<Order> currentOrders = QuerySender.List.selectCurrentOrders();
+        System.out.println(currentOrders.get(0).price);
         // int pizzaCount = Server.UserMethods.getPizzaCount(1);
         // System.out.println("Pizza count: " + pizzaCount);
     }
 
-    private static void placeOrder() {
+    public static void placeOrder() {
         ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
 
         Order order = new Order();

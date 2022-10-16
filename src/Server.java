@@ -30,7 +30,8 @@ public class Server {
         public static boolean cancelOrder(int orderID, int clientID) {
             Order order = QuerySender.SingleValue.selectOrder(orderID);
             if (clientID == order.clientID) {
-                if (HelperMethods.isCancelPossible(order)) {
+                boolean isCancelPossible = !HelperMethods.isOrderBeingPrepared(order);
+                if (isCancelPossible) {
                     System.out.println("Cancel succeeded");
                     return QuerySender.SingleValue.deleteOrder(orderID);
                 }
