@@ -7,6 +7,7 @@ import de.lessvoid.nifty.Nifty;
 public class Launch extends SimpleApplication{
     private NiftyJmeDisplay niftyDisplay;
     private static Nifty nifty;
+    public static  String UserID;
     public static final StartScreen startScreen = new StartScreen();
     public static final SecondScreen secondScreen = new SecondScreen();
     public static final PlaceOrder orderScreen = new PlaceOrder();

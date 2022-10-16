@@ -2,6 +2,8 @@ import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.asset.AssetManager;
 import com.jme3.niftygui.NiftyJmeDisplay;
+
+import objects.Client;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.builder.LayerBuilder;
 import de.lessvoid.nifty.builder.PanelBuilder;
@@ -17,6 +19,10 @@ public class UserData extends BaseAppState implements ScreenController{
     private AssetManager assetManager;
     private Nifty nifty;
  
+    public String name;
+    public int phoneNumber;
+    public String adress;
+    public int pizzaCount;
 
     @Override
     public void bind(Nifty arg0, Screen arg1) {
@@ -90,7 +96,7 @@ public class UserData extends BaseAppState implements ScreenController{
                        height("15%");
                         font("Interface/Fonts/Default.fnt");
                          color("#000000");
-                         text("User ID:");
+                         text("User ID:"+ getClientDetails() );
                          alignLeft();
                          valignCenter();
                      }});
@@ -145,14 +151,7 @@ public class UserData extends BaseAppState implements ScreenController{
                     width("15%");
                     interactOnClick("goBack()");
                 }});
-                control(new ButtonBuilder("Button_15", "XD?"){{
-                   
-                    alignLeft();
-                    valignCenter();
-                    height("50%");
-                    width("30%");
-                   // interactOnClick("goBack()");
-                }});
+             
                 }});
                 //</panel>
               }});
@@ -170,5 +169,18 @@ public class UserData extends BaseAppState implements ScreenController{
    
 public String text(){
     return "big man";
+}
+//selectDiscountCodes
+//selectOrdersBelongingTo
+
+public String getClientDetails(){
+    int t= Integer.valueOf(Launch.UserID);
+    Client client= QuerySender.SingleValue.selectClient(t);
+    name= client.name;
+    phoneNumber=client.phoneNumber;
+    adress=client.adress;
+    pizzaCount=client.pizzaCount;
+    return Launch.UserID;
+
 }
 }

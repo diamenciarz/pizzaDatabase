@@ -7,6 +7,7 @@ import de.lessvoid.nifty.builder.LayerBuilder;
 import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
 import de.lessvoid.nifty.builder.TextBuilder;
+import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
 import de.lessvoid.nifty.controls.textfield.builder.TextFieldBuilder;
 import de.lessvoid.nifty.screen.Screen;
@@ -56,21 +57,14 @@ public class StartScreen extends BaseAppState implements ScreenController {
                    height("50%");
                    font("Interface/Fonts/Default.fnt");
                     color("#000000");
-                    text("Please enter Login details");
+                    text("Please enter your User ID");
                     alignCenter();
                     valignCenter();
                 }});
-                control(new TextFieldBuilder("input_Name", "Username") {{
+                control(new TextFieldBuilder("UserID", "") {{
                     alignCenter();
                     valignCenter();
                     width("200px");
-                }});
-                control(new TextFieldBuilder("input_password", "Password") {{
-                    alignCenter();
-                    valignCenter();
-                    width("200px");
-                   marginTop("10px");
-                   marginBottom("10px");
                 }});
                   
                  control(new ButtonBuilder("Button_0", "Login"){{
@@ -93,7 +87,7 @@ public class StartScreen extends BaseAppState implements ScreenController {
 
         nifty.gotoScreen("Screen_0"); // start the screen
     }
-
+   
     @Override
     protected void onDisable() {
     }
@@ -120,8 +114,16 @@ public class StartScreen extends BaseAppState implements ScreenController {
     }
     //-----
     public void goToSecondScreen(){
-        getStateManager().detach(this);
-       getStateManager().attach(Launch.secondScreen);
+        Launch.UserID=nifty.getCurrentScreen().findNiftyControl("UserID", TextField.class).getRealText();
+        try {
+           int t= Integer.valueOf(Launch.UserID);
+            getStateManager().detach(this);
+            getStateManager().attach(Launch.secondScreen);
+        } catch (Exception e) {
+            System.out.println("Please only enter numbers");
+        }
+       
     }
+
 
 }
