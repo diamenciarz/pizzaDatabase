@@ -28,27 +28,116 @@ public class Startup {
             statement.execute("CREATE TABLE OrderItems(OrderID int, MenuItemID int);");
 
             // Fill tables with examples
-            statement.execute("INSERT INTO Clients (Name, PhoneNumber, Address, PizzaCount) VALUES ('bruh',666,'da moon',4);");
-            statement.execute("INSERT INTO Clients (Name, PhoneNumber, Address, PizzaCount) VALUES ('bruh',999,'da moon',9);");
-            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('piza',14.7, 0);");
-            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('pizza',16.7, 0);");
-            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('fake pizza',1.7, 0);");
-            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('ham',9.7, 0);");
-            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('pork',91.7, 1);");
+            
             statement.execute("INSERT INTO Couriers (PostCode, IsAvailable) VALUES ('3620', True);");
             statement.execute("INSERT INTO Couriers (PostCode, IsAvailable) VALUES ('3621', True);");
             
-            statement.execute("INSERT INTO OrderItems VALUES (1, 0);");
-            statement.execute("INSERT INTO OrderItems VALUES (2, 1);");
+            statement.execute("INSERT INTO Clients (Name, PhoneNumber, Address, PizzaCount) VALUES ('bruh',666,'da moon',4);");
+            statement.execute("INSERT INTO Clients (Name, PhoneNumber, Address, PizzaCount) VALUES ('bruh',999,'da moon',9);");
+            
+            //Ingredients
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('cheese',0.7, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('dough',1.7, True); ");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('pizza sauce',0.1, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('pineapples',0.8, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('ham',0.5, False);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('shrimp',1.3, False);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('olives',0.2, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('bell pepper',0.2, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('tofu',2, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('champignons ',0.9, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('tomatoes',0.4, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('Prosciutto',2.5, False);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('mozzarella',1.1, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('basil',2.5, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('San Marzano tomatoes',5.5, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('BBQ sauce',0.6, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('onion',0.1, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('anchovies',2.5, False);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('capers',1.2, True);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('peperoni',0.7, False);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('chicken',1.4, False);");
+            statement.execute("INSERT INTO Ingredients (Name, Price, IsVegetarian) VALUES ('artichocke',2.5, True);");
+
+            //Pizzas
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Hawaiian pizza',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Vegetarian pizza',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Pizza Prosciutto',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Pizza Margherita',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('BBQ chicken pizza',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Pizza Neapolitan',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Cheese pizza',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Pizza peperoni',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Pizza capricciosa',0 ,False );");
+            statement.execute("INSERT INTO Menuitems (Name, Price, IsVegetarian) VALUES ('Stan&Martins pizza',0 ,False );");
+            //matching ingredients to pizza
             statement.execute("INSERT INTO FoodIngredients  VALUES (1, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (1, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (1, 3);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (1, 4);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (1, 6);");
+
+            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 1);");
             statement.execute("INSERT INTO FoodIngredients  VALUES (2, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 3);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 7);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 8);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 9);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 10);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (2, 11);");
+
             statement.execute("INSERT INTO FoodIngredients  VALUES (3, 1);");
             statement.execute("INSERT INTO FoodIngredients  VALUES (3, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (3, 3);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (3, 12);");
+
             
+            statement.execute("INSERT INTO FoodIngredients  VALUES (4, 13);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (4, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (4, 3);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (4, 14);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (4, 15);");
+
+            statement.execute("INSERT INTO FoodIngredients  VALUES (5, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (5, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (5, 3);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (5, 16);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (5, 17);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (5, 21);");
+
+            statement.execute("INSERT INTO FoodIngredients  VALUES (6, 13);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (6, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (6, 3);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (6, 19);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (6, 18);");
             
-            // statement.execute("UPDATE MenuItems SET IsVegetarian = '1' WHERE MenuItemID = 2;");
-            // statement.execute("UPDATE MenuItems SET Price = '1000' WHERE MenuItemID = 1;");
-            QuerySender.SingleValue.recalculateMenuItems();
+            statement.execute("INSERT INTO FoodIngredients  VALUES (7, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (7, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (7, 3);");
+
+            statement.execute("INSERT INTO FoodIngredients  VALUES (8, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (8, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (8, 3);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (8, 21);");
+            
+            statement.execute("INSERT INTO FoodIngredients  VALUES (9, 13);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (9, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (9, 3);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (9, 5);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (9, 7);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (9, 10);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (9, 22);");
+
+            statement.execute("INSERT INTO FoodIngredients  VALUES (10, 1);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (10, 2);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (10, 3);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (10, 4);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (10, 4);");
+            statement.execute("INSERT INTO FoodIngredients  VALUES (10, 4);");
+
+
+            Server.AdminMethods.recalculateMenuItems();
+            
             // close statement
             statement.close();
 
