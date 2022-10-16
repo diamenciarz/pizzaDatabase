@@ -1,16 +1,25 @@
 import java.sql.*;
 import java.util.ArrayList;
 
+import com.jme3.app.SimpleApplication;
+import com.jme3.niftygui.NiftyJmeDisplay;
+import de.lessvoid.nifty.Nifty;
 import objects.*;
 
-public class App {
+public class App extends SimpleApplication {
+    private NiftyJmeDisplay niftyDisplay;
+    private static Nifty nifty;
+    //private static StartScreen startScreen;
     public static void main(String[] args) throws Exception {
         Startup.startup();
+       System.out.println("L");
+        
 
-        // ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
-        // for (int i = 0; i < TMP.size(); i++) {
-        //     System.out.println(TMP.get(i).menuItemID + " " + TMP.get(i).name + " " + TMP.get(i).price);
-        // }
+        ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
+        for (int i = 0; i < TMP.size(); i++) {
+            System.out.println(TMP.get(i).menuItemID + " " + TMP.get(i).name + " " + TMP.get(i).price);
+        }
+        System.out.println("ALl done!");
 
     }
 
@@ -49,5 +58,24 @@ public class App {
 
     private static void cancelOrder() {
 
+    }
+
+    @Override
+    public void simpleInitApp() {
+        initNifty();
+      //  getStateManager().attach(new StartScreen());
+        
+        
+    }
+    private void initNifty() {
+        niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(
+                this.getAssetManager(),
+                this.getInputManager(),
+                this.getAudioRenderer(),
+                this.getGuiViewPort());
+
+        nifty = niftyDisplay.getNifty();
+        this.getGuiViewPort().addProcessor(niftyDisplay);
+        this.getFlyByCamera().setDragToRotate(true);
     }
 }
