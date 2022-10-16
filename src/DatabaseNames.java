@@ -57,12 +57,11 @@ public class DatabaseNames {
     }
     public static class MenuItemIngredient {
         public static String menuItemID = "MenuItemID";
-        public static String postCode = "IngredientID";
+        public static String ingredientID = "IngredientID";
     }
     public static class OrderItems {
-        public static String courierID = "CourierID";
-        public static String postCode = "PostCode";
-        public static String isAvailable = "IsAvailable";
+        public static String orderID = "OrderID";
+        public static String menuItemID = "MenuItemID";
     }
 
 }

@@ -59,7 +59,7 @@ public class SecondScreen extends BaseAppState implements ScreenController {
                 childLayoutVertical(); // layer properties, add more...
                
                 backgroundColor("#FFFFFF");
-                                                                                             nifty.setDebugOptionPanelColors(true);
+                                                                                             //nifty.setDebugOptionPanelColors(true);
                 // <panel>
                 panel(new PanelBuilder("Panel_1") {{
                     width("100%");

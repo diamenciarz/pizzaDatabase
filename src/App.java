@@ -1,37 +1,48 @@
-import java.sql.*;
 import java.util.ArrayList;
-
-import com.jme3.app.SimpleApplication;
-import com.jme3.niftygui.NiftyJmeDisplay;
-import de.lessvoid.nifty.Nifty;
+import java.sql.*;
 import objects.*;
 
-public class App extends SimpleApplication {
-    private NiftyJmeDisplay niftyDisplay;
-    private static Nifty nifty;
-    //private static StartScreen startScreen;
-    public static void main(String[] args) throws Exception {
-        Startup.startup();
-       System.out.println("L");
-        
+public class App {
+    public static void main(String[] args) {
+        // Startup.startup();
 
+        placeOrder();
+        // cancelOrder();
+
+        ArrayList<Order> currentOrders = QuerySender.List.selectCurrentOrders();
+        System.out.println(currentOrders.get(0).price);
+        // int pizzaCount = Server.UserMethods.getPizzaCount(1);
+        // System.out.println("Pizza count: " + pizzaCount);
+    }
+
+    public static void placeOrder() {
         ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
-        for (int i = 0; i < TMP.size(); i++) {
-            System.out.println(TMP.get(i).menuItemID + " " + TMP.get(i).name + " " + TMP.get(i).price);
-        }
-        System.out.println("ALl done!");
 
+        Order order = new Order();
+        order.clientID = 1;
+        order.price = 10;
+
+        ArrayList<MenuItem> menuItems = new ArrayList<>();
+        menuItems.add(TMP.get(0));
+        menuItems.add(TMP.get(1));
+        order.menuItems = menuItems;
+
+        Server.UserMethods.placeOrder(order);
+    }
+
+    private static void cancelOrder() {
+        Server.UserMethods.cancelOrder(1, 1);
     }
 
     // Getters
     public void DispalyOrderInfo(int order_ID) {
-        Order order = Server.UserMethods.getOrderInfo(order_ID);
+        Order order = Server.UserMethods.getOrder(order_ID);
         System.out.println("Client_ID " + order.clientID);
         System.out.println("Courier_ID " + order.courierID);
         System.out.println("Order_ID " + order.orderID);
         System.out.println("price " + order.price + "Eur");
         System.out.println("Your order " + order.menuItems);
-        System.out.println("Order Date " + order.orderDate);
+        System.out.println("Order Date " + order.orderTimestamp);
         System.out.println("Order status" + order.status);
     }
 
@@ -49,33 +60,5 @@ public class App extends SimpleApplication {
         // To finish call "send"
 
         // User says "addItem 2"
-    }
-
-    // Mutators
-    private static void placeOrder() {
-        // Server.placeOrder(null, null);
-    }
-
-    private static void cancelOrder() {
-
-    }
-
-    @Override
-    public void simpleInitApp() {
-        initNifty();
-      //  getStateManager().attach(new StartScreen());
-        
-        
-    }
-    private void initNifty() {
-        niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(
-                this.getAssetManager(),
-                this.getInputManager(),
-                this.getAudioRenderer(),
-                this.getGuiViewPort());
-
-        nifty = niftyDisplay.getNifty();
-        this.getGuiViewPort().addProcessor(niftyDisplay);
-        this.getFlyByCamera().setDragToRotate(true);
     }
 }

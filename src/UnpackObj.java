@@ -1,6 +1,4 @@
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import objects.*;
 
@@ -11,6 +9,8 @@ public class UnpackObj {
             Integer clientIDs;
             Integer courierIDs;
             Float prices;
+            int status;
+            Timestamp timestamp;
 
             ArrayList<Order> orders = new ArrayList<>();
             try {
@@ -20,10 +20,10 @@ public class UnpackObj {
                     clientIDs = ResultSetReader.readInt(DatabaseNames.Order.clientID, resultSet);
                     courierIDs = ResultSetReader.readInt(DatabaseNames.Order.courierID, resultSet);
                     prices = ResultSetReader.readFloat(DatabaseNames.Order.price, resultSet);
-                    // TODO: Add date
-                    // TODO: Add orderStatus
+                    timestamp = ResultSetReader.readTimestamp(DatabaseNames.Order.orderDate, resultSet);
+                    status = ResultSetReader.readInt(DatabaseNames.Order.orderStatus, resultSet);
                     orders.add(new Order(menuItems, prices, iDs, clientIDs, courierIDs,
-                            Order.Status.ORDER_SENT, null));
+                            HelperMethods.translateToStatus(status), timestamp));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -132,60 +132,90 @@ public class UnpackObj {
 
     public static class SingleValue {
         public static Order unpackOrder(ResultSet resultSet) {
-            Integer id = ResultSetReader.readInt(DatabaseNames.Order.orderID, resultSet);
-            Integer clientID = ResultSetReader.readInt(DatabaseNames.Order.clientID, resultSet);
-            Integer courierID = ResultSetReader.readInt(DatabaseNames.Order.courierID, resultSet);
-            Float price = ResultSetReader.readFloat(DatabaseNames.Order.price, resultSet);
-            Date date = ResultSetReader.readDate(DatabaseNames.Order.orderDate, resultSet);
-            ArrayList<MenuItem> menuItems = QuerySender.List.selectMenuItemsBelongingTo(id);
+            try {
+                resultSet.next();
+                Integer id = ResultSetReader.readInt(DatabaseNames.Order.orderID, resultSet);
+                Integer clientID = ResultSetReader.readInt(DatabaseNames.Order.clientID, resultSet);
+                Integer courierID = ResultSetReader.readInt(DatabaseNames.Order.courierID, resultSet);
+                Float price = ResultSetReader.readFloat(DatabaseNames.Order.price, resultSet);
+                Timestamp timestamp = ResultSetReader.readTimestamp(DatabaseNames.Order.orderDate, resultSet);
+                int status = ResultSetReader.readInt(DatabaseNames.Order.orderStatus, resultSet);
+                ArrayList<MenuItem> menuItems = QuerySender.List.selectMenuItemsBelongingTo(id);
 
-            // TODO: read date
-            return new Order(menuItems, price, id, clientID, courierID, Order.Status.ORDER_SENT, date);
+                return new Order(menuItems, price, id, clientID, courierID, HelperMethods.translateToStatus(status),
+                        timestamp);
+            } catch (SQLException e) {
+                return null;
+            }
         }
 
         public static MenuItem unpackMenuItem(ResultSet resultSet) {
-            Integer id = ResultSetReader.readInt(DatabaseNames.MenuItem.menuItemID, resultSet);
-            String name = ResultSetReader.readString(DatabaseNames.MenuItem.foodName, resultSet);
-            Float price = ResultSetReader.readFloat(DatabaseNames.MenuItem.price, resultSet);
-            Boolean isVegetarian = ResultSetReader.readBoolean(DatabaseNames.MenuItem.isVegetarian,
-                    resultSet);
-            ArrayList<Ingredient> ingredients = QuerySender.List.selectIngredientsBelongingTo(id);
+            try {
+                resultSet.next();
+                Integer id = ResultSetReader.readInt(DatabaseNames.MenuItem.menuItemID, resultSet);
+                String name = ResultSetReader.readString(DatabaseNames.MenuItem.foodName, resultSet);
+                Float price = ResultSetReader.readFloat(DatabaseNames.MenuItem.price, resultSet);
+                Boolean isVegetarian = ResultSetReader.readBoolean(DatabaseNames.MenuItem.isVegetarian,
+                        resultSet);
+                ArrayList<Ingredient> ingredients = QuerySender.List.selectIngredientsBelongingTo(id);
 
-            return new MenuItem(id, name, price, isVegetarian, ingredients);
+                return new MenuItem(id, name, price, isVegetarian, ingredients);
+            } catch (SQLException e) {
+                return null;
+            }
         }
 
         public static Ingredient unpackIngredient(ResultSet resultSet) {
-            Integer id = ResultSetReader.readInt(DatabaseNames.Ingredient.ingredientID, resultSet);
-            String name = ResultSetReader.readString(DatabaseNames.Ingredient.ingredientName,
-                    resultSet);
-            Float price = ResultSetReader.readFloat(DatabaseNames.Ingredient.price, resultSet);
-            Boolean isVegetarian = ResultSetReader.readBoolean(DatabaseNames.Ingredient.isVegetarian,
-                    resultSet);
+            try {
+                resultSet.next();
+                Integer id = ResultSetReader.readInt(DatabaseNames.Ingredient.ingredientID, resultSet);
+                String name = ResultSetReader.readString(DatabaseNames.Ingredient.ingredientName,
+                        resultSet);
+                Float price = ResultSetReader.readFloat(DatabaseNames.Ingredient.price, resultSet);
+                Boolean isVegetarian = ResultSetReader.readBoolean(DatabaseNames.Ingredient.isVegetarian,
+                        resultSet);
 
-            return new Ingredient(id, name, price, isVegetarian);
+                return new Ingredient(id, name, price, isVegetarian);
+            } catch (SQLException e) {
+                return null;
+            }
         }
 
         public static Client unpackClient(ResultSet resultSet) {
-            Integer id = ResultSetReader.readInt(DatabaseNames.Client.clientID, resultSet);
-            String name = ResultSetReader.readString(DatabaseNames.Client.clientName,
-                    resultSet);
-            Integer phoneNumber = ResultSetReader.readInt(DatabaseNames.Client.phoneNumber,
-                    resultSet);
-            String address = ResultSetReader.readString(DatabaseNames.Client.address, resultSet);
-            Integer pizzaCount = ResultSetReader.readInt(DatabaseNames.Client.pizzaCount,
-                    resultSet);
+            try {
+                resultSet.next();
+                Integer id = ResultSetReader.readInt(DatabaseNames.Client.clientID, resultSet);
+                String name = ResultSetReader.readString(DatabaseNames.Client.clientName,
+                        resultSet);
+                Integer phoneNumber = ResultSetReader.readInt(DatabaseNames.Client.phoneNumber,
+                        resultSet);
+                String address = ResultSetReader.readString(DatabaseNames.Client.address, resultSet);
+                Integer pizzaCount = ResultSetReader.readInt(DatabaseNames.Client.pizzaCount,
+                        resultSet);
 
-            return new Client(id, name, phoneNumber, address, pizzaCount);
+                return new Client(id, name, phoneNumber, address, pizzaCount);
+            } catch (SQLException e) {
+                return null;
+            }
         }
 
         public static Courier unpackCourier(ResultSet resultSet) {
-            Integer id = ResultSetReader.readInt(DatabaseNames.Courier.courierID, resultSet);
-            String postCode = ResultSetReader.readString(DatabaseNames.Courier.postCode,
-                    resultSet);
-            Boolean isAvailable = ResultSetReader.readBoolean(DatabaseNames.Courier.isAvailable,
-                    resultSet);
+            try {
+                resultSet.next();
+                Integer id = ResultSetReader.readInt(DatabaseNames.Courier.courierID, resultSet);
+                String postCode = ResultSetReader.readString(DatabaseNames.Courier.postCode,
+                        resultSet);
+                Boolean isAvailable = ResultSetReader.readBoolean(DatabaseNames.Courier.isAvailable,
+                        resultSet);
 
-            return new Courier(id, postCode, isAvailable);
+                return new Courier(id, postCode, isAvailable);
+            } catch (SQLException e) {
+                return null;
+            }
+        }
+
+        public static int unpackPizzaCount(ResultSet resultSet) {
+            return ResultSetReader.readInt(DatabaseNames.Client.pizzaCount, resultSet);
         }
     }
 

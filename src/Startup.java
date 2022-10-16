@@ -159,7 +159,7 @@ public class Startup {
             statement.execute("INSERT INTO FoodIngredients  VALUES (17, 29);");
             statement.execute("INSERT INTO FoodIngredients  VALUES (18, 30);");
 
-           // Server.AdminMethods.recalculateMenuItems();
+           Server.AdminMethods.recalculateMenuItems();
             
             // close statement
             statement.close();

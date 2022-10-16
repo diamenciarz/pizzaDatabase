@@ -1,9 +1,11 @@
 import java.net.ConnectException;
 import java.sql.*;
+import java.sql.Timestamp;
 
 import java.util.ArrayList;
 
 import objects.*;
+import objects.Order.Status;
 
 public class QuerySender {
 
@@ -111,7 +113,6 @@ public class QuerySender {
         // ___________________________________________________________________________________
         public static ArrayList<Order> selectOrdersBelongingTo(int clientID) {
             try {
-                // TODO: fix the join query
                 ResultSet resultSet = filter("*", DatabaseNames.Tables.orders, DatabaseNames.Order.clientID,
                         Integer.toString(clientID));
                 return UnpackObj.List.unpackOrders(resultSet);
@@ -185,6 +186,7 @@ public class QuerySender {
     }
 
     public static class SingleValue {
+        // region select primitives
         public static String selectString(String selectColumn, String from) {
             try {
                 ResultSet resultSet = execute(selectColumn, from);
@@ -228,8 +230,9 @@ public class QuerySender {
                 return false;
             }
         }
+        // endregion
 
-        // Objects
+        // region select Objects
         // ___________________________________________________________________________________
         /**
          * @param orderID
@@ -241,14 +244,10 @@ public class QuerySender {
                         Integer.toString(orderId));
                 Order order = UnpackObj.SingleValue.unpackOrder(resultSet);
 
-                long orderDate = order.orderDate.getTime();
-                long dateNow = System.currentTimeMillis();
-                long delay = dateNow - orderDate;
-                final int MAX_DELAY = 300000;
-
                 String status = order.status.toString();
                 String isPossible = "";
-                if (delay > MAX_DELAY) {
+                boolean isCancelPossible = HelperMethods.isOrderBeingPrepared(order);
+                if (!isCancelPossible) {
                     isPossible = "not";
                 }
 
@@ -326,34 +325,102 @@ public class QuerySender {
             }
         }
 
-        // Insert
-        // ___________________________________________________________________________________
-        public static void insertOrder(Order order) {
-            String[] names = { DatabaseNames.Order.clientID,
-                    DatabaseNames.Order.courierID, DatabaseNames.Order.orderDate, DatabaseNames.Order.price,
-                    DatabaseNames.Order.orderStatus };
-            String[] values = { Integer.toString(order.clientID),
-                    Integer.toString(order.courierID), order.orderDate.toString(), Float.toString(order.price),
-                    order.status.toString() };
-
+        public static int getPizzaCount(int clientId) {
             try {
-                insert(DatabaseNames.Tables.ingredients, names, values);
-
+                ResultSet resultSet = QuerySender.filter(DatabaseNames.Client.pizzaCount, DatabaseNames.Tables.clients,
+                        DatabaseNames.Client.clientID, Integer.toString(clientId));
+                return UnpackObj.SingleValue.unpackPizzaCount(resultSet);
             } catch (ConnectException e) {
                 e.printStackTrace();
-                System.out.println("Ingredient insertion failed");
+                System.out.println("Pizza count selection failed");
+                return 0;
+            }
+        }
+        // endregion
+
+        // region Calculate
+        // ___________________________________________________________________________________
+        public static float calculateMenuItemPrice(int menuItemId) {
+            ArrayList<Ingredient> ingredients = QuerySender.List.selectIngredientsBelongingTo(menuItemId);
+
+            float totalPrice = 0f;
+            for (Ingredient ingredient : ingredients) {
+                totalPrice += ingredient.price;
+            }
+            return totalPrice;
+        }
+
+        public static boolean calculateMenuItemIsVegetarian(int menuItemId) {
+            ArrayList<Ingredient> ingredients = QuerySender.List.selectIngredientsBelongingTo(menuItemId);
+
+            for (Ingredient ingredient : ingredients) {
+                if (!ingredient.isVegetarian) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // endregion
+
+        // region Insert
+        // ___________________________________________________________________________________
+        public static void insertOrderItemPair(int orderId, int menuItemId) {
+            String[] names = { DatabaseNames.OrderItems.orderID, DatabaseNames.OrderItems.menuItemID };
+            String[] values = { Integer.toString(orderId), Integer.toString(menuItemId) };
+
+            try {
+                insert(DatabaseNames.Tables.orderItems, names, values);
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Order item pair insertion failed");
+            }
+        }
+
+        public static void insertOrder(Order order) {
+            Timestamp date = new Timestamp(System.currentTimeMillis());
+            int status = HelperMethods.translateFromStatus(Status.ORDER_SENT);
+            
+            String[] names = { DatabaseNames.Order.courierID, DatabaseNames.Order.orderDate, DatabaseNames.Order.price,
+                    DatabaseNames.Order.orderStatus, DatabaseNames.Order.clientID };
+            String[] values = { Integer.toString(-1), date.toString(), Float.toString(order.price),
+                    Integer.toString(status), Integer.toString(order.clientID) };
+
+            try {
+                insert(DatabaseNames.Tables.orders, names, values);
+                for (MenuItem menuItem : order.menuItems) {
+                    insertOrderItemPair(order.orderID, menuItem.menuItemID);
+                }
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Order insertion failed");
+            }
+        }
+
+        public static void insertMenuIngredientPair(int menuItemId, int ingredientId) {
+            String[] names = { DatabaseNames.MenuItemIngredient.menuItemID,
+                    DatabaseNames.MenuItemIngredient.ingredientID };
+            String[] values = { Integer.toString(menuItemId), Integer.toString(ingredientId) };
+
+            try {
+                insert(DatabaseNames.Tables.foodIngredients, names, values);
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Menu ingredient pair insertion failed");
             }
         }
 
         public static void insertMenuItem(MenuItem menuItem) {
-            String[] names = { DatabaseNames.MenuItem.foodName,
-                    DatabaseNames.MenuItem.isVegetarian, DatabaseNames.MenuItem.price };
-            String[] values = { menuItem.name,
-                    Boolean.toString(menuItem.isVegetarian), Float.toString(menuItem.price) };
+            String[] names = { DatabaseNames.MenuItem.foodName, DatabaseNames.MenuItem.isVegetarian,
+                    DatabaseNames.MenuItem.price };
+            String[] values = { menuItem.name, HelperMethods.parseBoolean(menuItem.isVegetarian),
+                    Float.toString(menuItem.price) };
 
             try {
-                insert(DatabaseNames.Tables.ingredients, names, values);
-
+                insert(DatabaseNames.Tables.menuItems, names, values);
+                for (Ingredient ingredient : menuItem.ingredients) {
+                    insertMenuIngredientPair(menuItem.menuItemID, ingredient.ingredientID);
+                }
             } catch (ConnectException e) {
                 e.printStackTrace();
                 System.out.println("Ingredient insertion failed");
@@ -363,8 +430,8 @@ public class QuerySender {
         public static void insertIngredient(Ingredient ingredient) {
             String[] names = { DatabaseNames.Ingredient.ingredientName,
                     DatabaseNames.Ingredient.isVegetarian, DatabaseNames.Ingredient.price };
-            String[] values = { ingredient.name,
-                    Boolean.toString(ingredient.isVegetarian), Float.toString(ingredient.price) };
+            String[] values = { ingredient.name, HelperMethods.parseBoolean(ingredient.isVegetarian),
+                    Float.toString(ingredient.price) };
 
             try {
                 insert(DatabaseNames.Tables.ingredients, names, values);
@@ -393,7 +460,7 @@ public class QuerySender {
         public static void insertCourier(Courier courier) {
             String[] names = { DatabaseNames.Courier.isAvailable,
                     DatabaseNames.Courier.postCode };
-            String[] values = { Boolean.toString(courier.isAvailable), courier.postCode };
+            String[] values = { HelperMethods.parseBoolean(courier.isAvailable), courier.postCode };
 
             try {
                 insert(DatabaseNames.Tables.clients, names, values);
@@ -403,8 +470,9 @@ public class QuerySender {
                 System.out.println("Courier insertion failed");
             }
         }
+        // endregion
 
-        // Delete
+        // region Delete
         // ___________________________________________________________________________________
         public static boolean deleteOrder(int orderId) {
             try {
@@ -416,12 +484,13 @@ public class QuerySender {
                 return false;
             }
         }
+        // endregion
 
-        // Update
+        // region Update
         // ___________________________________________________________________________________
         public static void updateCourierAvailability(int courierId, boolean isAvailable) {
             String[] names = { DatabaseNames.Courier.isAvailable };
-            String[] values = { Boolean.toString(isAvailable) };
+            String[] values = { HelperMethods.parseBoolean(isAvailable) };
 
             try {
                 update(DatabaseNames.Tables.couriers, names, values, DatabaseNames.Courier.courierID,
@@ -435,7 +504,7 @@ public class QuerySender {
 
         public static void updateOrderState(int orderId, Order.Status status) {
             String[] names = { DatabaseNames.Order.orderStatus };
-            String[] values = { status.toString() };
+            String[] values = { Integer.toString(HelperMethods.translateFromStatus(status)) };
 
             try {
                 update(DatabaseNames.Tables.orders, names, values, DatabaseNames.Order.orderID,
@@ -446,9 +515,51 @@ public class QuerySender {
                 System.out.println("Order state update failed");
             }
         }
+
+        public static void updateMenuItemPrice(int menuItemId, float newPrice) {
+            String[] names = { DatabaseNames.MenuItem.price };
+            String[] values = { Float.toString(newPrice) };
+
+            try {
+                update(DatabaseNames.Tables.menuItems, names, values, DatabaseNames.MenuItem.menuItemID,
+                        Integer.toString(menuItemId));
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Menu item price update failed");
+            }
+        }
+
+        public static void updateMenuItemIsVegetarian(int menuItemId, boolean isVegetarian) {
+            String[] names = { DatabaseNames.MenuItem.isVegetarian };
+            String[] values = { HelperMethods.parseBoolean(isVegetarian) };
+
+            try {
+                update(DatabaseNames.Tables.menuItems, names, values, DatabaseNames.MenuItem.menuItemID,
+                        Integer.toString(menuItemId));
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("Menu item isVegetarian update failed");
+            }
+        }
+
+        public static void recalculateMenuItems() {
+            ArrayList<MenuItem> menu = QuerySender.List.selectMenu();
+            for (MenuItem menuItem : menu) {
+                int id = menuItem.menuItemID;
+                float price = QuerySender.SingleValue.calculateMenuItemPrice(id);
+                boolean isVegetarian = QuerySender.SingleValue.calculateMenuItemIsVegetarian(id);
+
+                QuerySender.SingleValue.updateMenuItemPrice(id, price);
+                QuerySender.SingleValue.updateMenuItemIsVegetarian(id, isVegetarian);
+            }
+        }
+
+        // endregion
     }
 
-    // Helper methods
+    // region Helper methods
     static void update(String to, String[] names, String[] values, String filterName, String filterValue)
             throws ConnectException {
         try {
@@ -457,7 +568,7 @@ public class QuerySender {
             PreparedStatement prepStatement = conn
                     .prepareStatement(prepareUpdateCommand(names, values, to, filterName, filterValue));
 
-            prepStatement.executeQuery();
+            prepStatement.execute();
 
         } catch (SQLException ex) {
             // This will result in an exception
@@ -481,7 +592,8 @@ public class QuerySender {
                 command = command + ", ";
             }
         }
-        return command + " WHERE " + filterName + " = " + filterValue;
+        command = command + " WHERE " + filterName + " = " + filterValue + ";";
+        return command;
     }
 
     static boolean delete(String from, String filterName, String filterValue) throws ConnectException {
@@ -504,18 +616,17 @@ public class QuerySender {
         }
     }
 
-    static ResultSet insert(String to, String[] names, String[] values) throws ConnectException {
+    static void insert(String to, String[] names, String[] values) throws ConnectException {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza?", "pizza", "pizza");
 
             PreparedStatement prepStatement = conn.prepareStatement(prepareInsertCommand(names, values, to));
 
-            return prepStatement.executeQuery();
+            prepStatement.execute();
 
         } catch (SQLException ex) {
             // This will result in an exception
             handleSQLException(ex);
-            return null;
         }
     }
 
@@ -609,7 +720,7 @@ public class QuerySender {
         throw new ConnectException("Connection with the database couldn't be established");
     }
 
-    private static String sanitize(String query) {
+    static String sanitize(String query) {
         // System.out.println("input: " + query);
         char remove = '"';
         char remove2 = '\\';
@@ -619,4 +730,5 @@ public class QuerySender {
         // System.out.println("output: " + sanitized);
         return sanitized;
     }
+    // endregion
 }

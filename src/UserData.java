@@ -93,44 +93,44 @@ public class UserData extends BaseAppState implements ScreenController{
                    childLayoutVertical(); // panel properties, add more...
                     //.. add more GUI elements here
                     text(new TextBuilder() {{
-                       height("15%");
+                       height("5%");
                         font("Interface/Fonts/Default.fnt");
                          color("#000000");
                          text("User ID:"+ getClientDetails() );
-                         alignLeft();
+                         alignCenter();
                          valignCenter();
                      }});
                      text(new TextBuilder() {{
-                        height("15%");
+                        height("5%");
                         font("Interface/Fonts/Default.fnt");
                          color("#000000");
-                         text("name:");
-                         alignLeft();
+                         text("name: " + name);
+                         alignCenter();
                          valignCenter();
                      }});
                      text(new TextBuilder() {{
-                        height("15%");
+                        height("5%");
                         font("Interface/Fonts/Default.fnt");
                          color("#000000");
-                         text("phone number:");
-                         alignLeft();
+                         text("phone number: "+phoneNumber);
+                         alignCenter();
                          valignCenter();
                      }});
                      text(new TextBuilder() {{
-                        height("15%");
+                        height("5%");
                         font("Interface/Fonts/Default.fnt");
                          color("#000000");
-                         text("adress:");
-                         alignLeft();
+                         text("adress: " +adress);
+                         alignCenter();
                          valignCenter();
                      }});
                      text(new TextBuilder("text_0") {{
                        
-                        height("15%");
+                        height("5%");
                         font("Interface/Fonts/Default.fnt");
                          color("#000000");
-                         text("pizza count");
-                         alignLeft();
+                         text("pizza count: "+pizzaCount);
+                         alignCenter();
                          valignCenter();
                          interactOnClick("text()");
                          

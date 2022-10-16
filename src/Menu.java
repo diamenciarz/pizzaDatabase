@@ -10,6 +10,7 @@ import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
 import de.lessvoid.nifty.builder.TextBuilder;
 import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
+import de.lessvoid.nifty.controls.scrollbar.builder.ScrollbarBuilder;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import objects.MenuItem;
@@ -86,7 +87,9 @@ public class Menu extends BaseAppState implements ScreenController{
                      valignCenter();
                      wrap(true);
                      
+                     
                  }});
+                
                 }});
                 panel(new PanelBuilder("Panel_4") {{
                     width("25%");

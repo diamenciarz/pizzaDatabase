@@ -17,9 +17,10 @@ public class Server {
             QuerySender.SingleValue.insertOrder(order);
         }
 
-        public static Order getOrderInfo(int orderID) {
+        public static Order getOrder(int orderID) {
             return QuerySender.SingleValue.selectOrder(orderID);
         }
+        // TODO: handle codes
 
         /**
          * @param orderID
@@ -28,17 +29,19 @@ public class Server {
          */
         public static boolean cancelOrder(int orderID, int clientID) {
             Order order = QuerySender.SingleValue.selectOrder(orderID);
-            if (orderID == order.orderID) {
-                return QuerySender.SingleValue.deleteOrder(orderID);
+            if (clientID == order.clientID) {
+                boolean isCancelPossible = !HelperMethods.isOrderBeingPrepared(order);
+                if (isCancelPossible) {
+                    System.out.println("Cancel succeeded");
+                    return QuerySender.SingleValue.deleteOrder(orderID);
+                }
             }
+            System.out.println("Cancel not succeeded");
             return false;
         }
 
-        public int getPizzaCount(int clientID) throws ConnectException {
-            int pizzaCount = ResultSetReader.readInt(DatabaseNames.Client.pizzaCount,
-                    QuerySender.filter(DatabaseNames.Client.pizzaCount, DatabaseNames.Tables.clients,
-                            DatabaseNames.Client.clientID, Integer.toString(clientID)));
-            return pizzaCount;
+        public static int getPizzaCount(int clientID) {
+            return QuerySender.SingleValue.getPizzaCount(clientID);
         }
 
         public static void addClient(Client client) {
@@ -58,6 +61,22 @@ public class Server {
         public static Order[] getCurrentOrders() {
             Order[] orders = new Order[0];
             return QuerySender.List.selectCurrentOrders().toArray(orders);
+        }
+
+        public static void recalculateMenuItems() {
+            QuerySender.SingleValue.recalculateMenuItems();
+        }
+
+        public static void addCourier(Courier courier) {
+            QuerySender.SingleValue.insertCourier(courier);
+        }
+
+        public static void addMenuItem(MenuItem menuItem) {
+            QuerySender.SingleValue.insertMenuItem(menuItem);
+        }
+
+        public static void addIngredient(Ingredient ingredient) {
+            QuerySender.SingleValue.insertIngredient(ingredient);
         }
     }
 
