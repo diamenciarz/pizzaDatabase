@@ -19,7 +19,7 @@ public class Menu extends BaseAppState implements ScreenController{
     private AssetManager assetManager;
     private Nifty nifty;
     private int swap=0;
-    
+    private static int startPosition=13;
 
     @Override
     public void bind(Nifty arg0, Screen arg1) {
@@ -72,20 +72,21 @@ public class Menu extends BaseAppState implements ScreenController{
                 childLayoutHorizontal(); // layer properties, add more...
                
                 backgroundColor("#FFFFFF");
-                                                                                            // nifty.setDebugOptionPanelColors(true);
+                                                                                             nifty.setDebugOptionPanelColors(true);
                 // <panel>
                 panel(new PanelBuilder("Panel_4") {{
-                    width("75%");
+                    width("65%");
                     height("100%");
+                   
                    childLayoutVertical(); // panel properties, add more...
 
                    text(new TextBuilder("text_0") {{
                     setEnabled(!onOff());
                     height("15%");
                     font("Interface/Fonts/Default.fnt");
-                     color("#000000");
+                     color("#000000");  
                      text(menuToString());
-                     alignLeft();
+                     alignRight();
                      valignCenter();
                      wrap(true);
                     }});
@@ -96,18 +97,156 @@ public class Menu extends BaseAppState implements ScreenController{
                          font("Interface/Fonts/Default.fnt");
                           color("#000000");
                           text(menuToString2());
-                          alignLeft();
+                          alignRight();
                           valignCenter();
                           wrap(true);
                           
                           
                           
                       }});
-                
+                      
                 
                 }});
+                panel(new PanelBuilder("Panel_6") {{
+                    width("20%");
+                    height("100%");
+                   childLayoutAbsoluteInside();
+                   childClip(true);
+                   control(new ButtonBuilder("Button_4", "+"){{
+                    visibleToMouse(true);
+                    y("13px");
+                    alignLeft();
+                    valignCenter();
+                    height("8%");
+                    width("40%");
+
+                }});
+                text(new TextBuilder("text_2") {{
+                     x("62.2");
+                     y("13px");
+                     height("8%");
+                     font("Interface/Fonts/Default.fnt");
+                      color("#000000");
+                      text("1");//TODO 
+                      alignRight();
+                      valignCenter();
+                      wrap(true);
+                      
+                      
+                      
+                  }});
+                control(new ButtonBuilder("Button_4", "-"){{
+                    visibleToMouse(true);
+                    alignRight();
+                    valignCenter();
+                    y("13px");
+                    x("77.8px");
+                    height("8%");
+                    width("40%");
+
+                }});
+                control(new ButtonBuilder("Button_5", "+"){{
+                    visibleToMouse(true);
+                    y("58.4px");
+                    alignLeft();
+                    valignCenter();
+                    height("8%");
+                    width("40%");
+
+                }});
+                text(new TextBuilder("text_3") {{
+                     x("62.2");
+                     y("58.4px");
+                     height("8%");
+                     font("Interface/Fonts/Default.fnt");
+                      color("#000000");
+                      text("1");//TODO 
+                      alignRight();
+                      valignCenter();
+                      wrap(true);
+                      
+                      
+                      
+                  }});
+                control(new ButtonBuilder("Button_6", "-"){{
+                    visibleToMouse(true);
+                    alignRight();
+                    valignCenter();
+                    y("58.4px");
+                    x("77.8px");
+                    height("8%");
+                    width("40%");
+
+                }});
+                control(new ButtonBuilder("Button_7", "+"){{
+                    visibleToMouse(true);
+                    y("103.8");
+                    alignLeft();
+                    valignCenter();
+                    height("8%");
+                    width("40%");
+
+                }});
+                text(new TextBuilder("text_4") {{
+                     x("62.2");
+                     y("103.8");
+                     height("8%");
+                     font("Interface/Fonts/Default.fnt");
+                      color("#000000");
+                      text("1");//TODO 
+                      alignRight();
+                      valignCenter();
+                      wrap(true);
+                      
+                      
+                      
+                  }});
+                control(new ButtonBuilder("Button_8", "-"){{
+                    visibleToMouse(true);
+                    alignRight();
+                    valignCenter();
+                    y("103.8");
+                    x("77.8px");
+                    height("8%");
+                    width("40%");
+
+                }});
+                control(new ButtonBuilder("Button_9", "+"){{
+                    visibleToMouse(true);
+                    y("149.2");
+                    alignLeft();
+                    valignCenter();
+                    height("8%");
+                    width("40%");
+
+                }});
+                text(new TextBuilder("text_5") {{
+                     x("62.2");
+                     y("149.2");
+                     height("8%");
+                     font("Interface/Fonts/Default.fnt");
+                      color("#000000");
+                      text("1");//TODO 
+                      alignRight();
+                      valignCenter();
+                      wrap(true);
+                      
+                      
+                      
+                  }});
+                control(new ButtonBuilder("Button_10", "-"){{
+                    visibleToMouse(true);
+                    alignRight();
+                    valignCenter();
+                    y("149.2");
+                    x("77.8px");
+                    height("8%");
+                    width("40%");
+
+                }});
+                }});
                 panel(new PanelBuilder("Panel_5") {{
-                    width("25%");
+                    width("15%");
                     height("100%");
                    childLayoutVertical(); // panel properties, add more...
 
@@ -187,5 +326,8 @@ public class Menu extends BaseAppState implements ScreenController{
             swap++;
             return false;
         }
+    }
+    public double Placment(){
+        return startPosition+45.4;
     }
 }
