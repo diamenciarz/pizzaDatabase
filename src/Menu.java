@@ -5,12 +5,14 @@ import com.jme3.app.state.BaseAppState;
 import com.jme3.asset.AssetManager;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.builder.LayerBuilder;
 import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
 import de.lessvoid.nifty.builder.TextBuilder;
 import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
 import de.lessvoid.nifty.controls.scrollbar.builder.ScrollbarBuilder;
+import de.lessvoid.nifty.elements.events.NiftyMousePrimaryClickedEvent;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import objects.MenuItem;
@@ -19,8 +21,10 @@ public class Menu extends BaseAppState implements ScreenController{
     private AssetManager assetManager;
     private Nifty nifty;
     private int swap=0;
-    private static int startPosition=13;
+    public static int moreResults=0;
+    static ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
 
+   
     @Override
     public void bind(Nifty arg0, Screen arg1) {
     }
@@ -72,7 +76,7 @@ public class Menu extends BaseAppState implements ScreenController{
                 childLayoutHorizontal(); // layer properties, add more...
                
                 backgroundColor("#FFFFFF");
-                                                                                             nifty.setDebugOptionPanelColors(true);
+                                                                                             //nifty.setDebugOptionPanelColors(true);
                 // <panel>
                 panel(new PanelBuilder("Panel_4") {{
                     width("65%");
@@ -112,13 +116,15 @@ public class Menu extends BaseAppState implements ScreenController{
                     height("100%");
                    childLayoutAbsoluteInside();
                    childClip(true);
-                   control(new ButtonBuilder("Button_4", "+"){{
+
+                   control(new ButtonBuilder("Button_1", "+"){{
                     visibleToMouse(true);
                     y("13px");
                     alignLeft();
                     valignCenter();
                     height("8%");
                     width("40%");
+                    
 
                 }});
                 text(new TextBuilder("text_2") {{
@@ -135,7 +141,7 @@ public class Menu extends BaseAppState implements ScreenController{
                       
                       
                   }});
-                control(new ButtonBuilder("Button_4", "-"){{
+                control(new ButtonBuilder("ButtonE_1", "-"){{
                     visibleToMouse(true);
                     alignRight();
                     valignCenter();
@@ -143,9 +149,10 @@ public class Menu extends BaseAppState implements ScreenController{
                     x("77.8px");
                     height("8%");
                     width("40%");
+                    
 
                 }});
-                control(new ButtonBuilder("Button_5", "+"){{
+                control(new ButtonBuilder("Button_2", "+"){{
                     visibleToMouse(true);
                     y("58.4px");
                     alignLeft();
@@ -168,7 +175,7 @@ public class Menu extends BaseAppState implements ScreenController{
                       
                       
                   }});
-                control(new ButtonBuilder("Button_6", "-"){{
+                control(new ButtonBuilder("ButtonE_2", "-"){{
                     visibleToMouse(true);
                     alignRight();
                     valignCenter();
@@ -178,7 +185,7 @@ public class Menu extends BaseAppState implements ScreenController{
                     width("40%");
 
                 }});
-                control(new ButtonBuilder("Button_7", "+"){{
+                control(new ButtonBuilder("Button_3", "+"){{
                     visibleToMouse(true);
                     y("103.8");
                     alignLeft();
@@ -201,7 +208,7 @@ public class Menu extends BaseAppState implements ScreenController{
                       
                       
                   }});
-                control(new ButtonBuilder("Button_8", "-"){{
+                control(new ButtonBuilder("ButtonE_3", "-"){{
                     visibleToMouse(true);
                     alignRight();
                     valignCenter();
@@ -211,7 +218,7 @@ public class Menu extends BaseAppState implements ScreenController{
                     width("40%");
 
                 }});
-                control(new ButtonBuilder("Button_9", "+"){{
+                control(new ButtonBuilder("Button_4", "+"){{
                     visibleToMouse(true);
                     y("149.2");
                     alignLeft();
@@ -234,7 +241,7 @@ public class Menu extends BaseAppState implements ScreenController{
                       
                       
                   }});
-                control(new ButtonBuilder("Button_10", "-"){{
+                control(new ButtonBuilder("ButtonE_4", "-"){{
                     visibleToMouse(true);
                     alignRight();
                     valignCenter();
@@ -244,7 +251,7 @@ public class Menu extends BaseAppState implements ScreenController{
                     width("40%");
 
                 }});
-                control(new ButtonBuilder("Button_11", "+"){{
+                control(new ButtonBuilder("Button_5", "+"){{
                     visibleToMouse(true);
                     y("194.6");
                     alignLeft();
@@ -267,7 +274,7 @@ public class Menu extends BaseAppState implements ScreenController{
                       
                       
                   }});
-                control(new ButtonBuilder("Button_12", "-"){{
+                control(new ButtonBuilder("ButtonE_5", "-"){{
                     visibleToMouse(true);
                     alignRight();
                     valignCenter();
@@ -277,7 +284,7 @@ public class Menu extends BaseAppState implements ScreenController{
                     width("40%");
 
                 }});
-                control(new ButtonBuilder("Button_11", "+"){{
+                control(new ButtonBuilder("Button_6", "+"){{
                     visibleToMouse(true);
                     y("240");
                     alignLeft();
@@ -286,7 +293,7 @@ public class Menu extends BaseAppState implements ScreenController{
                     width("40%");
 
                 }});
-                text(new TextBuilder("text_6") {{
+                text(new TextBuilder("text_7") {{
                      x("62.2");
                      y("240");
                      height("8%");
@@ -300,7 +307,7 @@ public class Menu extends BaseAppState implements ScreenController{
                       
                       
                   }});
-                control(new ButtonBuilder("Button_12", "-"){{
+                control(new ButtonBuilder("ButtonE_6", "-"){{
                     visibleToMouse(true);
                     alignRight();
                     valignCenter();
@@ -310,7 +317,7 @@ public class Menu extends BaseAppState implements ScreenController{
                     width("40%");
 
                 }});
-                control(new ButtonBuilder("Button_11", "+"){{
+                control(new ButtonBuilder("Button_7", "+"){{
                     visibleToMouse(true);
                     y("285.4");
                     alignLeft();
@@ -319,7 +326,7 @@ public class Menu extends BaseAppState implements ScreenController{
                     width("40%");
 
                 }});
-                text(new TextBuilder("text_6") {{
+                text(new TextBuilder("text_8") {{
                      x("62.2");
                      y("285.4");
                      height("8%");
@@ -333,7 +340,7 @@ public class Menu extends BaseAppState implements ScreenController{
                       
                       
                   }});
-                control(new ButtonBuilder("Button_12", "-"){{
+                control(new ButtonBuilder("ButtonE_7", "-"){{
                     visibleToMouse(true);
                     alignRight();
                     valignCenter();
@@ -342,7 +349,7 @@ public class Menu extends BaseAppState implements ScreenController{
                     height("8%");
                     width("40%");
                     }});
-                    control(new ButtonBuilder("Button_11", "+"){{
+                    control(new ButtonBuilder("Button_8", "+"){{
                         visibleToMouse(true);
                         y("330.8");
                         alignLeft();
@@ -351,7 +358,7 @@ public class Menu extends BaseAppState implements ScreenController{
                         width("40%");
     
                     }});
-                    text(new TextBuilder("text_6") {{
+                    text(new TextBuilder("text_9") {{
                          x("62.2");
                          y("330.8");
                          height("8%");
@@ -365,7 +372,7 @@ public class Menu extends BaseAppState implements ScreenController{
                           
                           
                       }});
-                    control(new ButtonBuilder("Button_12", "-"){{
+                    control(new ButtonBuilder("ButtonE_8", "-"){{
                         visibleToMouse(true);
                         alignRight();
                         valignCenter();
@@ -374,7 +381,7 @@ public class Menu extends BaseAppState implements ScreenController{
                         height("8%");
                         width("40%");
                         }});
-                        control(new ButtonBuilder("Button_19", "+"){{
+                        control(new ButtonBuilder("Button_9", "+"){{
                             visibleToMouse(true);
                             y("376.2");
                             alignLeft();
@@ -383,7 +390,7 @@ public class Menu extends BaseAppState implements ScreenController{
                             width("40%");
         
                         }});
-                        text(new TextBuilder("text_9") {{
+                        text(new TextBuilder("text_10") {{
                              x("62.2");
                              y("376.2");
                              height("8%");
@@ -397,7 +404,7 @@ public class Menu extends BaseAppState implements ScreenController{
                               
                               
                           }});
-                        control(new ButtonBuilder("Button_20", "-"){{
+                        control(new ButtonBuilder("ButtonE_9", "-"){{
                             visibleToMouse(true);
                             alignRight();
                             valignCenter();
@@ -406,7 +413,7 @@ public class Menu extends BaseAppState implements ScreenController{
                             height("8%");
                             width("40%");
                             }});
-                            control(new ButtonBuilder("Button_21", "+"){{
+                            control(new ButtonBuilder("Button_10", "+"){{
                                 visibleToMouse(true);
                                 y("421.6");
                                 alignLeft();
@@ -415,7 +422,7 @@ public class Menu extends BaseAppState implements ScreenController{
                                 width("40%");
             
                             }});
-                            text(new TextBuilder("text_10") {{
+                            text(new TextBuilder("text_11") {{
                                  x("62.2");
                                  y("421.6");
                                  height("8%");
@@ -429,7 +436,7 @@ public class Menu extends BaseAppState implements ScreenController{
                                   
                                   
                               }});
-                            control(new ButtonBuilder("Button_22", "-"){{
+                            control(new ButtonBuilder("ButtonE_10", "-"){{
                                 visibleToMouse(true);
                                 alignRight();
                                 valignCenter();
@@ -445,32 +452,43 @@ public class Menu extends BaseAppState implements ScreenController{
                     height("100%");
                    childLayoutVertical(); // panel properties, add more...
 
-                   control(new ButtonBuilder("Button_1", "More results"){{
+                   control(new ButtonBuilder("Button", "Go To Order!"){{
                     visibleToMouse(true);
                     alignCenter();
                     valignBottom();
                     marginTop("70%");
                     height("5%");
-                    width("75%");
-                    interactOnClick("moreResults()");
+                    width("77%");
+                    interactOnClick("goToOrder()");
 
                 }});
-                control(new ButtonBuilder("Button_2", "Less results"){{
+
+                   control(new ButtonBuilder("Button1", "More results"){{
                     visibleToMouse(true);
                     alignCenter();
                     valignBottom();
                     marginTop("10px");
                     height("5%");
-                    width("75%");
+                    width("77%");
+                    interactOnClick("moreResults()");
+
+                }});
+                control(new ButtonBuilder("Button2", "Less results"){{
+                    visibleToMouse(true);
+                    alignCenter();
+                    valignBottom();
+                    marginTop("10px");
+                    height("5%");
+                    width("77%");
                     interactOnClick("lessResults()");
                 }});
-                    control(new ButtonBuilder("Button_0", "Go Back"){{
+                    control(new ButtonBuilder("Button0", "Go Back"){{
                         visibleToMouse(true);
                         alignCenter();
                         valignBottom();
                         marginTop("10px");
                         height("5%");
-                        width("75%");
+                        width("77%");
                         interactOnClick("goBack()");
                     }});
                     //.. add more GUI elements here
@@ -485,12 +503,13 @@ public class Menu extends BaseAppState implements ScreenController{
         nifty.gotoScreen("Screen_3"); // start the screen
     }
     public void goBack(){
+        moreResults=0;
         getStateManager().detach(this);
         getStateManager().attach(Launch.secondScreen);
     }
     public String menuToString(){
         String menu="| Food ID | name | price | vegetarian? |";
-        ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
+        
         for (int i = 0; i <= 10; i++) {
            menu=menu +'\n' +TMP.get(i).menuItemID + " | " + TMP.get(i).name + " | " + TMP.get(i).price + " | " + TMP.get(i).isVegetarian+" | "+'\n'+"--------------------------------------------------------";
         }
@@ -498,28 +517,57 @@ public class Menu extends BaseAppState implements ScreenController{
     }
     public void moreResults(){
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text_0")); 
-        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("Button_19"));
-        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text_9")); 
-        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("Button_20"));
-        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("Button_21"));
+        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("Button_9"));
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text_10")); 
-        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("Button_22"));
-
+        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("ButtonE_9"));
+        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("Button_10"));
+        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text_11")); 
+        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("ButtonE_10"));
+        moreResults=10;
 
 
     }
     public void lessResults(){
         getStateManager().detach(this);
         getStateManager().attach(Launch.menuScreen);
+        moreResults=0;
     }
     public String menuToString2(){
         String menu="| Food ID | name | price | vegetarian? |";
-            ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
+           
             for (int i = 10; i < TMP.size(); i++) {
                menu=menu +'\n' +TMP.get(i).menuItemID + " | " + TMP.get(i).name + " | " + TMP.get(i).price + " | " + TMP.get(i).isVegetarian+" | "+'\n'+"--------------------------------------------------------";
             }
             return menu;
     }
+    public void add(int ID){
+        Launch.menuItems.add(UIMethods.getMenuItemWIthId(TMP, ID));
+        System.out.println("added "+ID+"succesfully");
+    }
+    public void remove(int ID){
+        for (int i = 0; i < Launch.menuItems.size(); i++) {
+            if(Launch.menuItems.get(i).menuItemID==ID){
+                Launch.menuItems.remove(i);
+                System.out.println("removed ID+"+ID+" succesfully");
+            }
+            
+        }
+    }
+    @NiftyEventSubscriber(pattern="Button_.*")
+public void onClick(String id, NiftyMousePrimaryClickedEvent event) {
+    int tmp = Integer.valueOf(id.replaceFirst("Button_", ""));
+    add(tmp+moreResults);
+}
+@NiftyEventSubscriber(pattern="ButtonE_.*")
+public void onClick2(String id, NiftyMousePrimaryClickedEvent event) {
+    int tmp = Integer.valueOf(id.replaceFirst("ButtonE_", "")); 
+    remove(tmp+ moreResults);
+}
+public void goToOrder(){
+    getStateManager().detach(this);
+   getStateManager().attach(Launch.orderScreen);
+   moreResults=0;
+}
     public Boolean onOff(){
         if(swap!=0){
             swap--;

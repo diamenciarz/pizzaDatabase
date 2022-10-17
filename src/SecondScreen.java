@@ -67,7 +67,7 @@ public class SecondScreen extends BaseAppState implements ScreenController {
                    childLayoutVertical(); // panel properties, add more...
                    backgroundColor("#ADD8E7");
                    // GUI elements
-                   control(new ButtonBuilder("Button_1", "See the menu"){{
+                   control(new ButtonBuilder("ButtonH", "See the menu"){{
                     visibleToMouse(true);
                     alignCenter();
                     valignCenter();
@@ -86,15 +86,7 @@ public class SecondScreen extends BaseAppState implements ScreenController {
                     marginTop("10px");
                     marginBottom("10px");
                 }});
-                control(new ButtonBuilder("Button_3", "Order"){{
-                    visibleToMouse(true);
-                    alignCenter();
-                    valignCenter();
-                    height("5%");
-                    width("15%");
-                    interactOnClick("goToOrder()");
-                    marginTop("10px");
-                }});
+                
                   
                 control(new ButtonBuilder("Button_13", "Exit"){{
                     visibleToMouse(true);
@@ -118,10 +110,7 @@ public class SecondScreen extends BaseAppState implements ScreenController {
 
         nifty.gotoScreen("Screen_1"); // start the screen
     }
-    public void goToOrder(){
-        getStateManager().detach(Launch.secondScreen);
-       getStateManager().attach(Launch.orderScreen);
-    }
+    
     public void goToMenu(){
         getStateManager().detach(Launch.secondScreen);
         getStateManager().attach(Launch.menuScreen);

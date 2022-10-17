@@ -1,13 +1,19 @@
 import java.net.ConnectException;
+import java.util.ArrayList;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import de.lessvoid.nifty.Nifty;
+import objects.*;
 
 public class Launch extends SimpleApplication{
     private NiftyJmeDisplay niftyDisplay;
     private static Nifty nifty;
+
     public static  String UserID;
+    public static  ArrayList<MenuItem> menuItems=new ArrayList<MenuItem>();;
+    public static Order order;
+
     public static final StartScreen startScreen = new StartScreen();
     public static final SecondScreen secondScreen = new SecondScreen();
     public static final PlaceOrder orderScreen = new PlaceOrder();

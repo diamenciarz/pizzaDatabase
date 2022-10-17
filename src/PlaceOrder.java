@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.asset.AssetManager;
@@ -6,6 +8,7 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.builder.LayerBuilder;
 import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
+import de.lessvoid.nifty.builder.TextBuilder;
 import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
@@ -65,17 +68,35 @@ public class PlaceOrder extends BaseAppState implements ScreenController {
 
             // <layer>
             layer(new LayerBuilder("Layer_2") {{
-                childLayoutVertical(); // layer properties, add more...
+                childLayoutHorizontal(); // layer properties, add more...
                
                 backgroundColor("#FFFFFF");
                                                                                              //nifty.setDebugOptionPanelColors(true);
-                // <panel>
                 panel(new PanelBuilder("Panel_3") {{
-                    width("100%");
+                    width("85%");
                     height("100%");
                    childLayoutVertical(); // panel properties, add more...
                     //.. add more GUI elements here
-                    control(new ButtonBuilder("Button_0", "Go Back"){{
+                    
+                   text(new TextBuilder("text_0") {{
+                    
+                    height("15%");
+                    font("Interface/Fonts/Default.fnt");
+                     color("#000000");  
+                     text(menuToString());
+                     alignRight();
+                     valignCenter();
+                     wrap(true);
+                    }});
+                   
+                }});
+                // <panel>
+                panel(new PanelBuilder("Panel_4") {{
+                    width("15%");
+                    height("100%");
+                   childLayoutVertical(); // panel properties, add more...
+                    //.. add more GUI elements here
+                    control(new ButtonBuilder("Button0", "Go Back"){{
                         visibleToMouse(true);
                         alignCenter();
                         valignCenter();
@@ -96,5 +117,14 @@ public class PlaceOrder extends BaseAppState implements ScreenController {
     public void goBack(){
         getStateManager().detach(this);
         getStateManager().attach(Launch.secondScreen);
+        
+    }
+    public String menuToString(){
+        String menu="| Food ID | name | price | vegetarian? |";
+        
+        for (int i = 0; i < Launch.menuItems.size(); i++) {
+           menu=menu +'\n' +Launch.menuItems.get(i).menuItemID + " | " + Launch.menuItems.get(i).name + " | " + Launch.menuItems.get(i).price + " | " + Launch.menuItems.get(i).isVegetarian+" | "+'\n'+"--------------------------------------------------------";
+        }
+        return menu;
     }
 }
