@@ -13,7 +13,6 @@ public class Server {
             return QuerySender.List.selectMenu();
         }
 
-        // Requires insert()
         public static void placeOrder(Order order) {
             order.price = calculateOrderPrice(order);
             QuerySender.SingleValue.insertOrder(order);

@@ -14,11 +14,23 @@ public class HelperMethods {
     public static Courier findAvailableCourier(Order order) {
         Client client = QuerySender.SingleValue.selectClient(order.clientID);
         ArrayList<Courier> couriers = QuerySender.List.selectCouriersWithCode(client.postCode);
-        
+
         if (couriers.size() == 0) {
             return null;
         }
         return couriers.get(0);
+    }
+
+    public static boolean canOrder(ArrayList<MenuItem> selectedItems) {
+        for (MenuItem menuItem : selectedItems) {
+            for (Ingredient ingredient : menuItem.ingredients) {
+                boolean isPizza = ingredient.ingredientID == 2;
+                if (isPizza) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static boolean isOrderBeingPrepared(Order order) {
