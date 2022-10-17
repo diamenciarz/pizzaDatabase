@@ -18,6 +18,7 @@ public class Menu extends BaseAppState implements ScreenController{
     private NiftyJmeDisplay niftyDisplay;
     private AssetManager assetManager;
     private Nifty nifty;
+    private int swap=0;
     
 
     @Override
@@ -71,14 +72,15 @@ public class Menu extends BaseAppState implements ScreenController{
                 childLayoutHorizontal(); // layer properties, add more...
                
                 backgroundColor("#FFFFFF");
-                                                                                             nifty.setDebugOptionPanelColors(true);
+                                                                                            // nifty.setDebugOptionPanelColors(true);
                 // <panel>
                 panel(new PanelBuilder("Panel_4") {{
                     width("75%");
                     height("100%");
                    childLayoutVertical(); // panel properties, add more...
+
                    text(new TextBuilder("text_0") {{
-                    visibleToMouse(true);
+                    setEnabled(!onOff());
                     height("15%");
                     font("Interface/Fonts/Default.fnt");
                      color("#000000");
@@ -86,20 +88,53 @@ public class Menu extends BaseAppState implements ScreenController{
                      alignLeft();
                      valignCenter();
                      wrap(true);
-                     
-                     
-                 }});
+                    }});
+
+                    text(new TextBuilder("text_1") {{
+                        setEnabled(onOff());
+                         height("15%");
+                         font("Interface/Fonts/Default.fnt");
+                          color("#000000");
+                          text(menuToString2());
+                          alignLeft();
+                          valignCenter();
+                          wrap(true);
+                          
+                          
+                          
+                      }});
+                
                 
                 }});
-                panel(new PanelBuilder("Panel_4") {{
+                panel(new PanelBuilder("Panel_5") {{
                     width("25%");
                     height("100%");
                    childLayoutVertical(); // panel properties, add more...
+
+                   control(new ButtonBuilder("Button_1", "More results"){{
+                    visibleToMouse(true);
+                    alignCenter();
+                    valignBottom();
+                    marginTop("70%");
+                    height("5%");
+                    width("75%");
+                    interactOnClick("moreResults()");
+
+                }});
+                control(new ButtonBuilder("Button_2", "Less results"){{
+                    visibleToMouse(true);
+                    alignCenter();
+                    valignBottom();
+                    marginTop("10px");
+                    height("5%");
+                    width("75%");
+                    interactOnClick("lessResults()");
+                }});
                     control(new ButtonBuilder("Button_0", "Go Back"){{
                         visibleToMouse(true);
                         alignCenter();
                         valignBottom();
-                        marginTop("95%");
+                        marginTop("10px");
                         height("5%");
                         width("75%");
                         interactOnClick("goBack()");
@@ -122,10 +157,35 @@ public class Menu extends BaseAppState implements ScreenController{
     public String menuToString(){
         String menu="| Food ID | name | price | vegetarian? |";
         ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
-        for (int i = 0; i < TMP.size(); i++) {
+        for (int i = 0; i <= 10; i++) {
            menu=menu +'\n' +TMP.get(i).menuItemID + " | " + TMP.get(i).name + " | " + TMP.get(i).price + " | " + TMP.get(i).isVegetarian+" | "+'\n'+"--------------------------------------------------------";
         }
         return menu;
     }
-    
+    public void moreResults(){
+        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text_0")); 
+    }
+    public void lessResults(){
+        getStateManager().detach(this);
+        getStateManager().attach(Launch.menuScreen);
+    }
+    public String menuToString2(){
+        String menu="| Food ID | name | price | vegetarian? |";
+            ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
+            for (int i = 10; i < TMP.size(); i++) {
+               menu=menu +'\n' +TMP.get(i).menuItemID + " | " + TMP.get(i).name + " | " + TMP.get(i).price + " | " + TMP.get(i).isVegetarian+" | "+'\n'+"--------------------------------------------------------";
+            }
+            return menu;
+    }
+    public Boolean onOff(){
+        if(swap!=0){
+            swap--;
+            return true;
+           
+        }
+        else{
+            swap++;
+            return false;
+        }
+    }
 }
