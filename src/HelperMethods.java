@@ -36,18 +36,6 @@ public class HelperMethods {
         return number;
     }
 
-    public static boolean canOrder(ArrayList<MenuItem> selectedItems) {
-        for (MenuItem menuItem : selectedItems) {
-            for (Ingredient ingredient : menuItem.ingredients) {
-                boolean isPizza = ingredient.ingredientID == 2;
-                if (isPizza) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     public static boolean isOrderBeingPrepared(Order order) {
         long orderDate = order.orderTimestamp.getTime();
         long dateNow = System.currentTimeMillis();

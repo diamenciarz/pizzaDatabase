@@ -4,9 +4,8 @@ import objects.*;
 
 public class App {
     public static void main(String[] args) {
-        // Startup.startup();
-
-        // placeOrder();
+        Startup.startup();
+        placeOrder();
         // cancelOrder();
 
         // ArrayList<Order> currentOrders = QuerySender.List.selectCurrentOrders();
@@ -21,6 +20,7 @@ public class App {
         Order order = new Order();
         order.clientID = 2;
         order.price = 10;
+        // order.code = "DASGASG";
 
         ArrayList<MenuItem> menuItems = new ArrayList<>();
         menuItems.add(TMP.get(0));

@@ -676,7 +676,7 @@ public class QuerySender {
                 command = command + ", ";
             }
         }
-        command = command + " WHERE " + filterName + " = " + filterValue + ";";
+        command = command + " WHERE " + filterName + " = '" + filterValue + "';";
         return command;
     }
 
