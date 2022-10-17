@@ -21,6 +21,21 @@ public class HelperMethods {
         return couriers.get(0);
     }
 
+    public static int getPizzaNumber(Order order) {
+        ArrayList<MenuItem> menuItems = order.menuItems;
+        int number = 0;
+        for (MenuItem menuItem : menuItems) {
+            for (Ingredient ingredient : menuItem.ingredients) {
+                boolean isPizza = ingredient.ingredientID == 2;
+                if (isPizza) {
+                    number++;
+                    break;
+                }
+            }
+        }
+        return number;
+    }
+
     public static boolean canOrder(ArrayList<MenuItem> selectedItems) {
         for (MenuItem menuItem : selectedItems) {
             for (Ingredient ingredient : menuItem.ingredients) {
@@ -51,7 +66,7 @@ public class HelperMethods {
         long dateNow = System.currentTimeMillis();
         long delay = dateNow - orderDate;
         // final int MAX_DELAY = 900000; // 15 minutes
-        final int MAX_DELAY = 15000; // 15 seconds
+        final int MAX_DELAY = 10000; // 10 seconds
 
         if (delay > MAX_DELAY) {
             return true;
@@ -64,7 +79,7 @@ public class HelperMethods {
         long dateNow = System.currentTimeMillis();
         long delay = dateNow - orderDate;
         // final int MAX_DELAY = 1200000; // 20 minutes
-        final int MAX_DELAY = 30000; // 30 seconds
+        final int MAX_DELAY = 20000; // 20 seconds
 
         if (delay > MAX_DELAY) {
             return true;

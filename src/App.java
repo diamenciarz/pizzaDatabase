@@ -6,13 +6,13 @@ public class App {
     public static void main(String[] args) {
         // Startup.startup();
 
-        placeOrder();
+        // placeOrder();
         // cancelOrder();
 
-        ArrayList<Order> currentOrders = QuerySender.List.selectCurrentOrders();
-        System.out.println(currentOrders.get(0).price);
-        // int pizzaCount = Server.UserMethods.getPizzaCount(1);
-        // System.out.println("Pizza count: " + pizzaCount);
+        // ArrayList<Order> currentOrders = QuerySender.List.selectCurrentOrders();
+        // System.out.println(currentOrders.get(0).price);
+        int pizzaCount = Server.UserMethods.getPizzaCount(2);
+        System.out.println("Pizza count: " + pizzaCount);
     }
 
     public static void placeOrder() {
@@ -25,6 +25,7 @@ public class App {
         ArrayList<MenuItem> menuItems = new ArrayList<>();
         menuItems.add(TMP.get(0));
         menuItems.add(TMP.get(1));
+        menuItems.add(TMP.get(11));
         order.menuItems = menuItems;
 
         Server.UserMethods.placeOrder(order);

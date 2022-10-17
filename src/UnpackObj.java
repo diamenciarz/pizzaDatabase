@@ -215,7 +215,12 @@ public class UnpackObj {
         }
 
         public static int unpackPizzaCount(ResultSet resultSet) {
-            return ResultSetReader.readInt(DatabaseNames.Client.pizzaCount, resultSet);
+            try {
+                resultSet.next();
+                return ResultSetReader.readInt(DatabaseNames.Client.pizzaCount, resultSet);
+            } catch (SQLException e) {
+                return -1;
+            }
         }
     }
 

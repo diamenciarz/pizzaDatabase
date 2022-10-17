@@ -90,12 +90,15 @@ public class QuerySender {
 
         public static ArrayList<String> selectDiscountCodes(int clientID) {
             try {
-                ResultSet resultSet = QuerySender.filter(DatabaseNames.Code.discountCode, DatabaseNames.Tables.codes,
+                ResultSet resultSet = QuerySender.filter("*", DatabaseNames.Tables.codes,
                         DatabaseNames.Code.clientID, Integer.toString(clientID));
                 ArrayList<String> codes = new ArrayList<>();
 
                 while (resultSet.next()) {
-                    codes.add(ResultSetReader.readString(DatabaseNames.Code.discountCode, resultSet));
+                    boolean isUsed = ResultSetReader.readBoolean(DatabaseNames.Code.isUsed, resultSet);
+                    if (!isUsed) {
+                        codes.add(ResultSetReader.readString(DatabaseNames.Code.discountCode, resultSet));
+                    }
                 }
                 return codes;
             } catch (ConnectException e) {
@@ -604,7 +607,7 @@ public class QuerySender {
 
         public static void addPizzaCount(Order order) {
             Client client = QuerySender.SingleValue.selectClient(order.clientID);
-            int newCount = client.pizzaCount + order.menuItems.size();
+            int newCount = client.pizzaCount + HelperMethods.getPizzaNumber(order);
             int newCodes = newCount / 10;
             // Prevent overflow
             newCount -= 10 * newCodes;

@@ -28,6 +28,7 @@ public class Startup {
 
             // Fill tables with examples
             
+            statement.execute("INSERT INTO Codes (ClientID, DiscountCode, IsUsed) VALUES (2, 'DASGASG', False);");
             statement.execute("INSERT INTO Couriers (PostCode, IsAvailable) VALUES ('3620', True);");
             statement.execute("INSERT INTO Couriers (PostCode, IsAvailable) VALUES ('3621', True);");
             
