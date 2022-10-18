@@ -4,8 +4,8 @@ import com.jme3.app.state.BaseAppState;
 import com.jme3.asset.AssetManager;
 import com.jme3.niftygui.NiftyJmeDisplay;
 
-import QuerySender;
-import QuerySender.SingleValue;
+import NormalClasses.QuerySender;
+import NormalClasses.QuerySender.SingleValue;
 import objects.Client;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.builder.LayerBuilder;

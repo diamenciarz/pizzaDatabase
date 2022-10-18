@@ -9,9 +9,9 @@ import com.jme3.app.state.BaseAppState;
 import com.jme3.asset.AssetManager;
 import com.jme3.niftygui.NiftyJmeDisplay;
 
-import Server;
-import UIMethods;
-import Server.UserMethods;
+import NormalClasses.Server;
+import NormalClasses.UIMethods;
+import NormalClasses.Server.UserMethods;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.builder.LayerBuilder;

@@ -1,3 +1,4 @@
+package NormalClasses;
 
 public class DatabaseNames {
     public static class Tables {
