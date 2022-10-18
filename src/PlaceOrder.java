@@ -143,11 +143,19 @@ public class PlaceOrder extends BaseAppState implements ScreenController {
         }
         
         int price=0;
+<<<<<<< Updated upstream
         for (int i = 0; i < Launch.menuItems.size(); i++) {
             price=(int) (price+QuerySender.SingleValue.calculateMenuItemPrice(Launch.menuItems.get(i).menuItemID));
             
         }
         Launch.order.price=price;
+=======
+        // for (int i = 0; i < Launch.menuItems.size(); i++) {
+        //     price=(int) (price+QuerySender.SingleValue.calculateMenuItemPrice(Launch.menuItems.get(i).menuItemID));
+            
+        // }
+        // Launch.order.price=price;
+>>>>>>> Stashed changes
         Server.UserMethods.placeOrder(Launch.order);
         System.out.println("Order Placed!");
         App f = new App(); 
