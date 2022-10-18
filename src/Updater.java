@@ -6,8 +6,10 @@ public class Updater {
     static long time;
 
     public static void main(String[] args) {
+    }
+
+    public static void startServer() {
         Startup.startup();
-        App.placeOrder();
         time = System.currentTimeMillis();
         while (true) {
             if (shouldUpdate()) {
@@ -38,7 +40,7 @@ public class Updater {
 
             QuerySender.SingleValue.addPizzaCount(order);
             QuerySender.SingleValue.updateCourierAvailability(courier.Courier_ID, true);
-                QuerySender.SingleValue.updateOrderCourier(order, -1);
+            QuerySender.SingleValue.updateOrderCourier(order, -1);
             return true;
         }
         return false;
