@@ -3,7 +3,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Order {
-    public ArrayList<MenuItem> menuItems;
+    public ArrayList<MenuItem> menuItems = new ArrayList<>();
     public float price;
     public int orderID;
     public int clientID;
@@ -20,6 +20,7 @@ public class Order {
      * Not necessary from user
      */
     public Timestamp orderTimestamp;
+    public String code;
 
     public enum Status {
         ORDER_SENT,

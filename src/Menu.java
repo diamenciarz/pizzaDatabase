@@ -26,7 +26,6 @@ public class Menu extends BaseAppState implements ScreenController{
     private Nifty nifty;
     private int swap=0;
     public static int moreResults=0;
-    public static int moreResults2=0;
     static ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
 
    
@@ -532,7 +531,7 @@ public class Menu extends BaseAppState implements ScreenController{
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("Button_10"));
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text_10")); 
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("ButtonE_10"));
-        
+        //resetValues();
         moreResults=10;
         
      }
@@ -541,6 +540,7 @@ public class Menu extends BaseAppState implements ScreenController{
         getStateManager().detach(this);
         getStateManager().attach(Launch.menuScreen);
         moreResults=0;
+        resetValues();
     }
     public String menuToString2(){
         String menu="| Food ID | name | price | vegetarian? |";
@@ -564,7 +564,7 @@ public class Menu extends BaseAppState implements ScreenController{
        
         
         
-        System.out.println("added "+ tmp2 +" succesfully");
+        System.out.println("added "+ ID +" succesfully");
     }
     public void remove(int ID){
         String tmp="";
@@ -579,7 +579,7 @@ public class Menu extends BaseAppState implements ScreenController{
         for (int i = 0; i < Launch.menuItems.size(); i++) {
             if(Launch.menuItems.get(i).menuItemID==ID){
                 Launch.menuItems.remove(i);
-                System.out.println("removed ID+ "+ tmp2 + " succesfully");
+                System.out.println("removed ID+ "+ ID + " succesfully");
             }
             
         }
@@ -604,8 +604,9 @@ public void resetValues(){//TODO
 
     for (int i = 0; i < Launch.menuItems.size(); i++) {
         tmp =nifty.getCurrentScreen().findElementById("text_"+Launch.menuItems.get(i).menuItemID).getRenderer(TextRenderer.class).getOriginalText();
+        System.out.println(tmp+" lol");
         nifty.getCurrentScreen().findElementById("text_"+Launch.menuItems.get(i).menuItemID).getRenderer(TextRenderer.class).setText(Integer.valueOf(tmp)+1+"");
-        System.out.println("values updated!!!!!!!!!!!"+Launch.menuItems.get(i).menuItemID+" "+Launch.menuItems.size());
+        
     }
 }
     public Boolean onOff(){

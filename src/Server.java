@@ -2,6 +2,7 @@ import java.net.ConnectException;
 import java.util.ArrayList;
 
 import objects.*;
+import objects.Order.Status;
 
 public class Server {
 
@@ -12,15 +13,18 @@ public class Server {
             return QuerySender.List.selectMenu();
         }
 
-        // Requires insert()
         public static void placeOrder(Order order) {
+            order.price = calculateOrderPrice(order);
             QuerySender.SingleValue.insertOrder(order);
         }
 
         public static Order getOrder(int orderID) {
             return QuerySender.SingleValue.selectOrder(orderID);
         }
-        // TODO: handle codes
+        public static ArrayList<String> getCodes(int clientId){
+            ArrayList<String> codes = QuerySender.List.selectDiscountCodes(clientId);
+            return codes;
+        }
 
         /**
          * @param orderID
@@ -33,7 +37,10 @@ public class Server {
                 boolean isCancelPossible = !HelperMethods.isOrderBeingPrepared(order);
                 if (isCancelPossible) {
                     System.out.println("Cancel succeeded");
-                    return QuerySender.SingleValue.deleteOrder(orderID);
+                    // The order's status is set to cancelled
+                    QuerySender.SingleValue.updateOrderState(orderID, Status.CANCELLED);
+                    return true;
+                    // return QuerySender.SingleValue.deleteOrder(orderID); // The order is deleted
                 }
             }
             System.out.println("Cancel not succeeded");
@@ -51,9 +58,25 @@ public class Server {
         public static String getDeliveryStatus(int orderID) {
             return QuerySender.SingleValue.selectDeliveryStatus(orderID);
         }
+
+        private static float calculateOrderPrice(Order order) {
+            float totalPrice = 0f;
+            for (MenuItem menuItem : order.menuItems) {
+                totalPrice += menuItem.price;
+            }
+            // Apply discount
+            ArrayList<String> codes = QuerySender.List.selectDiscountCodes(order.clientID);
+            if (codes.contains(order.code)) {
+                totalPrice *= 0.9f;
+                QuerySender.SingleValue.updateCodeAsUsed(order.code);
+            }
+            return totalPrice;
+        }
     }
 
     public static class AdminMethods {
+        public static final float RESTAURANT_MARGIN = 1.4f;
+
         public static Client getClientInfo(int clientID) {
             return QuerySender.SingleValue.selectClient(clientID);
         }
@@ -87,7 +110,7 @@ public class Server {
 
         public static String getClientAddress(int clientID) {
             Client client = QuerySender.SingleValue.selectClient(clientID);
-            return client.adress;
+            return client.postCode;
         }
 
         public static void setDeliveryState(int delivererID, int orderID) {
