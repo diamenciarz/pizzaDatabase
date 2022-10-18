@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.asset.AssetManager;
+import NormalClasses.*;
 import com.jme3.niftygui.NiftyJmeDisplay;
 
 import NormalClasses.App;
