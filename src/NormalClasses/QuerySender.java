@@ -188,6 +188,18 @@ public class QuerySender {
             }
         }
 
+        public static ArrayList<Courier> selectCouriers() {
+            try {
+                ResultSet resultSet = execute("*", DatabaseNames.Tables.couriers);
+                return UnpackObj.List.unpackCouriers(resultSet);
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                System.out.println("MenuItem list selection failed");
+                return new ArrayList<Courier>();
+            }
+        }
+
         public static ArrayList<Courier> selectCouriersWithCode(String code) {
             try {
                 ResultSet resultSet = filter("*", DatabaseNames.Tables.couriers,

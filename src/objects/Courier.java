@@ -8,10 +8,6 @@ public class Courier {
     public Courier(int Courier_ID, String postCode, boolean isAvailable) {
         this.Courier_ID = Courier_ID;
         this.postCode = postCode;
-        this.isAvailable = false;
-    }
-
-    void Delivering() {
-        this.isAvailable = false;
+        this.isAvailable = isAvailable;
     }
 }

@@ -1,4 +1,5 @@
 package NormalClasses;
+
 import objects.*;
 import objects.Order.Status;
 import java.sql.*;
@@ -14,12 +15,22 @@ public class HelperMethods {
 
     public static Courier findAvailableCourier(Order order) {
         Client client = QuerySender.SingleValue.selectClient(order.clientID);
-        ArrayList<Courier> couriers = QuerySender.List.selectCouriersWithCode(client.postCode);
+        ArrayList<Courier> allCouriers = QuerySender.List.selectCouriersWithCode(client.postCode);
+        System.out.println("All couriers: " + allCouriers.size());
+        System.out.println("Is available: " + allCouriers.get(0).isAvailable);
+        ArrayList<Courier> availableCouriers = new ArrayList<>();
 
-        if (couriers.size() == 0) {
+        for (Courier courier : allCouriers) {
+            if (courier.isAvailable) {
+                availableCouriers.add(courier);
+            }
+        }
+        System.out.println("Available couriers: " + availableCouriers.size());
+
+        if (availableCouriers.size() == 0) {
             return null;
         }
-        return couriers.get(0);
+        return availableCouriers.get(0);
     }
 
     public static int getPizzaNumber(Order order) {
@@ -42,7 +53,7 @@ public class HelperMethods {
         long dateNow = System.currentTimeMillis();
         long delay = dateNow - orderDate;
         // final int MAX_DELAY = 300000; // 5 minutes
-        final int MAX_DELAY = 6000; // 6 seconds
+        final int MAX_DELAY = 3000; // 6 seconds
 
         if (delay > MAX_DELAY) {
             return true;
@@ -64,11 +75,14 @@ public class HelperMethods {
     }
 
     public static boolean isOrderDelivered(Order order) {
-        long orderDate = order.orderTimestamp.getTime();
+        if (order.courierID == -1) {
+            return false;
+        }
+        Courier courier = QuerySender.SingleValue.selectCourier(order.courierID);
         long dateNow = System.currentTimeMillis();
-        long delay = dateNow - orderDate;
+        long delay = dateNow - Updater.deliveryStartTimes.get(courier.Courier_ID - 1);
         // final int MAX_DELAY = 1200000; // 20 minutes
-        final int MAX_DELAY = 20000; // 20 seconds
+        final int MAX_DELAY = 10000; // 10 seconds
 
         if (delay > MAX_DELAY) {
             return true;
