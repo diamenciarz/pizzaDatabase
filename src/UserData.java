@@ -178,7 +178,7 @@ public String getClientDetails(){
     Client client= QuerySender.SingleValue.selectClient(t);
     name= client.name;
     phoneNumber=client.phoneNumber;
-    adress=client.adress;
+    adress=client.postCode;
     pizzaCount=client.pizzaCount;
     return Launch.UserID;
 

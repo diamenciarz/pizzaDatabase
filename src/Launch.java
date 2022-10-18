@@ -41,13 +41,8 @@ public class Launch extends SimpleApplication{
     public Nifty getNifty() {
         return nifty;
     }
-    public static void main(String[] args) {
-        try {
-            Startup.startup();
-        } catch (ConnectException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws ConnectException {
+        Startup.startup();
         Launch app = new Launch();
         app.start();
     }
