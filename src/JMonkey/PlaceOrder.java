@@ -140,6 +140,16 @@ public class PlaceOrder extends BaseAppState implements ScreenController {
                                       valignCenter();
                                       wrap(true);
                                 }});
+                                text(new TextBuilder("text1") {{
+                                    visible(!UIMethods.canOrder(Launch.menuItems));
+                                     height("15%");
+                                     font("Interface/Fonts/Default.fnt");
+                                      color("#000000");
+                                      text("------------------\nTo order you havce to get at least one pizza");
+                                      alignRight();
+                                      valignCenter();
+                                      wrap(true);
+                                }});
                             }
                         });
                         // </panel>
