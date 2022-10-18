@@ -1,8 +1,10 @@
+package JMonkey;
 import java.net.ConnectException;
 import java.util.ArrayList;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.niftygui.NiftyJmeDisplay;
+
 import de.lessvoid.nifty.Nifty;
 import objects.*;
 

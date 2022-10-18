@@ -1,3 +1,4 @@
+package JMonkey;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -7,6 +8,10 @@ import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.asset.AssetManager;
 import com.jme3.niftygui.NiftyJmeDisplay;
+
+import Server;
+import UIMethods;
+import Server.UserMethods;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.builder.LayerBuilder;
