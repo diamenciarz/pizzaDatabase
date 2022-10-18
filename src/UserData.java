@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.asset.AssetManager;
@@ -23,6 +25,7 @@ public class UserData extends BaseAppState implements ScreenController{
     public int phoneNumber;
     public String adress;
     public int pizzaCount;
+    public String codes;
 
     @Override
     public void bind(Nifty arg0, Screen arg1) {
@@ -135,6 +138,17 @@ public class UserData extends BaseAppState implements ScreenController{
                          interactOnClick("text()");
                          
                      }});
+                     text(new TextBuilder("text_1") {{
+                       
+                        height("5%");
+                        font("Interface/Fonts/Default.fnt");
+                         color("#000000");
+                         text("Codes: "+codes);
+                         alignCenter();
+                         valignCenter();
+                         interactOnClick("text()");
+                         
+                     }});
                    
                 }});
                 // </panel>
@@ -180,7 +194,12 @@ public String getClientDetails(){
     phoneNumber=client.phoneNumber;
     adress=client.postCode;
     pizzaCount=client.pizzaCount;
+    codes=getUserCodes();
     return Launch.UserID;
+}
 
+private String getUserCodes() {
+    ArrayList<String> allCodes=Server.UserMethods.getCodes(Integer.valueOf(Launch.UserID));;
+    return allCodes.toString();
 }
 }

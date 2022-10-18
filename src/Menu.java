@@ -595,6 +595,7 @@ public void onClick2(String id, NiftyMousePrimaryClickedEvent event) {
     remove(tmp+ moreResults);
 }
 public void goToOrder(){
+    PlaceOrder.tryAddOrder();
     getStateManager().detach(this);
    getStateManager().attach(Launch.orderScreen);
    moreResults=0;
