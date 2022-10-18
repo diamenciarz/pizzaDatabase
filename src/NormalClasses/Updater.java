@@ -12,8 +12,10 @@ public class Updater {
     public static void startServer() {
         Startup.startup();
         time = System.currentTimeMillis();
-        while (true) {
+        JMonkey.Launch.launch();
+        while (true) {   
             if (shouldUpdate()) {
+                System.out.println("hELLO");
                 time = System.currentTimeMillis();
                 ArrayList<Order> orders = QuerySender.List.selectCurrentOrders();
                 for (Order order : orders) {
