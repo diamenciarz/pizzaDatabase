@@ -31,7 +31,7 @@ public class Order {
     }
 
     public Order() {
-
+        menuItems = new ArrayList<>();
     }
 
     public Order(ArrayList<MenuItem> menuItems, float price, int orderID, int clientID, int courierID,
