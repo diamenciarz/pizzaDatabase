@@ -529,6 +529,7 @@ public class Menu extends BaseAppState implements ScreenController{
         return menu;
     }
     public void moreResults(){
+        String tmp="";
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text0")); 
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("Button_9"));
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text_9")); 
@@ -536,7 +537,11 @@ public class Menu extends BaseAppState implements ScreenController{
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("Button_10"));
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text_10")); 
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("ButtonE_10"));
-        //resetValues();
+        for (int i = 1; i < 9; i++) {
+            System.out.println("text_"+i);
+            tmp =nifty.getCurrentScreen().findElementById("text_"+i).getRenderer(TextRenderer.class).getOriginalText();
+            nifty.getCurrentScreen().findElementById("text_"+i).getRenderer(TextRenderer.class).setText(0+"");
+        }
         moreResults=10;
         
      }
