@@ -20,6 +20,7 @@ public class PlaceOrder extends BaseAppState implements ScreenController {
     private NiftyJmeDisplay niftyDisplay;
     private AssetManager assetManager;
     private Nifty nifty;
+    private static String code;
 
     @Override
     public void bind(Nifty arg0, Screen arg1) {
@@ -128,6 +129,16 @@ public class PlaceOrder extends BaseAppState implements ScreenController {
                                         interactOnClick("goBack()");
                                     }
                                 });
+                                text(new TextBuilder("text1") {{
+                                    visible(onOff());
+                                     height("15%");
+                                     font("Interface/Fonts/Default.fnt");
+                                      color("#000000");
+                                      text("A discount code has been applied: "+code);
+                                      alignRight();
+                                      valignCenter();
+                                      wrap(true);
+                                }});
                             }
                         });
                         // </panel>
@@ -148,6 +159,7 @@ public class PlaceOrder extends BaseAppState implements ScreenController {
     }
 
     public String menuToString() {
+        tryAddOrder();
         String menu = "| Food ID | name | price | vegetarian? |";
 
         for (int i = 0; i < Launch.menuItems.size(); i++) {
@@ -157,22 +169,35 @@ public class PlaceOrder extends BaseAppState implements ScreenController {
         }
         return menu;
     }
+    public Boolean onOff(){
+        if(code.length()>0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public static void tryAddOrder() {
+        ArrayList<String> codes= Server.UserMethods.getCodes(Integer.valueOf(Launch.UserID));
+        if(codes.size()>0){
+            code=codes.get(0);
+        }
+        else{
+            code="";
+        }
+    }
 
     public void prepOrder() {
+       
         if (UIMethods.canOrder(Launch.menuItems) == true) {
             Launch.order.clientID = Integer.valueOf(Launch.UserID);
             for (int i = 0; i < Launch.menuItems.size(); i++) {
                 Launch.order.menuItems.add(Launch.menuItems.get(i));
             }
+            Launch.order.code=code;
 
-            System.ou t .p
-            App f = new App(); 
-            f. lyOrderInfo
-            // 1);
-
-            else
-                System.out.println("You 
-            }
-            
-            
-              
+        } else {
+            System.out.println("You have to order a pizza");
+        }
+    }
+}
