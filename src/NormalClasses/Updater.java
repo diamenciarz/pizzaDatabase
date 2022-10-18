@@ -21,7 +21,7 @@ public class Updater {
         JMonkey.Launch.launch();
         while (true) {   
             if (shouldUpdate()) {
-                System.out.println("hELLO");
+                
                 time = System.currentTimeMillis();
                 ArrayList<Order> orders = QuerySender.List.selectCurrentOrders();
                 for (Order order : orders) {

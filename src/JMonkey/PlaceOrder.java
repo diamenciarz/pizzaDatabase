@@ -205,7 +205,7 @@ public class PlaceOrder extends BaseAppState implements ScreenController {
             for (int i = 0; i < Launch.menuItems.size(); i++) {
                 Launch.order.menuItems.add(Launch.menuItems.get(i));
             }
-            System.out.println("LOLOL");
+            
             Launch.order.code=code;
             NormalClasses.Server.UserMethods.placeOrder(Launch.order);
             Launch.menuItems.clear();
