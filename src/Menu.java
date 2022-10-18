@@ -26,6 +26,7 @@ public class Menu extends BaseAppState implements ScreenController{
     private Nifty nifty;
     private int swap=0;
     public static int moreResults=0;
+    public static int moreResults2=0;
     static ArrayList<MenuItem> TMP = Server.UserMethods.getMenu();
 
    
@@ -531,7 +532,9 @@ public class Menu extends BaseAppState implements ScreenController{
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("Button_10"));
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text_10")); 
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("ButtonE_10"));
+        
         moreResults=10;
+        
      }
     public void lessResults(){
         
@@ -551,7 +554,7 @@ public class Menu extends BaseAppState implements ScreenController{
         
         Launch.menuItems.add(UIMethods.getMenuItemWIthId(TMP, ID));
         String tmp="";
-        int tmp2=ID;
+        int tmp2=ID-moreResults;
         try {
             tmp =nifty.getCurrentScreen().findElementById("text_"+tmp2).getRenderer(TextRenderer.class).getOriginalText();
             nifty.getCurrentScreen().findElementById("text_"+tmp2).getRenderer(TextRenderer.class).setText(Integer.valueOf(tmp)+1+"");
@@ -565,7 +568,7 @@ public class Menu extends BaseAppState implements ScreenController{
     }
     public void remove(int ID){
         String tmp="";
-        int tmp2=ID;
+        int tmp2=ID-moreResults;
         tmp =nifty.getCurrentScreen().findElementById("text_"+tmp2).getRenderer(TextRenderer.class).getOriginalText();
         if(Integer.valueOf(tmp)-1<0){
             System.out.println("you cant remove more");
