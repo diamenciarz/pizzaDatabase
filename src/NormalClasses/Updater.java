@@ -18,8 +18,10 @@ public class Updater {
         App.placeOrder();
         App.placeOrder();
         time = System.currentTimeMillis();
-        while (true) {
+        JMonkey.Launch.launch();
+        while (true) {   
             if (shouldUpdate()) {
+                System.out.println("hELLO");
                 time = System.currentTimeMillis();
                 ArrayList<Order> orders = QuerySender.List.selectCurrentOrders();
                 for (Order order : orders) {

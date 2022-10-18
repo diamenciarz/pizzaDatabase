@@ -140,6 +140,16 @@ public class PlaceOrder extends BaseAppState implements ScreenController {
                                       valignCenter();
                                       wrap(true);
                                 }});
+                                text(new TextBuilder("text1") {{
+                                    visible(!UIMethods.canOrder(Launch.menuItems));
+                                     height("15%");
+                                     font("Interface/Fonts/Default.fnt");
+                                      color("#000000");
+                                      text("------------------\nTo order you havce to get at least one pizza");
+                                      alignRight();
+                                      valignCenter();
+                                      wrap(true);
+                                }});
                             }
                         });
                         // </panel>
@@ -189,14 +199,18 @@ public class PlaceOrder extends BaseAppState implements ScreenController {
     }
 
     public void prepOrder() {
-       
+       Launch.order=new objects.Order();
         if (UIMethods.canOrder(Launch.menuItems) == true) {
             Launch.order.clientID = Integer.valueOf(Launch.UserID);
             for (int i = 0; i < Launch.menuItems.size(); i++) {
                 Launch.order.menuItems.add(Launch.menuItems.get(i));
             }
+            System.out.println("LOLOL");
             Launch.order.code=code;
-
+            NormalClasses.Server.UserMethods.placeOrder(Launch.order);
+            Launch.menuItems.clear();
+            
+            goBack();
         } else {
             System.out.println("You have to order a pizza");
         }

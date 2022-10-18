@@ -45,10 +45,13 @@ public class Launch extends SimpleApplication{
         return nifty;
     }
     public static void main(String[] args) throws ConnectException {
-        Startup.startup();
-        Launch app = new Launch();
-        app.start();
-    }
+        NormalClasses.Updater.startServer();
+       
 
+    }
+    public static void launch(){
+        Launch app = new Launch();
+        app.start();    
+    }
    
 }
