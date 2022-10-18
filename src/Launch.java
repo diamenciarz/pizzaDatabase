@@ -12,7 +12,7 @@ public class Launch extends SimpleApplication{
 
     public static  String UserID;
     public static  ArrayList<MenuItem> menuItems=new ArrayList<MenuItem>();;
-    public static Order order;
+    public static Order order= new Order();
 
     public static final StartScreen startScreen = new StartScreen();
     public static final SecondScreen secondScreen = new SecondScreen();

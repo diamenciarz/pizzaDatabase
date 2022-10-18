@@ -96,12 +96,20 @@ public class PlaceOrder extends BaseAppState implements ScreenController {
                     height("100%");
                    childLayoutVertical(); // panel properties, add more...
                     //.. add more GUI elements here
+                    control(new ButtonBuilder("Button1", "Place Order"){{
+                        visibleToMouse(true);
+                        alignCenter();
+                        valignCenter();
+                        height("5%");
+                        width("100%");
+                        interactOnClick("prepOrder()");
+                    }});
                     control(new ButtonBuilder("Button0", "Go Back"){{
                         visibleToMouse(true);
                         alignCenter();
                         valignCenter();
                         height("5%");
-                        width("15%");
+                        width("100%");
                         interactOnClick("goBack()");
                     }});
                 }});
@@ -126,5 +134,28 @@ public class PlaceOrder extends BaseAppState implements ScreenController {
            menu=menu +'\n' +Launch.menuItems.get(i).menuItemID + " | " + Launch.menuItems.get(i).name + " | " + Launch.menuItems.get(i).price + " | " + Launch.menuItems.get(i).isVegetarian+" | "+'\n'+"--------------------------------------------------------";
         }
         return menu;
+    }
+    public void prepOrder(){
+        if(UIMethods.canOrder(Launch.menuItems)==true){
+        Launch.order.clientID=Integer.valueOf(Launch.UserID);
+        for (int i = 0; i < Launch.menuItems.size(); i++) {
+            Launch.order.menuItems.add(Launch.menuItems.get(i));
+        }
+        
+        int price=0;
+        for (int i = 0; i < Launch.menuItems.size(); i++) {
+            price=(int) (price+QuerySender.SingleValue.calculateMenuItemPrice(Launch.menuItems.get(i).menuItemID));
+            
+        }
+        Launch.order.price=price;
+        Server.UserMethods.placeOrder(Launch.order);
+        System.out.println("Order Placed!");
+        App f = new App(); 
+        f.DispalyOrderInfo(1);
+        }
+        else{
+            System.out.println("You have to order at least one pizza");
+        }
+
     }
 }

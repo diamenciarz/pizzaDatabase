@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.Objects;
+
+import de.lessvoid.nifty.elements.render.TextRenderer;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
@@ -11,8 +14,9 @@ import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
 import de.lessvoid.nifty.builder.TextBuilder;
 import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
-import de.lessvoid.nifty.controls.scrollbar.builder.ScrollbarBuilder;
+
 import de.lessvoid.nifty.elements.events.NiftyMousePrimaryClickedEvent;
+
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import objects.MenuItem;
@@ -50,11 +54,13 @@ public class Menu extends BaseAppState implements ScreenController{
                 app.getAssetManager(),
                 app.getInputManager(),
                 app.getAudioRenderer(),
-                app.getGuiViewPort());
+                app.getGuiViewPort()
+                );
 
          nifty = niftyDisplay.getNifty();
         getApplication().getGuiViewPort().addProcessor(niftyDisplay);
-        onEnable();
+       
+        
     }
 
     @Override
@@ -63,6 +69,7 @@ public class Menu extends BaseAppState implements ScreenController{
 
     @Override
     protected void onEnable() {
+        
         ScreenController controller = this;
         nifty.loadStyleFile("nifty-default-styles.xml");
         nifty.loadControlFile("nifty-default-controls.xml");
@@ -84,7 +91,7 @@ public class Menu extends BaseAppState implements ScreenController{
                    
                    childLayoutVertical(); // panel properties, add more...
 
-                   text(new TextBuilder("text_0") {{
+                   text(new TextBuilder("text0") {{
                     setEnabled(!onOff());
                     height("15%");
                     font("Interface/Fonts/Default.fnt");
@@ -95,7 +102,7 @@ public class Menu extends BaseAppState implements ScreenController{
                      wrap(true);
                     }});
 
-                    text(new TextBuilder("text_1") {{
+                    text(new TextBuilder("text1") {{
                         setEnabled(onOff());
                          height("15%");
                          font("Interface/Fonts/Default.fnt");
@@ -127,13 +134,13 @@ public class Menu extends BaseAppState implements ScreenController{
                     
 
                 }});
-                text(new TextBuilder("text_2") {{
+                text(new TextBuilder("text_1") {{
                      x("62.2");
                      y("13px");
                      height("8%");
                      font("Interface/Fonts/Default.fnt");
                       color("#000000");
-                      text("1");//TODO 
+                      text(0+""); 
                       alignRight();
                       valignCenter();
                       wrap(true);
@@ -161,13 +168,13 @@ public class Menu extends BaseAppState implements ScreenController{
                     width("40%");
 
                 }});
-                text(new TextBuilder("text_3") {{
+                text(new TextBuilder("text_2") {{
                      x("62.2");
                      y("58.4px");
                      height("8%");
                      font("Interface/Fonts/Default.fnt");
                       color("#000000");
-                      text("1");//TODO 
+                      text(0+""); 
                       alignRight();
                       valignCenter();
                       wrap(true);
@@ -194,13 +201,13 @@ public class Menu extends BaseAppState implements ScreenController{
                     width("40%");
 
                 }});
-                text(new TextBuilder("text_4") {{
+                text(new TextBuilder("text_3") {{
                      x("62.2");
                      y("103.8");
                      height("8%");
                      font("Interface/Fonts/Default.fnt");
                       color("#000000");
-                      text("1");//TODO 
+                      text(0+""); 
                       alignRight();
                       valignCenter();
                       wrap(true);
@@ -227,13 +234,13 @@ public class Menu extends BaseAppState implements ScreenController{
                     width("40%");
 
                 }});
-                text(new TextBuilder("text_5") {{
+                text(new TextBuilder("text_4") {{
                      x("62.2");
                      y("149.2");
                      height("8%");
                      font("Interface/Fonts/Default.fnt");
                       color("#000000");
-                      text("1");//TODO 
+                      text(0+""); 
                       alignRight();
                       valignCenter();
                       wrap(true);
@@ -260,13 +267,13 @@ public class Menu extends BaseAppState implements ScreenController{
                     width("40%");
 
                 }});
-                text(new TextBuilder("text_6") {{
+                text(new TextBuilder("text_5") {{
                      x("62.2");
                      y("194.6");
                      height("8%");
                      font("Interface/Fonts/Default.fnt");
                       color("#000000");
-                      text("1");//TODO 
+                      text(0+""); 
                       alignRight();
                       valignCenter();
                       wrap(true);
@@ -293,13 +300,13 @@ public class Menu extends BaseAppState implements ScreenController{
                     width("40%");
 
                 }});
-                text(new TextBuilder("text_7") {{
+                text(new TextBuilder("text_6") {{
                      x("62.2");
                      y("240");
                      height("8%");
                      font("Interface/Fonts/Default.fnt");
                       color("#000000");
-                      text("1");//TODO 
+                      text(0+""); 
                       alignRight();
                       valignCenter();
                       wrap(true);
@@ -326,13 +333,13 @@ public class Menu extends BaseAppState implements ScreenController{
                     width("40%");
 
                 }});
-                text(new TextBuilder("text_8") {{
+                text(new TextBuilder("text_7") {{
                      x("62.2");
                      y("285.4");
                      height("8%");
                      font("Interface/Fonts/Default.fnt");
                       color("#000000");
-                      text("1");//TODO 
+                      text(0+""); 
                       alignRight();
                       valignCenter();
                       wrap(true);
@@ -358,13 +365,13 @@ public class Menu extends BaseAppState implements ScreenController{
                         width("40%");
     
                     }});
-                    text(new TextBuilder("text_9") {{
+                    text(new TextBuilder("text_8") {{
                          x("62.2");
                          y("330.8");
                          height("8%");
                          font("Interface/Fonts/Default.fnt");
                           color("#000000");
-                          text("1");//TODO 
+                          text(0+""); 
                           alignRight();
                           valignCenter();
                           wrap(true);
@@ -390,13 +397,13 @@ public class Menu extends BaseAppState implements ScreenController{
                             width("40%");
         
                         }});
-                        text(new TextBuilder("text_10") {{
+                        text(new TextBuilder("text_9") {{
                              x("62.2");
                              y("376.2");
                              height("8%");
                              font("Interface/Fonts/Default.fnt");
                               color("#000000");
-                              text("1");//TODO 
+                              text(0+""); 
                               alignRight();
                               valignCenter();
                               wrap(true);
@@ -422,13 +429,13 @@ public class Menu extends BaseAppState implements ScreenController{
                                 width("40%");
             
                             }});
-                            text(new TextBuilder("text_11") {{
+                            text(new TextBuilder("text_10") {{
                                  x("62.2");
                                  y("421.6");
                                  height("8%");
                                  font("Interface/Fonts/Default.fnt");
                                   color("#000000");
-                                  text("1");//TODO 
+                                  text(0+""); 
                                   alignRight();
                                   valignCenter();
                                   wrap(true);
@@ -508,6 +515,7 @@ public class Menu extends BaseAppState implements ScreenController{
         getStateManager().attach(Launch.secondScreen);
     }
     public String menuToString(){
+        
         String menu="| Food ID | name | price | vegetarian? |";
         
         for (int i = 0; i <= 10; i++) {
@@ -516,18 +524,17 @@ public class Menu extends BaseAppState implements ScreenController{
         return menu;
     }
     public void moreResults(){
-        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text_0")); 
+        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text0")); 
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("Button_9"));
-        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text_10")); 
+        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text_9")); 
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("ButtonE_9"));
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("Button_10"));
-        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text_11")); 
+        nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("text_10")); 
         nifty.removeElement(nifty.getCurrentScreen(), nifty.getCurrentScreen().findElementById("ButtonE_10"));
         moreResults=10;
-
-
-    }
+     }
     public void lessResults(){
+        
         getStateManager().detach(this);
         getStateManager().attach(Launch.menuScreen);
         moreResults=0;
@@ -541,14 +548,35 @@ public class Menu extends BaseAppState implements ScreenController{
             return menu;
     }
     public void add(int ID){
+        
         Launch.menuItems.add(UIMethods.getMenuItemWIthId(TMP, ID));
-        System.out.println("added "+ID+"succesfully");
+        String tmp="";
+        int tmp2=ID;
+        try {
+            tmp =nifty.getCurrentScreen().findElementById("text_"+tmp2).getRenderer(TextRenderer.class).getOriginalText();
+            nifty.getCurrentScreen().findElementById("text_"+tmp2).getRenderer(TextRenderer.class).setText(Integer.valueOf(tmp)+1+"");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       
+        
+        
+        System.out.println("added "+ tmp2 +" succesfully");
     }
     public void remove(int ID){
+        String tmp="";
+        int tmp2=ID;
+        tmp =nifty.getCurrentScreen().findElementById("text_"+tmp2).getRenderer(TextRenderer.class).getOriginalText();
+        if(Integer.valueOf(tmp)-1<0){
+            System.out.println("you cant remove more");
+        }
+        else{
+        nifty.getCurrentScreen().findElementById("text_"+tmp2).getRenderer(TextRenderer.class).setText(Integer.valueOf(tmp)-1+"");
+        }
         for (int i = 0; i < Launch.menuItems.size(); i++) {
             if(Launch.menuItems.get(i).menuItemID==ID){
                 Launch.menuItems.remove(i);
-                System.out.println("removed ID+"+ID+" succesfully");
+                System.out.println("removed ID+ "+ tmp2 + " succesfully");
             }
             
         }
@@ -567,6 +595,15 @@ public void goToOrder(){
     getStateManager().detach(this);
    getStateManager().attach(Launch.orderScreen);
    moreResults=0;
+}
+public void resetValues(){//TODO
+    String tmp="";
+
+    for (int i = 0; i < Launch.menuItems.size(); i++) {
+        tmp =nifty.getCurrentScreen().findElementById("text_"+Launch.menuItems.get(i).menuItemID).getRenderer(TextRenderer.class).getOriginalText();
+        nifty.getCurrentScreen().findElementById("text_"+Launch.menuItems.get(i).menuItemID).getRenderer(TextRenderer.class).setText(Integer.valueOf(tmp)+1+"");
+        System.out.println("values updated!!!!!!!!!!!"+Launch.menuItems.get(i).menuItemID+" "+Launch.menuItems.size());
+    }
 }
     public Boolean onOff(){
         if(swap!=0){

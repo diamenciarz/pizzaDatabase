@@ -5,14 +5,13 @@ import objects.*;
 public class App {
     public static void main(String[] args) {
         // Startup.startup();
-       
-        String tmp = "Button_4";
-        int i =Integer.valueOf(tmp.replaceFirst("Button_", ""));
-        System.out.println(i);
-      
-      
-        
-      
+
+        // cancelOrder();
+
+        ArrayList<Order> currentOrders = QuerySender.List.selectCurrentOrders();
+        System.out.println(currentOrders.get(0).price);
+        // int pizzaCount = Server.UserMethods.getPizzaCount(1);
+        // System.out.println("Pizza count: " + pizzaCount);
     }
 
     public static void placeOrder() {
